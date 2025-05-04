@@ -1,0 +1,1654 @@
+definitions:
+  controller.ApiVersionResponse:
+    properties:
+      major:
+        type: integer
+      minor:
+        type: integer
+      specRootUrl:
+        type: string
+      specs:
+        items:
+          $ref: '#/definitions/controller.Info'
+        type: array
+      supportedMajors:
+        items:
+          type: integer
+        type: array
+    type: object
+  controller.Info:
+    properties:
+      major:
+        type: integer
+      minor:
+        type: integer
+      specRootUrl:
+        type: string
+      supportedMajors:
+        items:
+          type: integer
+        type: array
+    type: object
+  v2.AnnotationResource:
+    properties:
+      annotationValue:
+        type: string
+      namespace:
+        type: string
+      resourceName:
+        type: string
+    type: object
+  v2.AppVersionData:
+    properties:
+      appName:
+        type: string
+      appVersion:
+        type: string
+      deployTime:
+        type: string
+    type: object
+  v2.ConfigMap:
+    properties:
+      data:
+        additionalProperties:
+          type: string
+        type: object
+      metadata:
+        $ref: '#/definitions/v2.Metadata'
+    type: object
+  v2.ContainerEnv:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+      valueFrom:
+        $ref: '#/definitions/v2.ValueFrom'
+    type: object
+  v2.ContainerPort:
+    properties:
+      containerPort:
+        type: integer
+      name:
+        type: string
+      protocol:
+        type: string
+    type: object
+  v2.ContainerResources:
+    properties:
+      limits:
+        $ref: '#/definitions/v2.CpuMemoryResource'
+      requests:
+        $ref: '#/definitions/v2.CpuMemoryResource'
+    type: object
+  v2.ContainerState:
+    properties:
+      running:
+        $ref: '#/definitions/v2.ContainerStateRunning'
+      terminated:
+        $ref: '#/definitions/v2.ContainerStateTerminated'
+      waiting:
+        $ref: '#/definitions/v2.ContainerStateWaiting'
+    type: object
+  v2.ContainerStateRunning:
+    properties:
+      startedAt:
+        type: string
+    type: object
+  v2.ContainerStateTerminated:
+    properties:
+      containerID:
+        type: string
+      exitCode:
+        type: integer
+      finishedAt:
+        type: string
+      reason:
+        type: string
+      startedAt:
+        type: string
+    type: object
+  v2.ContainerStateWaiting:
+    properties:
+      message:
+        type: string
+      reason:
+        type: string
+    type: object
+  v2.ContainerStatus:
+    properties:
+      containerID:
+        type: string
+      image:
+        type: string
+      imageID:
+        type: string
+      lastState:
+        $ref: '#/definitions/v2.ContainerState'
+      name:
+        type: string
+      ready:
+        type: boolean
+      restartCount:
+        type: integer
+      state:
+        $ref: '#/definitions/v2.ContainerState'
+    type: object
+  v2.ContainerVolumeMount:
+    properties:
+      mountPath:
+        type: string
+      name:
+        type: string
+      readOnly:
+        type: boolean
+    type: object
+  v2.CpuMemoryResource:
+    properties:
+      cpu:
+        type: string
+      memory:
+        type: string
+    type: object
+  v2.Deployment:
+    properties:
+      metadata:
+        $ref: '#/definitions/v2.Metadata'
+      spec:
+        $ref: '#/definitions/v2.DeploymentSpec'
+      status:
+        $ref: '#/definitions/v2.DeploymentStatus'
+    type: object
+  v2.DeploymentCondition:
+    properties:
+      lastTransitionTime:
+        type: string
+      lastUpdateTime:
+        type: string
+      message:
+        type: string
+      reason:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    type: object
+  v2.DeploymentFamilyVersion:
+    properties:
+      app_name:
+        type: string
+      app_version:
+        type: string
+      bluegreen_version:
+        type: string
+      family_name:
+        type: string
+      name:
+        type: string
+      state:
+        type: string
+      version:
+        type: string
+    type: object
+  v2.DeploymentResponse:
+    properties:
+      deployments:
+        items:
+          additionalProperties:
+            $ref: '#/definitions/v2.DeploymentRollout'
+          type: object
+        type: array
+      pod_status_websocket:
+        type: string
+    type: object
+  v2.DeploymentRollout:
+    properties:
+      active:
+        type: string
+      kind:
+        type: string
+      rolling:
+        type: string
+    type: object
+  v2.DeploymentSpec:
+    properties:
+      replicas:
+        type: integer
+      revisionHistoryLimit:
+        type: integer
+      strategy:
+        $ref: '#/definitions/v2.DeploymentStrategy'
+      template:
+        $ref: '#/definitions/v2.PodTemplateSpec'
+    type: object
+  v2.DeploymentStatus:
+    properties:
+      availableReplicas:
+        type: integer
+      conditions:
+        items:
+          $ref: '#/definitions/v2.DeploymentCondition'
+        type: array
+      observedGeneration:
+        type: integer
+      readyReplicas:
+        type: integer
+      replicas:
+        type: integer
+      updatedReplicas:
+        type: integer
+    type: object
+  v2.DeploymentStrategy:
+    properties:
+      type:
+        type: string
+    type: object
+  v2.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  v2.FieldRef:
+    properties:
+      apiVersion:
+        type: string
+      fieldPath:
+        type: string
+    type: object
+  v2.Metadata:
+    properties:
+      annotations:
+        additionalProperties:
+          type: string
+        type: object
+      generation:
+        type: integer
+      kind:
+        type: string
+      labels:
+        additionalProperties:
+          type: string
+        type: object
+      name:
+        type: string
+      namespace:
+        type: string
+      resourceVersion:
+        type: string
+      uid:
+        type: string
+    type: object
+  v2.Namespace:
+    properties:
+      metadata:
+        $ref: '#/definitions/v2.Metadata'
+    type: object
+  v2.Pod:
+    properties:
+      metadata:
+        $ref: '#/definitions/v2.Metadata'
+      spec:
+        $ref: '#/definitions/v2.PodSpec'
+      status:
+        $ref: '#/definitions/v2.PodStatus'
+    type: object
+  v2.PodSpec:
+    properties:
+      containers:
+        items:
+          $ref: '#/definitions/v2.SpecContainer'
+        type: array
+      dnsPolicy:
+        type: string
+      nodeName:
+        type: string
+      restartPolicy:
+        type: string
+      terminationGracePeriodSeconds:
+        type: integer
+      volumes:
+        items:
+          $ref: '#/definitions/v2.SpecVolume'
+        type: array
+    type: object
+  v2.PodStatus:
+    properties:
+      conditions:
+        items:
+          $ref: '#/definitions/v2.StatusCondition'
+        type: array
+      containerStatuses:
+        items:
+          $ref: '#/definitions/v2.ContainerStatus'
+        type: array
+      hostIP:
+        type: string
+      phase:
+        type: string
+      podIP:
+        type: string
+      startTime:
+        type: string
+    type: object
+  v2.PodTemplateSpec:
+    properties:
+      metadata:
+        $ref: '#/definitions/v2.TemplateMetadata'
+      spec:
+        $ref: '#/definitions/v2.PodSpec'
+    type: object
+  v2.RolloutDeploymentBody:
+    properties:
+      deployment_names:
+        items:
+          type: string
+        type: array
+      parallel:
+        type: boolean
+    type: object
+  v2.Route:
+    properties:
+      metadata:
+        $ref: '#/definitions/v2.Metadata'
+      spec:
+        $ref: '#/definitions/v2.RouteSpec'
+    type: object
+  v2.RoutePort:
+    properties:
+      targetPort:
+        type: integer
+    type: object
+  v2.RouteSpec:
+    properties:
+      host:
+        type: string
+      ingressClassName:
+        type: string
+      path:
+        type: string
+      pathType:
+        type: string
+      port:
+        $ref: '#/definitions/v2.RoutePort'
+      to:
+        $ref: '#/definitions/v2.Target'
+    type: object
+  v2.SecretKeyRef:
+    properties:
+      key:
+        type: string
+      name:
+        type: string
+    type: object
+  v2.Service:
+    properties:
+      metadata:
+        $ref: '#/definitions/v2.Metadata'
+      spec:
+        $ref: '#/definitions/v2.ServiceSpec'
+    type: object
+  v2.ServicePort:
+    properties:
+      name:
+        type: string
+      nodePort:
+        type: integer
+      port:
+        type: integer
+      protocol:
+        type: string
+      targetPort:
+        type: integer
+    type: object
+  v2.ServiceSpec:
+    properties:
+      clusterIP:
+        type: string
+      ports:
+        items:
+          $ref: '#/definitions/v2.ServicePort'
+        type: array
+      selector:
+        additionalProperties:
+          type: string
+        type: object
+      type:
+        type: string
+    type: object
+  v2.SpecContainer:
+    properties:
+      args:
+        items:
+          type: string
+        type: array
+      env:
+        items:
+          $ref: '#/definitions/v2.ContainerEnv'
+        type: array
+      image:
+        type: string
+      imagePullPolicy:
+        type: string
+      name:
+        type: string
+      ports:
+        items:
+          $ref: '#/definitions/v2.ContainerPort'
+        type: array
+      resources:
+        $ref: '#/definitions/v2.ContainerResources'
+      volumeMounts:
+        items:
+          $ref: '#/definitions/v2.ContainerVolumeMount'
+        type: array
+    type: object
+  v2.SpecVolume:
+    properties:
+      name:
+        type: string
+      secret:
+        $ref: '#/definitions/v2.VolumesSecret'
+    type: object
+  v2.StatusCondition:
+    properties:
+      lastProbeTime:
+        type: string
+      lastTransitionTime:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    type: object
+  v2.Target:
+    properties:
+      name:
+        type: string
+    type: object
+  v2.TemplateMetadata:
+    properties:
+      labels:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  v2.ValueFrom:
+    properties:
+      fieldRef:
+        $ref: '#/definitions/v2.FieldRef'
+      secretKeyRef:
+        $ref: '#/definitions/v2.SecretKeyRef'
+    type: object
+  v2.VolumesSecret:
+    properties:
+      defaultMode:
+        type: integer
+      secretName:
+        type: string
+    type: object
+info:
+  description: API for Paas Mediation.
+  title: Paas Mediation API
+  version: "2.0"
+paths:
+  /api-version:
+    get:
+      consumes:
+      - application/json
+      description: Get Major, Minor and Supported Major versions
+      operationId: api-version
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.ApiVersionResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Api Version information
+      tags:
+      - api version info
+  /api/v2/namespaces:
+    get:
+      consumes:
+      - application/json
+      description: Get namespaces
+      operationId: v2-get-namespaces
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.Namespace'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get namespaces
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/annotations:
+    get:
+      consumes:
+      - application/json
+      description: Get resources by resource type and annotation name in namespace
+      operationId: v2-get-annotationresource
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource type
+        in: query
+        name: resourceType
+        required: true
+        type: string
+      - description: annotation name
+        in: query
+        name: annotation
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.AnnotationResource'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get resources by resource type and annotation name
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/configmaps:
+    get:
+      consumes:
+      - application/json
+      description: Get ConfigMap by name and namespace
+      operationId: v2-get-configmap-list
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: query
+        name: annotations
+        type: string
+      - description: resource name
+        in: query
+        name: labels
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.ConfigMap'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get ConfigMap by name and namespace
+      tags:
+      - since:2.0
+    post:
+      consumes:
+      - application/json
+      description: Create ConfigMap in namespace
+      operationId: v2-create-configmap
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.ConfigMap'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.ConfigMap'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create ConfigMap in namespace
+      tags:
+      - since:2.0
+    put:
+      consumes:
+      - application/json
+      description: Update or Create ConfigMap in namespace
+      operationId: v2-update-or-create-configmap
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.ConfigMap'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.ConfigMap'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update or Create ConfigMap in namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/configmaps/{name}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete ConfigMap with name in namespace
+      operationId: v2-delete-configmap
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.ConfigMap'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete ConfigMap with name in namespace
+      tags:
+      - since:2.0
+    get:
+      consumes:
+      - application/json
+      description: Get ConfigMap by name and namespace
+      operationId: v2-get-configmap
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.ConfigMap'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get ConfigMap by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/configmaps/bg-version:
+    get:
+      consumes:
+      - application/json
+      description: Get Blue-Green version ('bg-version') ConfigMap
+      operationId: v2-get-bg-versions
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.AppVersionData'
+            type: array
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Blue-Green version ('bg-version') ConfigMap
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/configmaps/versions:
+    get:
+      consumes:
+      - application/json
+      description: Get versions from 'version' ConfigMap
+      operationId: v2-get-versions
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.AppVersionData'
+            type: array
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get versions from 'version' ConfigMap
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/deployment-family/{family_name}:
+    get:
+      consumes:
+      - application/json
+      description: Get DeploymentFamily data based on Deployments labeled with 'family_name'
+        label with value specified via 'deployment-family' path param
+      operationId: v2-get-deploymentfamily-versions
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: family name
+        in: path
+        name: family_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.DeploymentFamilyVersion'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get DeploymentFamily data based on Deployments labeled with 'family_name'
+        label with value specified via 'deployment-family' path param
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/deployments:
+    get:
+      consumes:
+      - application/json
+      description: Get Deployment by name and namespace
+      operationId: v2-get-deployment-list
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: query
+        name: annotations
+        type: string
+      - description: resource name
+        in: query
+        name: labels
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.Deployment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Deployment by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/deployments/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Get Deployment by name and namespace
+      operationId: v2-get-deployment
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Deployment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Deployment by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/pods:
+    get:
+      consumes:
+      - application/json
+      description: Get Pod by name and namespace
+      operationId: v2-get-pod-list
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: query
+        name: annotations
+        type: string
+      - description: resource name
+        in: query
+        name: labels
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.Pod'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Pod by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/pods/{name}:
+    get:
+      consumes:
+      - application/json
+      description: Get Pod by name and namespace
+      operationId: v2-get-pod
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Pod'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Pod by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/rollout:
+    post:
+      consumes:
+      - application/json
+      description: Restart Deployments in bulk by names in namespace in parallel or
+        sequentially
+      operationId: v2-post-restartdeployments-bulk
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.RolloutDeploymentBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.DeploymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Restart Deployments in bulk by names in namespace in parallel or sequentially
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/rollout/{resource-name}:
+    post:
+      consumes:
+      - application/json
+      description: RestartDeployment by name in namespace
+      operationId: v2-post-restartdeployment
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: resource-name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.DeploymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: RestartDeployment
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/routes:
+    get:
+      consumes:
+      - application/json
+      description: Get Route by name and namespace
+      operationId: v2-get-route-list
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: query
+        name: annotations
+        type: string
+      - description: resource name
+        in: query
+        name: labels
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.Route'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Route by name and namespace
+      tags:
+      - since:2.0
+    post:
+      consumes:
+      - application/json
+      description: Create Route in namespace
+      operationId: v2-create-route
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Route'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Route'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Route in namespace
+      tags:
+      - since:2.0
+    put:
+      consumes:
+      - application/json
+      description: Update or Create Route in namespace
+      operationId: v2-update-or-create-route
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Route'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Route'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update or Create Route in namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/routes/{name}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Route with name in namespace
+      operationId: v2-delete-route
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Route'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Route with name in namespace
+      tags:
+      - since:2.0
+    get:
+      consumes:
+      - application/json
+      description: Get Route by name and namespace
+      operationId: v2-get-route
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Route'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Route by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/services:
+    get:
+      consumes:
+      - application/json
+      description: Get Service by name and namespace
+      operationId: v2-get-service-list
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: query
+        name: annotations
+        type: string
+      - description: resource name
+        in: query
+        name: labels
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v2.Service'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Service by name and namespace
+      tags:
+      - since:2.0
+    post:
+      consumes:
+      - application/json
+      description: Create Service in namespace
+      operationId: v2-create-service
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Service'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Service'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Service in namespace
+      tags:
+      - since:2.0
+    put:
+      consumes:
+      - application/json
+      description: Update or Create Service in namespace
+      operationId: v2-update-or-create-service
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Service'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Service'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update or Create Service in namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/services/{name}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Service with name in namespace
+      operationId: v2-delete-service
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Service'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Service with name in namespace
+      tags:
+      - since:2.0
+    get:
+      consumes:
+      - application/json
+      description: Get Service by name and namespace
+      operationId: v2-get-service
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      - description: resource name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v2.Service'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Service by name and namespace
+      tags:
+      - since:2.0
+produces:
+- application/json
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
+tags:
+- description: Apis provides information related to versions
+  name: api version info
+- description: Apis existed since 2.0 version
+  name: since:2.0

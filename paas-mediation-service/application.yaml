@@ -1,0 +1,8 @@
+microservice:
+  name: paas-mediation
+
+deprecated:
+  api:
+    disabled: false
+    patterns:
+      - /api/v1/**
