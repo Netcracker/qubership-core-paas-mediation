@@ -1,4 +1,4 @@
-module github.com/netcracker/qubership-core-paas-mediation
+module github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2
 
 go 1.23.4
 
