@@ -15,7 +15,7 @@ import (
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
 	"github.com/netcracker/qubership-core-lib-go/v3/security"
 	"github.com/netcracker/qubership-core-lib-go/v3/serviceloader"
-	"github.com/netcracker/qubership-core-paas-mediation/controller"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
 	"github.com/stretchr/testify/require"
 	"io"
 	"net/http"

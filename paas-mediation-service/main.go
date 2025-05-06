@@ -4,10 +4,10 @@ package main
 //go:generate go run github.com/swaggo/swag/cmd/swag init --generalInfo /main.go --parseDependency --parseDepth 2
 
 import (
-	"github.com/netcracker/qubership-core-paas-mediation/lib"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/lib"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
 	// swagger docs
-	_ "github.com/netcracker/qubership-core-paas-mediation/docs"
+	_ "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/docs"
 )
 
 // @title           			Paas Mediation API
