@@ -13,7 +13,6 @@ import (
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
-	"github.com/netcracker/qubership-core-lib-go/v3/security"
 	"github.com/netcracker/qubership-core-lib-go/v3/serviceloader"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
 	"github.com/stretchr/testify/require"
@@ -40,7 +39,6 @@ func initTestConfig() {
 			"policy.file.name":       "test/test-policies.conf"}, "."))})
 
 	serviceloader.Register(1, &fibersec.DummyFiberServerSecurityMiddleware{})
-	serviceloader.Register(1, &security.TenantContextObject{})
 }
 
 type fiberAndMockSrv struct {
