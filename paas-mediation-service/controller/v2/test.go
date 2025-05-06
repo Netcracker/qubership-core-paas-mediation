@@ -8,11 +8,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang/mock/gomock"
 	"github.com/knadh/koanf/providers/confmap"
+	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
-	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
+	"github.com/netcracker/qubership-core-lib-go/v3/security"
+	"github.com/netcracker/qubership-core-lib-go/v3/serviceloader"
+	"github.com/netcracker/qubership-core-paas-mediation/controller"
 	"github.com/stretchr/testify/require"
 	"io"
 	"net/http"
@@ -29,12 +32,15 @@ const (
 	metadataName3 = "metadataName3"
 )
 
-func initTestConfigLoader() {
+func initTestConfig() {
 	configloader.Init(&configloader.PropertySource{Provider: configloader.AsPropertyProvider(confmap.Provider(
 		map[string]any{
 			"microservice.namespace": "test-namespace",
 			"policy.update.enabled":  "false",
 			"policy.file.name":       "test/test-policies.conf"}, "."))})
+
+	serviceloader.Register(1, &fibersec.DummyFiberServerSecurityMiddleware{})
+	serviceloader.Register(1, &security.TenantContextObject{})
 }
 
 type fiberAndMockSrv struct {
@@ -134,7 +140,7 @@ func testListConcurrency[T entity.HasMetadata](t *testing.T, resourceType string
 }
 
 func testGetOrListConcurrency[T entity.HasMetadata](t *testing.T, resourceType string, get bool, mfunc func(srv *service.MockPlatformService) *gomock.Call) {
-	initTestConfigLoader()
+	initTestConfig()
 	var concurrencyLevel int
 	if get {
 		concurrencyLevel = concurrencyDefault

@@ -14,7 +14,7 @@ import (
 )
 
 func Test_Pod(t *testing.T) {
-	initTestConfigLoader()
+	initTestConfig()
 	resourceName1 := "test-1"
 	resourceName2 := "test-2"
 	resourceName3 := "test-3"
