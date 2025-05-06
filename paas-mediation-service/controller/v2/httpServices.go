@@ -3,7 +3,7 @@ package v2
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
-	"github.com/netcracker/qubership-core-paas-mediation/types"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
 
 // GetService godoc

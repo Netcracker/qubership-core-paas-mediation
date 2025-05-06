@@ -10,14 +10,14 @@ import (
 	"github.com/netcracker/qubership-core-lib-go-rest-utils/v2/consul-propertysource"
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
 	"github.com/netcracker/qubership-core-lib-go/v3/logging"
-	"github.com/netcracker/qubership-core-paas-mediation/controller"
-	apiV2 "github.com/netcracker/qubership-core-paas-mediation/controller/v2"
-	"github.com/netcracker/qubership-core-paas-mediation/utils"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
+	apiV2 "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller/v2"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/utils"
 	"k8s.io/apimachinery/pkg/api/resource"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
 	"runtime/debug"
 	// swagger docs
-	_ "github.com/netcracker/qubership-core-paas-mediation/docs"
+	_ "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/docs"
 )
 
 var (

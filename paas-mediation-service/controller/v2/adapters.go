@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
-	pmErrors "github.com/netcracker/qubership-core-paas-mediation/errors"
-	"github.com/netcracker/qubership-core-paas-mediation/pmservice"
-	"github.com/netcracker/qubership-core-paas-mediation/types"
+	pmErrors "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/errors"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/pmservice"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
 
 type GetResource[T any] func(ctx context.Context, resourceName string, namespace string) (T, error)

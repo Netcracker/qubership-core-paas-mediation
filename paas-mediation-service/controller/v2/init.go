@@ -5,7 +5,7 @@ import (
 	paasMediation "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	routeregistration "github.com/netcracker/qubership-core-lib-go-rest-utils/v2/route-registration"
 	"github.com/netcracker/qubership-core-lib-go/v3/logging"
-	"github.com/netcracker/qubership-core-paas-mediation/pmservice"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/pmservice"
 )
 
 var logger logging.Logger

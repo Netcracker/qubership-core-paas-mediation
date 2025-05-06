@@ -6,7 +6,7 @@ import (
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
-	"github.com/netcracker/qubership-core-paas-mediation/types"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

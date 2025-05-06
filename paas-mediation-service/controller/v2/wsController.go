@@ -9,7 +9,7 @@ import (
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
-	"github.com/netcracker/qubership-core-paas-mediation/types"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/net/context"
 	"strings"

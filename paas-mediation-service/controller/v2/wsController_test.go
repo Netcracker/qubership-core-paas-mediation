@@ -8,7 +8,7 @@ import (
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	pmWatch "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
-	"github.com/netcracker/qubership-core-paas-mediation/types"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/valyala/fasthttp"
