@@ -22,18 +22,19 @@ var (
 )
 
 func init() {
-	consulPS := consul.NewLoggingPropertySource()
-	propertySources := consul.AddConsulPropertySource(configloader.BasePropertySources())
-	configloader.InitWithSourcesArray(append(propertySources, consulPS))
-	consul.StartWatchingForPropertiesWithRetry(context.Background(), consulPS, func(event interface{}, err error) {})
-	logger = logging.GetLogger("main")
-
 	serviceloader.Register(1, &security.DummyToken{})
 	serviceloader.Register(1, &fibersec.DummyFiberServerSecurityMiddleware{})
 }
 
 func RunServer() {
 	ctx := context.Background()
+
+	consulPS := consul.NewLoggingPropertySource()
+	propertySources := consul.AddConsulPropertySource(configloader.BasePropertySources())
+	configloader.InitWithSourcesArray(append(propertySources, consulPS))
+	consul.StartWatchingForPropertiesWithRetry(context.Background(), consulPS, func(event interface{}, err error) {})
+	logger = logging.GetLogger("main")
+
 	// need to set soft memory limit based on what was passed to k8s container
 	memoryLimit := utils.GetMemoryLimit()
 	memoryLimit = resource.NewQuantity(memoryLimit.Value()*9/10, memoryLimit.Format)
