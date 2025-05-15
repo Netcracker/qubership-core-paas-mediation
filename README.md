@@ -1,3 +1,9 @@
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?metric=coverage&project=Netcracker_qubership-core-paas-mediation)](https://sonarcloud.io/summary/overall?id=Netcracker_qubership-core-paas-mediation)
+[![duplicated_lines_density](https://sonarcloud.io/api/project_badges/measure?metric=duplicated_lines_density&project=Netcracker_qubership-core-paas-mediation)](https://sonarcloud.io/summary/overall?id=Netcracker_qubership-core-paas-mediation)
+[![vulnerabilities](https://sonarcloud.io/api/project_badges/measure?metric=vulnerabilities&project=Netcracker_qubership-core-paas-mediation)](https://sonarcloud.io/summary/overall?id=Netcracker_qubership-core-paas-mediation)
+[![bugs](https://sonarcloud.io/api/project_badges/measure?metric=bugs&project=Netcracker_qubership-core-paas-mediation)](https://sonarcloud.io/summary/overall?id=Netcracker_qubership-core-paas-mediation)
+[![code_smells](https://sonarcloud.io/api/project_badges/measure?metric=code_smells&project=Netcracker_qubership-core-paas-mediation)](https://sonarcloud.io/summary/overall?id=Netcracker_qubership-core-paas-mediation)
+
 # PaaS Mediation Service Documentation
 
 
