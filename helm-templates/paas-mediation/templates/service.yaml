@@ -41,8 +41,8 @@ metadata:
 spec:
   ports:
     -   name: web
-        port: {{ if .Values.INTERNAL_TLS_ENABLED }} 8443 {{ else }} 8080 {{ end }}
-        targetPort: {{ if .Values.INTERNAL_TLS_ENABLED }} 8443 {{ else }} 8080 {{ end }}
+        port: 8080
+        targetPort: 8080
   selector:
     name: '{{ .Values.SERVICE_NAME }}'
   {{ if  eq .Values.K8S_SERVICE_TYPE "HEADLESS" }}
