@@ -58,18 +58,6 @@ spec:
               app.kubernetes.io/technology: 'go'
         spec:
             serviceAccountName: "{{ .Values.SERVICE_NAME }}"
-            volumes:
-                - name: client-credentials
-                  secret:
-                      secretName: "{{ .Values.SERVICE_NAME }}-client-credentials"
-{{ if .Values.INTERNAL_TLS_ENABLED }}
-                - name: tls
-                  secret:
-                      secretName: '{{ .Values.SERVICE_NAME }}-tls'
-{{ end }}
-                -   name: '{{ .Values.SSL_SECRET }}'
-                    secret:
-                      secretName: '{{ .Values.SSL_SECRET }}'
             containers:
                 - name: "{{ .Values.SERVICE_NAME }}"
                   image: "{{ .Values.IMAGE_REPOSITORY }}:{{ .Values.TAG }}"
@@ -97,8 +85,6 @@ spec:
                         value: '{{ .Values.TRACING_HOST }}'
                       - name: TRACING_SAMPLER_RATELIMITING
                         value: '{{ .Values.TRACING_SAMPLER_RATELIMITING }}'
-                      - name: INTERNAL_TLS_ENABLED
-                        value: '{{ .Values.INTERNAL_TLS_ENABLED }}'
                       - name: DEPRECATED_API_DISABLED
                         value: '{{ .Values.DISABLE_DEPRECATED_API }}'
                       - name: CONSUL_ENABLED
@@ -110,15 +96,6 @@ spec:
                           resourceFieldRef:
                             containerName: "{{ .Values.SERVICE_NAME }}"
                             resource: limits.memory
-{{ if .Values.INTERNAL_TLS_ENABLED }}
-                      - name: CERTIFICATE_FILE_PASSWORD
-                        valueFrom:
-                          secretKeyRef:
-                            name: 'tls-password-secret'
-                            key: 'tls-password'
-                      - name: CERTIFICATE_FILE_PATH
-                        value: '/etc/tls'
-{{ end }}
                   resources:
                       requests:
                           cpu: "{{ .Values.CPU_REQUEST}}"
@@ -129,15 +106,15 @@ spec:
                   livenessProbe:
                       httpGet:
                           path: /health
-                          port: {{ if .Values.INTERNAL_TLS_ENABLED }} tls {{ else }} web {{ end }}
-                          scheme: {{ if .Values.INTERNAL_TLS_ENABLED }} HTTPS {{ else }} HTTP {{ end }}
+                          port: web
+                          scheme: HTTP
                       initialDelaySeconds: {{ .Values.paasMediation.livenessProbe.initialDelaySeconds }}
                       timeoutSeconds: {{ .Values.paasMediation.livenessProbe.timeoutSeconds }}
                   readinessProbe:
                       httpGet:
                           path: /health
-                          port: {{ if .Values.INTERNAL_TLS_ENABLED }} tls {{ else }} web {{ end }}
-                          scheme: {{ if .Values.INTERNAL_TLS_ENABLED }} HTTPS {{ else }} HTTP {{ end }}
+                          port: web
+                          scheme: HTTP
                       initialDelaySeconds: {{ .Values.paasMediation.readinessProbe.initialDelaySeconds }}
                       timeoutSeconds: {{ .Values.paasMediation.readinessProbe.timeoutSeconds }}
                   securityContext:
@@ -152,17 +129,6 @@ spec:
                           drop:
                             - ALL
                       readOnlyRootFilesystem: {{ and .Values.READONLY_CONTAINER_FILE_SYSTEM_ENABLED (eq .Values.PAAS_PLATFORM "KUBERNETES") }}
-                  volumeMounts:
-                      - name: client-credentials
-                        mountPath: "/etc/secret"
-                        readOnly: true
-{{ if .Values.INTERNAL_TLS_ENABLED }}
-                      - name: tls
-                        mountPath: '/etc/tls'
-                        readOnly: true
-{{ end }}
-                      - name: '{{ .Values.SSL_SECRET }}'
-                        mountPath: /tmp/cert/{{ .Values.SSL_SECRET }}
             topologySpreadConstraints:
 {{- if .Values.CLOUD_TOPOLOGIES }}
 {{- range $v := .Values.CLOUD_TOPOLOGIES }}

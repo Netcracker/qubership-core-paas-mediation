@@ -146,16 +146,6 @@
       "description": "Name of a service.",
       "internal": true
     },
-    "INTERNAL_TLS_ENABLED": {
-      "$id": "#/properties/INTERNAL_TLS_ENABLED",
-      "$ref": "#/definitions/booleanOrString",
-      "description": "Is TLS enabled",
-      "examples": [
-        false
-      ],
-      "internal": true,
-      "title": "The INTERNAL_TLS_ENABLED schema"
-    },
     "IMAGE_REPOSITORY": {
       "$id": "#/properties/IMAGE_REPOSITORY",
       "type": "string",
