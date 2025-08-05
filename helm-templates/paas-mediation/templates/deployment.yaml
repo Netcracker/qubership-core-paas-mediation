@@ -79,6 +79,12 @@ spec:
                         value: "{{ lower .Values.LOG_LEVEL }}"
                       - name: PAAS_PLATFORM
                         value: "{{ .Values.PAAS_PLATFORM }}"
+                      - name: TRACING_ENABLED
+                        value: '{{ .Values.TRACING_ENABLED }}'
+                      - name: TRACING_HOST
+                        value: '{{ .Values.TRACING_HOST }}'
+                      - name: TRACING_SAMPLER_RATELIMITING
+                        value: '{{ .Values.TRACING_SAMPLER_RATELIMITING }}'
                       - name: DEPRECATED_API_DISABLED
                         value: '{{ .Values.DISABLE_DEPRECATED_API }}'
                       - name: CONSUL_ENABLED
