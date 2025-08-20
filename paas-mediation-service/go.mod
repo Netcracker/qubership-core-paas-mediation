@@ -17,8 +17,8 @@ require (
 	github.com/swaggo/swag v1.16.4
 	github.com/valyala/fasthttp v1.61.0
 	golang.org/x/net v0.40.0
-	k8s.io/api v0.33.0
-	k8s.io/apimachinery v0.33.0
+	k8s.io/api v0.33.4
+	k8s.io/apimachinery v0.33.4
 	k8s.io/client-go v0.33.0
 )
 
@@ -46,10 +46,8 @@ require (
 	github.com/gofiber/adaptor/v2 v2.2.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/consul/api v1.32.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
