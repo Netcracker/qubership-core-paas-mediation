@@ -5,7 +5,7 @@ go 1.24.2
 require (
 	github.com/fasthttp/websocket v1.5.12
 	github.com/go-openapi/spec v0.21.0
-	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.0.0-20250505145427-766e76edee70
@@ -46,10 +46,8 @@ require (
 	github.com/gofiber/adaptor/v2 v2.2.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/consul/api v1.32.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
