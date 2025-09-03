@@ -3,6 +3,7 @@ package v2
 import (
 	"context"
 	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	pmErrors "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/errors"
@@ -22,12 +23,12 @@ const (
 )
 
 var (
-	limitTypes         = []string{types.ConfigMap, types.Deployment, types.Pod, types.Route, types.Service}
+	limitTypes         = []string{types.ConfigMap, types.Deployment, types.Pod, types.Route, types.Service, types.HttpRoute, types.GrpcRoute}
 	limitChanGet       = createLimitChanMap(concurrencyDefault, limitTypes...)
 	limitChanList      = createLimitChanMap(concurrencyList, limitTypes...)
-	limitChanCreate    = createLimitChanMap(concurrencyDefault, []string{types.ConfigMap, types.Route, types.Service}...)
-	limitChanDelete    = createLimitChanMap(concurrencyDefault, []string{types.ConfigMap, types.Route, types.Service}...)
-	watchLimitTypes    = []string{types.ConfigMap, types.Namespace, "rollout", types.Route, types.Service}
+	limitChanCreate    = createLimitChanMap(concurrencyDefault, []string{types.ConfigMap, types.Route, types.Service, types.HttpRoute, types.GrpcRoute}...)
+	limitChanDelete    = createLimitChanMap(concurrencyDefault, []string{types.ConfigMap, types.Route, types.Service, types.HttpRoute, types.GrpcRoute}...)
+	watchLimitTypes    = []string{types.ConfigMap, types.Namespace, "rollout", types.Route, types.Service, types.HttpRoute, types.GrpcRoute}
 	limitChanWebSocket = createLimitChanMap(concurrencyWebSocket, watchLimitTypes...)
 )
 

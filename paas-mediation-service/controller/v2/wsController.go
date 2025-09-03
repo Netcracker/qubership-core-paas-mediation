@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"strings"
+	"time"
+
 	"github.com/fasthttp/websocket"
 	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
@@ -12,8 +15,6 @@ import (
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/net/context"
-	"strings"
-	"time"
 )
 
 var (
@@ -50,6 +51,14 @@ func (contr *WsController) WatchConfigMaps(c *fiber.Ctx) error {
 
 func (contr *WsController) WatchRoutes(c *fiber.Ctx) error {
 	return contr.establishWebSocket(types.Route, c, contr.Platform.WatchRoutes)
+}
+
+func (contr *WsController) WatchGatewayHTTPRoutes(c *fiber.Ctx) error {
+	return contr.establishWebSocket(types.HttpRoute, c, contr.Platform.WatchGatewayHTTPRoutes)
+}
+
+func (contr *WsController) WatchGatewayGRPCRoutes(c *fiber.Ctx) error {
+	return contr.establishWebSocket(types.GrpcRoute, c, contr.Platform.WatchGatewayGRPCRoutes)
 }
 
 func (contr *WsController) WatchNamespaces(c *fiber.Ctx) error {
