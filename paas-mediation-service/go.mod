@@ -14,7 +14,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.0-20250425074035-0e1531c4ef7c
 	github.com/netcracker/qubership-core-lib-go/v3 v3.0.0-20250505144916-4b016c9e2037
 	github.com/stretchr/testify v1.10.0
-	github.com/swaggo/swag v1.16.4
+	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.61.0
 	golang.org/x/net v0.40.0
 	k8s.io/api v0.33.0
@@ -46,10 +46,8 @@ require (
 	github.com/gofiber/adaptor/v2 v2.2.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/consul/api v1.32.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
