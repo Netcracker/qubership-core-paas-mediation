@@ -28,7 +28,7 @@ var (
 	}
 )
 
-//go:generate mockgen -source=wsController.go -destination=wsController_mock.go -package=controller
+//go:generate mockgen -source=wsController.go -destination=wsController_mock.go -package=v2
 type WsConn interface {
 	ReadMessage() (msgType int, p []byte, err error)
 	WriteMessage(msgType int, data []byte) error

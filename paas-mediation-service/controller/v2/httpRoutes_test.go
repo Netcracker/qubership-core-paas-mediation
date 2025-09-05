@@ -4,15 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"testing"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang/mock/gomock"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
+	"go.uber.org/mock/gomock"
 	corev1 "k8s.io/api/core/v1"
 	k8sErrors "k8s.io/apimachinery/pkg/api/errors"
-	"testing"
 )
 
 func Test_Route(t *testing.T) {
