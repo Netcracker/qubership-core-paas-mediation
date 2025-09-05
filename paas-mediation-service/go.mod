@@ -5,7 +5,7 @@ go 1.24.2
 require (
 	github.com/fasthttp/websocket v1.5.12
 	github.com/go-openapi/spec v0.21.0
-	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.0.0-20250505145427-766e76edee70
@@ -14,7 +14,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.1
 	github.com/netcracker/qubership-core-lib-go/v3 v3.0.1
 	github.com/stretchr/testify v1.10.0
-	github.com/swaggo/swag v1.16.4
+	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.61.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.43.0
