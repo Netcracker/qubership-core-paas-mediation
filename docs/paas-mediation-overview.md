@@ -11,7 +11,7 @@ Platform is an environment where microservices are deployed. For example, it can
 
 So _PaaS Mediation Service_ is a unified point for other microservices for communicate with platform resources. From the point of view of clients, they work independently of platform as `paas mediation` hides all complexity and the platform differences. 
 
-![PaaS Mediation Role in a Cloud](/docs/img/diagram.png)
+![PaaS Mediation Role in a Cloud](./img/diagram.png)
 
 # Deploy parameters
 
