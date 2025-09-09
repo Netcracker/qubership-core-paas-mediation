@@ -78,6 +78,8 @@ func SetupRoutes(app *fiber.App,
 			watchApi.Get("/configmaps", wsContr.WatchConfigMaps)
 			watchApi.Get("/routes", wsContr.WatchRoutes)
 			watchApi.Get("/rollout-status", wsContr.WatchRollout)
+			watchApi.Get("/gateway/httproutes", wsContr.WatchGatewayHTTPRoutes)
+			watchApi.Get("/gateway/grpcroutes", wsContr.WatchGatewayGRPCRoutes)
 		})
 	})
 }
