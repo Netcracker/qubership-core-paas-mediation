@@ -15,7 +15,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go/v3 v3.0.1
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.61.0
+	github.com/valyala/fasthttp v1.65.0
 	golang.org/x/net v0.44.0
 	k8s.io/api v0.33.0
 	k8s.io/apimachinery v0.33.0
@@ -24,7 +24,7 @@ require (
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
-	github.com/andybalholm/brotli v1.1.1 // indirect
+	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/avast/retry-go/v4 v4.6.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
