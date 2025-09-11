@@ -15,7 +15,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go/v3 v3.0.1
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.65.0
+	github.com/valyala/fasthttp v1.66.0
 	golang.org/x/net v0.44.0
 	k8s.io/api v0.33.0
 	k8s.io/apimachinery v0.33.0
