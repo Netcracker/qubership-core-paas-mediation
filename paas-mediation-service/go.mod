@@ -11,8 +11,8 @@ require (
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.0.1
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.0.1
 	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.1
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.1
-	github.com/netcracker/qubership-core-lib-go/v3 v3.0.1
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.2
+	github.com/netcracker/qubership-core-lib-go/v3 v3.1.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.65.0
@@ -42,10 +42,10 @@ require (
 	github.com/go-openapi/jsonpointer v0.21.1 // indirect
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.1 // indirect
-	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
+	github.com/go-viper/mapstructure/v2 v2.3.0 // indirect
 	github.com/gofiber/adaptor/v2 v2.2.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -66,7 +66,7 @@ require (
 	github.com/knadh/koanf/parsers/yaml v1.0.0 // indirect
 	github.com/knadh/koanf/providers/env v1.1.0 // indirect
 	github.com/knadh/koanf/providers/file v1.2.0 // indirect
-	github.com/knadh/koanf/v2 v2.2.0 // indirect
+	github.com/knadh/koanf/v2 v2.2.2 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect

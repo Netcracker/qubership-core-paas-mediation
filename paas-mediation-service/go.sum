@@ -96,8 +96,8 @@ github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/me
 github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 h1:tfuBGBXKqDEevZMzYi5KSi8KkcZtzBcTgAUUtapy0OI=
 github.com/go-task/slim-sprig/v3 v3.0.0 h1:sUs3vkvUymDpBKi3qH1YSqBQk9+9D/8M2mN1vB6EwHI=
 github.com/go-task/slim-sprig/v3 v3.0.0/go.mod h1:W848ghGpv3Qj3dhTPRyJypKRiqCdHZiAzKg9hl15HA8=
-github.com/go-viper/mapstructure/v2 v2.2.1 h1:ZAaOCxANMuZx5RCeg0mBdEZk7DZasvvZIxtHqx8aGss=
-github.com/go-viper/mapstructure/v2 v2.2.1/go.mod h1:oJDH3BJKyqBA2TXFhDsKDGDTlndYOZ6rGS0BRZIxGhM=
+github.com/go-viper/mapstructure/v2 v2.3.0 h1:27XbWsHIqhbdR5TIC911OfYvgSaW93HM+dX7970Q7jk=
+github.com/go-viper/mapstructure/v2 v2.3.0/go.mod h1:oJDH3BJKyqBA2TXFhDsKDGDTlndYOZ6rGS0BRZIxGhM=
 github.com/gofiber/adaptor/v2 v2.2.1 h1:givE7iViQWlsTR4Jh7tB4iXzrlKBgiraB/yTdHs9Lv4=
 github.com/gofiber/adaptor/v2 v2.2.1/go.mod h1:AhR16dEqs25W2FY/l8gSj1b51Azg5dtPDmm+pruNOrc=
 github.com/gofiber/fiber/v2 v2.52.9 h1:YjKl5DOiyP3j0mO61u3NTmK7or8GzzWzCFzkboyP5cw=
@@ -105,8 +105,8 @@ github.com/gofiber/fiber/v2 v2.52.9/go.mod h1:YEcBbO/FB+5M1IZNBP9FO3J9281zgPArei
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gogo/protobuf v1.3.2 h1:Ov1cvc58UF3b5XjBnZv7+opcTcQFZebYjWzi34vdm4Q=
 github.com/gogo/protobuf v1.3.2/go.mod h1:P1XiOD3dCwIKUDQYPy72D8LYyHL2YPYrpS2s69NZV8Q=
-github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
-github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
+github.com/golang-jwt/jwt/v5 v5.2.2 h1:Rl4B7itRWVtYIHFrSNd7vhTiz9UpLdi6gZhZ3wEeDy8=
+github.com/golang-jwt/jwt/v5 v5.2.2/go.mod h1:pqrtFR0X4osieyHYxtmOUWsAWrfe1Q5UVIyoH402zdk=
 github.com/golang/mock v1.6.0 h1:ErTB+efbowRARo13NNdxyJji2egdxLGQhRaY+DUumQc=
 github.com/golang/mock v1.6.0/go.mod h1:p6yTPP+5HYm5mzsMV8JkE6ZKdX+/wYM6Hr+LicevLPs=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
@@ -204,8 +204,8 @@ github.com/knadh/koanf/providers/file v1.2.0 h1:hrUJ6Y9YOA49aNu/RSYzOTFlqzXSCpmY
 github.com/knadh/koanf/providers/file v1.2.0/go.mod h1:bp1PM5f83Q+TOUu10J/0ApLBd9uIzg+n9UgthfY+nRA=
 github.com/knadh/koanf/providers/rawbytes v0.1.0 h1:dpzgu2KO6uf6oCb4aP05KDmKmAmI51k5pe8RYKQ0qME=
 github.com/knadh/koanf/providers/rawbytes v0.1.0/go.mod h1:mMTB1/IcJ/yE++A2iEZbY1MLygX7vttU+C+S/YmPu9c=
-github.com/knadh/koanf/v2 v2.2.0 h1:FZFwd9bUjpb8DyCWARUBy5ovuhDs1lI87dOEn2K8UVU=
-github.com/knadh/koanf/v2 v2.2.0/go.mod h1:PSFru3ufQgTsI7IF+95rf9s8XA1+aHxKuO/W+dPoHEY=
+github.com/knadh/koanf/v2 v2.2.2 h1:ghbduIkpFui3L587wavneC9e3WIliCgiCgdxYO/wd7A=
+github.com/knadh/koanf/v2 v2.2.2/go.mod h1:abWQc0cBXLSF/PSOMCB/SK+T13NXDsPvOksbpi5e/9Q=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/konsorten/go-windows-terminal-sequences v1.0.3/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515/go.mod h1:+0opPa2QZZtGFBFZlji/RkVcI2GknAs/DXo4wKdlNEc=
@@ -278,10 +278,10 @@ github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.0.1 h1:A00z
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.0.1/go.mod h1:MO3zLW4uL7YWcorsS9GKgsj5oJnFDQZTVEyfwEP/Uj8=
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.1 h1:JGevM3YG8ITvJF4VhasIRe5Qr3Ihb4y8ifn9h5FOT94=
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.1/go.mod h1:Rp0TyDkxVN4OSNUVdetUw2P0HvmxXNpLLPwoqdLqw9I=
-github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.1 h1:euh4OK3/ktB3AoSl6nAVr0cdx/dnt4HmlTB8uV2lTxQ=
-github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.1/go.mod h1:cywSTgOs6GWnzQ++INLs3yVscxbmiP27fi6J4Yticaw=
-github.com/netcracker/qubership-core-lib-go/v3 v3.0.1 h1:OgdKD1OY94LbMwOLZWUHHdTZns1TvGbxxTvaHZYL5Wk=
-github.com/netcracker/qubership-core-lib-go/v3 v3.0.1/go.mod h1:kCU3D5h4Gk129KqIK2O22eQ0deW3YriSRLHs2jqzBlE=
+github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.2 h1:46xYzJeVwxoMB4fmX5jwBxKWWOrPTQXavz2l4pNTrrM=
+github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.2/go.mod h1:OtlBe1zVHwv/dSo3F2M4eZ7Pv7tKJR5k5rx+t0GatXw=
+github.com/netcracker/qubership-core-lib-go/v3 v3.1.0 h1:lCPMYkBTjEYJ2H0zGMa31nFiLlwdxNGpnpUaZ8O5Elk=
+github.com/netcracker/qubership-core-lib-go/v3 v3.1.0/go.mod h1:KsApx/jBB+RLvZTNh9mWoDiMR8N+YxTd54Eq3F/WZa4=
 github.com/onsi/ginkgo/v2 v2.21.0 h1:7rg/4f3rB88pb5obDgNZrNHrQ4e6WpjonchcpuBRnZM=
 github.com/onsi/ginkgo/v2 v2.21.0/go.mod h1:7Du3c42kxCUegi0IImZ1wUQzMBVecgIHjR1C+NkhLQo=
 github.com/onsi/gomega v1.35.1 h1:Cwbd75ZBPxFSuZ6T+rN/WCb/gOc6YgFBXLlZLhC7Ds4=
