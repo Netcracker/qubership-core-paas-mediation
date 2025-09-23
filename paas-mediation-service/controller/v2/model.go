@@ -1,10 +1,11 @@
 package v2
 
 import (
-	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
-	pmTypes "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/types"
 	"strings"
 	"time"
+
+	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
+	pmTypes "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/types"
 )
 
 type AppVersionData struct {
@@ -339,6 +340,10 @@ func FromConfigMap(resource ConfigMap) entity.ConfigMap {
 		Metadata: FromMetadata(resource.Metadata),
 		Data:     resource.Data,
 	}
+}
+
+func Same[T any](resource T) T {
+	return resource
 }
 
 func ToRoute(resource entity.Route) Route {
