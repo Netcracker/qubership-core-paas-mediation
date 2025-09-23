@@ -1,6 +1,6 @@
 module github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2
 
-go 1.24.2
+go 1.25.1
 
 require (
 	github.com/fasthttp/websocket v1.5.12
