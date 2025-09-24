@@ -38,34 +38,36 @@ Paas-Mediation Service
 
 ###  since_2_0
 
-| Method  | URI     | Name   | Summary |
-|---------|---------|--------|---------|
-| POST | /api/v2/namespaces/{namespace}/configmaps | [v2 create configmap](#v2-create-configmap) | Create ConfigMap in namespace |
-| POST | /api/v2/namespaces/{namespace}/routes | [v2 create route](#v2-create-route) | Create Route in namespace |
-| POST | /api/v2/namespaces/{namespace}/services | [v2 create service](#v2-create-service) | Create Service in namespace |
-| DELETE | /api/v2/namespaces/{namespace}/configmaps/{name} | [v2 delete configmap](#v2-delete-configmap) | Delete ConfigMap with name in namespace |
-| DELETE | /api/v2/namespaces/{namespace}/routes/{name} | [v2 delete route](#v2-delete-route) | Delete Route with name in namespace |
-| DELETE | /api/v2/namespaces/{namespace}/services/{name} | [v2 delete service](#v2-delete-service) | Delete Service with name in namespace |
-| GET | /api/v2/namespaces/{namespace}/annotations | [v2 get annotationresource](#v2-get-annotationresource) | Get resources by resource type and annotation name |
-| GET | /api/v2/namespaces/{namespace}/configmaps/bg-version | [v2 get bg versions](#v2-get-bg-versions) | Get Blue-Green version ('bg-version') ConfigMap |
-| GET | /api/v2/namespaces/{namespace}/configmaps/{name} | [v2 get configmap](#v2-get-configmap) | Get ConfigMap by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/configmaps | [v2 get configmap list](#v2-get-configmap-list) | Get ConfigMap by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/deployments/{name} | [v2 get deployment](#v2-get-deployment) | Get Deployment by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/deployments | [v2 get deployment list](#v2-get-deployment-list) | Get Deployment by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/deployment-family/{family_name} | [v2 get deploymentfamily versions](#v2-get-deploymentfamily-versions) | Get DeploymentFamily data based on Deployments labeled with 'family_name' label with value specified via 'deployment-family' path param |
-| GET | /api/v2/namespaces | [v2 get namespaces](#v2-get-namespaces) | Get namespaces |
-| GET | /api/v2/namespaces/{namespace}/pods/{name} | [v2 get pod](#v2-get-pod) | Get Pod by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/pods | [v2 get pod list](#v2-get-pod-list) | Get Pod by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/routes/{name} | [v2 get route](#v2-get-route) | Get Route by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/routes | [v2 get route list](#v2-get-route-list) | Get Route by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/services/{name} | [v2 get service](#v2-get-service) | Get Service by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/services | [v2 get service list](#v2-get-service-list) | Get Service by name and namespace |
-| GET | /api/v2/namespaces/{namespace}/configmaps/versions | [v2 get versions](#v2-get-versions) | Get versions from 'version' ConfigMap |
-| POST | /api/v2/namespaces/{namespace}/rollout/{resource-name} | [v2 post restartdeployment](#v2-post-restartdeployment) | RestartDeployment |
-| POST | /api/v2/namespaces/{namespace}/rollout | [v2 post restartdeployments bulk](#v2-post-restartdeployments-bulk) | Restart Deployments in bulk by names in namespace in parallel or sequentially |
-| PUT | /api/v2/namespaces/{namespace}/configmaps | [v2 update or create configmap](#v2-update-or-create-configmap) | Update or Create ConfigMap in namespace |
-| PUT | /api/v2/namespaces/{namespace}/routes | [v2 update or create route](#v2-update-or-create-route) | Update or Create Route in namespace |
-| PUT | /api/v2/namespaces/{namespace}/services | [v2 update or create service](#v2-update-or-create-service) | Update or Create Service in namespace |
+| Method | URI                                                            | Name                                                                  | Summary                                                                                                                                 |
+|--------|----------------------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| POST   | /api/v2/namespaces/{namespace}/configmaps                      | [v2 create configmap](#v2-create-configmap)                           | Create ConfigMap in namespace                                                                                                           |
+| POST   | /api/v2/namespaces/{namespace}/routes                          | [v2 create route](#v2-create-route)                                   | Create Route in namespace                                                                                                               |
+| POST   | /api/v2/namespaces/{namespace}/services                        | [v2 create service](#v2-create-service)                               | Create Service in namespace                                                                                                             |
+| DELETE | /api/v2/namespaces/{namespace}/configmaps/{name}               | [v2 delete configmap](#v2-delete-configmap)                           | Delete ConfigMap with name in namespace                                                                                                 |
+| DELETE | /api/v2/namespaces/{namespace}/routes/{name}                   | [v2 delete route](#v2-delete-route)                                   | Delete Route with name in namespace                                                                                                     |
+| DELETE | /api/v2/namespaces/{namespace}/services/{name}                 | [v2 delete service](#v2-delete-service)                               | Delete Service with name in namespace                                                                                                   |
+| GET    | /api/v2/namespaces/{namespace}/annotations                     | [v2 get annotationresource](#v2-get-annotationresource)               | Get resources by resource type and annotation name                                                                                      |
+| GET    | /api/v2/namespaces/{namespace}/configmaps/bg-version           | [v2 get bg versions](#v2-get-bg-versions)                             | Get Blue-Green version ('bg-version') ConfigMap                                                                                         |
+| GET    | /api/v2/namespaces/{namespace}/configmaps/{name}               | [v2 get configmap](#v2-get-configmap)                                 | Get ConfigMap by name and namespace                                                                                                     |
+| GET    | /api/v2/namespaces/{namespace}/configmaps                      | [v2 get configmap list](#v2-get-configmap-list)                       | Get ConfigMap by name and namespace                                                                                                     |
+| GET    | /api/v2/namespaces/{namespace}/deployments/{name}              | [v2 get deployment](#v2-get-deployment)                               | Get Deployment by name and namespace                                                                                                    |
+| GET    | /api/v2/namespaces/{namespace}/deployments                     | [v2 get deployment list](#v2-get-deployment-list)                     | Get Deployment by name and namespace                                                                                                    |
+| GET    | /api/v2/namespaces/{namespace}/deployment-family/{family_name} | [v2 get deploymentfamily versions](#v2-get-deploymentfamily-versions) | Get DeploymentFamily data based on Deployments labeled with 'family_name' label with value specified via 'deployment-family' path param |
+| GET    | /api/v2/namespaces                                             | [v2 get namespaces](#v2-get-namespaces)                               | Get namespaces                                                                                                                          |
+| GET    | /api/v2/namespaces/{namespace}/pods/{name}                     | [v2 get pod](#v2-get-pod)                                             | Get Pod by name and namespace                                                                                                           |
+| GET    | /api/v2/namespaces/{namespace}/pods                            | [v2 get pod list](#v2-get-pod-list)                                   | Get Pod by name and namespace                                                                                                           |
+| GET    | /api/v2/namespaces/{namespace}/routes/{name}                   | [v2 get route](#v2-get-route)                                         | Get Route by name and namespace                                                                                                         |
+| GET    | /api/v2/namespaces/{namespace}/routes                          | [v2 get route list](#v2-get-route-list)                               | Get Route by name and namespace                                                                                                         |
+| GET    | /api/v2/namespaces/{namespace}/services/{name}                 | [v2 get service](#v2-get-service)                                     | Get Service by name and namespace                                                                                                       |
+| GET    | /api/v2/namespaces/{namespace}/services                        | [v2 get service list](#v2-get-service-list)                           | Get Service by name and namespace                                                                                                       |
+| GET    | /api/v2/namespaces/{namespace}/configmaps/versions             | [v2 get versions](#v2-get-versions)                                   | Get versions from 'version' ConfigMap                                                                                                   |
+| POST   | /api/v2/namespaces/{namespace}/rollout/{resource-name}         | [v2 post restartdeployment](#v2-post-restartdeployment)               | RestartDeployment                                                                                                                       |
+| POST   | /api/v2/namespaces/{namespace}/rollout                         | [v2 post restartdeployments bulk](#v2-post-restartdeployments-bulk)   | Restart Deployments in bulk by names in namespace in parallel or sequentially                                                           |
+| PUT    | /api/v2/namespaces/{namespace}/configmaps                      | [v2 update or create configmap](#v2-update-or-create-configmap)       | Update or Create ConfigMap in namespace                                                                                                 |
+| PUT    | /api/v2/namespaces/{namespace}/routes                          | [v2 update or create route](#v2-update-or-create-route)               | Update or Create Route in namespace                                                                                                     |
+| PUT    | /api/v2/namespaces/{namespace}/services                        | [v2 update or create service](#v2-update-or-create-service)           | Update or Create Service in namespace                                                                                                   |
+| GET    | /api/v2/namespaces/{namespace}/gateway/httproutes              | [v2 get gateway api httproutes](#v2-get-gateway-httproutes)           | Get Gateway API HTTP Routes in namespace                                                                                                |
+| GET    | /api/v2/namespaces/{namespace}/gateway/grpcroutes              | [v2 get gateway api grpcroutes](#v2-get-gateway-grpcroutes)           | Get Gateway API GRPC Routes in namespace                                                                                                |
   
 
 
@@ -2754,3 +2756,45 @@ Status: Internal Server Error
 | secretName | string| `string` |  | |  |  |
 
 
+### <span id="v2-get-gateway-httproutes"></span> Get All Gateway GRPCRoutes(*v2-get-gateway-grpc*)
+
+```
+GET /api/v2/namespaces/{namespace}/gateway/grpcroutes
+```
+
+Get All Gateway GRPCRoutes
+
+#### Produces
+* application/json
+
+#### Parameters
+
+| Name      | Source | Type   | Go type  | Separator | Required | Default | Description      |
+|-----------|--------|--------|----------|-----------|:--------:|---------|------------------|
+| namespace | `path` | string | `string` |           |    ✓     |         | target namespace |
+
+#### Responses
+
+see https://gateway-api.sigs.k8s.io/reference/spec/#grpcroute
+
+
+### <span id="v2-get-gateway-httproutes"></span> Get All Gateway HTTPRoutes(*v2-get-gateway-httproutes*)
+
+```
+GET /api/v2/namespaces/{namespace}/gateway/httproutes
+```
+
+Get All Gateway HTTPRoutes
+
+#### Produces
+* application/json
+
+#### Parameters
+
+| Name      | Source | Type   | Go type  | Separator | Required | Default | Description      |
+|-----------|--------|--------|----------|-----------|:--------:|---------|------------------|
+| namespace | `path` | string | `string` |           |    ✓     |         | target namespace |
+
+#### Responses
+
+see https://gateway-api.sigs.k8s.io/reference/spec/#httproute
