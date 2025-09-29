@@ -3,8 +3,11 @@ package v2
 import (
 	"context"
 	"errors"
+	"sync"
+	"testing"
+	"time"
+
 	"github.com/fasthttp/websocket"
-	"github.com/golang/mock/gomock"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	pmWatch "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
@@ -12,10 +15,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/valyala/fasthttp"
+	"go.uber.org/mock/gomock"
 	"k8s.io/apimachinery/pkg/watch"
-	"sync"
-	"testing"
-	"time"
 )
 
 func TestParseFilterParamFromRollout(t *testing.T) {

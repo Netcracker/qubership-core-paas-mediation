@@ -5,8 +5,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang/mock/gomock"
 	"github.com/knadh/koanf/providers/confmap"
 	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
@@ -16,6 +16,8 @@ import (
 	"github.com/netcracker/qubership-core-lib-go/v3/serviceloader"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/mock/gomock"
+
 	"io"
 	"net/http"
 	"net/http/httptest"
