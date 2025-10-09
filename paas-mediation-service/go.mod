@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/fasthttp/websocket v1.5.12
-	github.com/go-openapi/spec v0.21.0
+	github.com/go-openapi/spec v0.22.0
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
@@ -15,11 +15,11 @@ require (
 	github.com/netcracker/qubership-core-lib-go/v3 v3.1.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.66.0
-	golang.org/x/net v0.44.0
-	k8s.io/api v0.33.0
-	k8s.io/apimachinery v0.33.0
-	k8s.io/client-go v0.33.0
+	github.com/valyala/fasthttp v1.67.0
+	golang.org/x/net v0.46.0
+	k8s.io/api v0.34.1
+	k8s.io/apimachinery v0.34.1
+	k8s.io/client-go v0.34.1
 )
 
 require (
