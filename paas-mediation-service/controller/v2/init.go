@@ -42,6 +42,11 @@ func SetupRoutes(app *fiber.App,
 				routes.Put("", httpContr.UpdateOrCreateRoute)
 				routes.Delete("/:resource_name", httpContr.DeleteRoute)
 			})
+			api.Route("/gateway", func(gateways fiber.Router) {
+				gateways.Get("/httproutes", httpContr.GetHttpRouteList)
+				gateways.Get("/grpcroutes", httpContr.GetGrpcRouteList)
+
+			})
 			api.Route("/services", func(services fiber.Router) {
 				services.Get("", httpContr.GetServiceList)
 				services.Get("/", httpContr.GetServiceList)
@@ -78,6 +83,8 @@ func SetupRoutes(app *fiber.App,
 			watchApi.Get("/configmaps", wsContr.WatchConfigMaps)
 			watchApi.Get("/routes", wsContr.WatchRoutes)
 			watchApi.Get("/rollout-status", wsContr.WatchRollout)
+			watchApi.Get("/gateway/httproutes", wsContr.WatchGatewayHTTPRoutes)
+			watchApi.Get("/gateway/grpcroutes", wsContr.WatchGatewayGRPCRoutes)
 		})
 	})
 }
