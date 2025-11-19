@@ -5,6 +5,22 @@ import (
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
 
+// GetHttpRouteList godoc
+//
+// @Summary Get Gateway API HTTP Routes in namespace
+// @Description Get Gateway API HTTP Routes in namespace
+// @Tags since:2.0
+// @ID v2-get-gateway-httproutes
+// @Accept  json
+// @Produce  json
+// @Param	namespace	path     string     true  "target namespace"
+// @Security ApiKeyAuth
+// @Success 200 {array}	object
+// @Failure 400 {object}	v2.ErrorResponse
+// @Failure 403 {object}	v2.ErrorResponse
+// @Failure 404 {object}	v2.ErrorResponse
+// @Failure 500 {object}	v2.ErrorResponse
+// @Router /api/v2/namespaces/{namespace}/gateway/httproutes [get]
 func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
 	if !ctr.Features.GatewayRoutesEnabled {
 		return respondWithError(ctx.UserContext(), ctx, 404, "gateway routes feature is disabled")
@@ -12,6 +28,22 @@ func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
 	return listAdapter(types.HttpRoute, ctr.Platform.GetHttpRouteList, Same, ctx)
 }
 
+// GetGrpcRouteList godoc
+//
+// @Summary Get Gateway API GRPC Routes in namespace
+// @Description Get Gateway API GRPC Routes in namespace
+// @Tags since:2.0
+// @ID v2-get-gateway-grpcroutes
+// @Accept  json
+// @Produce  json
+// @Param	namespace	path     string     true  "target namespace"
+// @Security ApiKeyAuth
+// @Success 200 {array}	object
+// @Failure 400 {object}	v2.ErrorResponse
+// @Failure 403 {object}	v2.ErrorResponse
+// @Failure 404 {object}	v2.ErrorResponse
+// @Failure 500 {object}	v2.ErrorResponse
+// @Router /api/v2/namespaces/{namespace}/gateway/grpcroutes [get]
 func (ctr *HttpController) GetGrpcRouteList(ctx *fiber.Ctx) error {
 	if !ctr.Features.GatewayRoutesEnabled {
 		return respondWithError(ctx.UserContext(), ctx, 404, "gateway routes feature is disabled")
