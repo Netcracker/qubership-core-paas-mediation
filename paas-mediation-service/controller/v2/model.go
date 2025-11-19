@@ -8,6 +8,10 @@ import (
 	pmTypes "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/types"
 )
 
+type Features struct {
+	GatewayRoutesEnabled bool
+}
+
 type AppVersionData struct {
 	AppName    string    `json:"appName"`
 	AppVersion string    `json:"appVersion"`
