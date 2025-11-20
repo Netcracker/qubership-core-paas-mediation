@@ -1,9 +1,10 @@
 package utils
 
 import (
+	"time"
+
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
 	"k8s.io/apimachinery/pkg/api/resource"
-	"time"
 )
 
 func GetWatchClientTimeout() time.Duration {
@@ -64,4 +65,8 @@ func GetCacheSettings() (numItems int64, maxSizeInBytes int64, maxItemSizeInByte
 		panic("failed to parse 'cache.ttl' property: " + err.Error())
 	}
 	return maxItemsAmount, maxCacheSizeBytes, maxItemSizeBytes, ttl
+}
+
+func IsGatewayRoutesEnabled() bool {
+	return configloader.GetKoanf().Bool("core.paas.mediation.gw.api.enabled")
 }
