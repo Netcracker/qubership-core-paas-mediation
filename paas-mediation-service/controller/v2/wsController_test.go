@@ -124,7 +124,7 @@ func TestWsControllerWatch_ClosureAfterWrite(t *testing.T) {
 
 	wsConn.EXPECT().WriteControl(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseInternalServerErr, ""), gomock.Any())
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 
 	assertions.NotNil(watchErr)
@@ -159,7 +159,7 @@ func TestWsControllerWatch_ReadTerminatedBeforeWrite(t *testing.T) {
 			return 0, nil, &websocket.CloseError{Code: websocket.CloseNormalClosure}
 		})
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 	assertions.Nil(watchErr)
 
@@ -200,7 +200,7 @@ func TestWsControllerWatch_WatchHandlerClosed(t *testing.T) {
 			return nil
 		})
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	close(eventsChannel)
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 	assertions.Nil(watchErr)
