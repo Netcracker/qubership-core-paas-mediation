@@ -253,3 +253,29 @@ loop:
 		}
 	}
 }
+
+func Test_WatchGatewayHTTPRoutes_FeatureDisabled(t *testing.T) {
+	initTestConfigWithFeatureFlag(false)
+	tests := []*testCase{
+		{
+			rest:     r{"GET", url("/watchapi/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
+			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+		},
+	}
+	for _, tc := range tests {
+		runTestCase(t, tc)
+	}
+}
+
+func Test_WatchGatewayGRPCRoutes_FeatureDisabled(t *testing.T) {
+	initTestConfigWithFeatureFlag(false)
+	tests := []*testCase{
+		{
+			rest:     r{"GET", url("/watchapi/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
+			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+		},
+	}
+	for _, tc := range tests {
+		runTestCase(t, tc)
+	}
+}
