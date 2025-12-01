@@ -124,7 +124,7 @@ func TestWsControllerWatch_ClosureAfterWrite(t *testing.T) {
 
 	wsConn.EXPECT().WriteControl(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseInternalServerErr, ""), gomock.Any())
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 
 	assertions.NotNil(watchErr)
@@ -159,7 +159,7 @@ func TestWsControllerWatch_ReadTerminatedBeforeWrite(t *testing.T) {
 			return 0, nil, &websocket.CloseError{Code: websocket.CloseNormalClosure}
 		})
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 	assertions.Nil(watchErr)
 
@@ -200,7 +200,7 @@ func TestWsControllerWatch_WatchHandlerClosed(t *testing.T) {
 			return nil
 		})
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	close(eventsChannel)
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 	assertions.Nil(watchErr)
@@ -251,5 +251,31 @@ loop:
 			break loop
 		default:
 		}
+	}
+}
+
+func Test_WatchGatewayHTTPRoutes_FeatureDisabled(t *testing.T) {
+	initTestConfigWithFeatureFlag(false)
+	tests := []*testCase{
+		{
+			rest:     r{"GET", url("/watchapi/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
+			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+		},
+	}
+	for _, tc := range tests {
+		runTestCase(t, tc)
+	}
+}
+
+func Test_WatchGatewayGRPCRoutes_FeatureDisabled(t *testing.T) {
+	initTestConfigWithFeatureFlag(false)
+	tests := []*testCase{
+		{
+			rest:     r{"GET", url("/watchapi/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
+			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+		},
+	}
+	for _, tc := range tests {
+		runTestCase(t, tc)
 	}
 }
