@@ -19,6 +19,8 @@ github.com/armon/go-metrics v0.4.1 h1:hR91U9KYmb6bLBYLQjyM+3j+rcd/UhE+G78SFnF8gJ
 github.com/armon/go-metrics v0.4.1/go.mod h1:E6amYzXo6aW1tqzoZGT755KkbgrJsSdpwZ+3JqfkOG4=
 github.com/avast/retry-go/v4 v4.6.1 h1:VkOLRubHdisGrHnTu89g08aQEWEgRU7LVEop3GbIcMk=
 github.com/avast/retry-go/v4 v4.6.1/go.mod h1:V6oF8njAwxJ5gRo1Q7Cxab24xs5NCWZBeaHHBklR8mA=
+github.com/avast/retry-go/v4 v4.7.0 h1:yjDs35SlGvKwRNSykujfjdMxMhMQQM0TnIjJaHB+Zio=
+github.com/avast/retry-go/v4 v4.7.0/go.mod h1:ZMPDa3sY2bKgpLtap9JRUgk2yTAba7cgiFhqxY2Sg6Q=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
@@ -142,6 +144,8 @@ github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/hashicorp/consul/api v1.32.3 h1:uphjFvDmymhtnqWYinve9GadBPreT8EGS/u2PewIs0c=
 github.com/hashicorp/consul/api v1.32.3/go.mod h1:qCrHmC5A1g3ieZExjdU95p5cYqfah3AiTm7vxsovco0=
+github.com/hashicorp/consul/api v1.33.0 h1:MnFUzN1Bo6YDGi/EsRLbVNgA4pyCymmcswrE5j4OHBM=
+github.com/hashicorp/consul/api v1.33.0/go.mod h1:vLz2I/bqqCYiG0qRHGerComvbwSWKswc8rRFtnYBrIw=
 github.com/hashicorp/consul/sdk v0.16.3 h1:kI/oax+yeaoremkh36G/f4Q13ivdFF4AE+Co/LlZa0Q=
 github.com/hashicorp/consul/sdk v0.16.3/go.mod h1:TSPshuYdi1OQwpLund2vkTHpp4WnLyhf7Q/YihGMtp0=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
@@ -290,6 +294,8 @@ github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.4-0.20
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.4-0.20251020131638-0a7783b620c5/go.mod h1:ra0VyVwE/apyVmi49iPD4c9vqgV22um0iKJ/OIWwj28=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.3 h1:ysAbqtwfMNAIoOT+7ShKKW7nQUz3H5gEcITne1q/uvE=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.3/go.mod h1:dgAe4pa7EuMpwO+D9Eoh8F2XvOa5VM836bBq7HaDNQs=
+github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.4 h1:B2gqwek7Tuq98oXoz0gCgN8skQGz5qOE7Qp7E78rp6A=
+github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.4/go.mod h1:uKkotQLR99V+WB8xTbR9UVhAwIABz0KBOqHNMBbSkSk=
 github.com/netcracker/qubership-core-lib-go/v3 v3.1.1 h1:BpogtxDZkb1sRatXdQMAmhqwnwY2jiY3NCFaIoqn0s4=
 github.com/netcracker/qubership-core-lib-go/v3 v3.1.1/go.mod h1:jPzp8NmQxj2ZNvlbnknH0tPKbHs3OyStzWIob79uTgU=
 github.com/netcracker/qubership-core-lib-go/v3 v3.2.4 h1:b7BTopvJ64K5y900kinhigldBuY2tghBFqKmkIrwnXA=
