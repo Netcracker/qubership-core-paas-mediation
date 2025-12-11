@@ -288,6 +288,8 @@ github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.0 h1:RMFjX9s
 github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.0/go.mod h1:Hvtz7YgYb5qrp8cMHVOEa2nJel2ICt8rQrB2NGpANkQ=
 github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.0.3 h1:QWv7yRBG9duWjVc+5rPPO0mUFw0U6oAFym106T4Jorc=
 github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.0.3/go.mod h1:U465g+G+eQQUy45RQGA+IjbeFcz9LOzcAC0z8q19bh8=
+github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.1.4 h1:HmhRt2UwGd3jcolr2qhzLo6pDRUglgflnIkoFQOHH88=
+github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.1.4/go.mod h1:W5rKUDSGQG9VyB+b03+5mnayHkUEO6U6W1mgkUM3x6w=
 github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.0.2 h1:CX+R7o6a6kglfmGOVWuDP2y2HiR4Iaz8GOxVyIpTJGM=
 github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.0.2/go.mod h1:EP1byM8Z4jxR0Na3RJ9J51PHco9knntgbFCtUN3SnME=
 github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.1.1 h1:vpQbXsw3KOZnLypyBziZDAXxRIKNj2BbAUr3kEhWIRA=
@@ -298,6 +300,8 @@ github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.2.0 h1:PlcN
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.2.0/go.mod h1:2Vcds+9IZ9enENihoCrv9V2rOyJrAvp6R91cJ1ihedE=
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.4-0.20251020131638-0a7783b620c5 h1:o1MH1PbHlbzSSsVFDNCoP4GdaAsPtSKb/kMRqE0SRFQ=
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.0.4-0.20251020131638-0a7783b620c5/go.mod h1:ra0VyVwE/apyVmi49iPD4c9vqgV22um0iKJ/OIWwj28=
+github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.4 h1:3fBiiXFzKpdAMXmGu/vVgHb90zfTCXhR9rd1QnrUye0=
+github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.4/go.mod h1:83so2LkkgFcShMNh0a9jtUTZfvyO0f7wKmydJjePlJQ=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.3 h1:ysAbqtwfMNAIoOT+7ShKKW7nQUz3H5gEcITne1q/uvE=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.0.3/go.mod h1:dgAe4pa7EuMpwO+D9Eoh8F2XvOa5VM836bBq7HaDNQs=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.4 h1:B2gqwek7Tuq98oXoz0gCgN8skQGz5qOE7Qp7E78rp6A=
