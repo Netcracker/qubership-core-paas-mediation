@@ -2,6 +2,8 @@ package lib
 
 import (
 	"context"
+	"runtime/debug"
+
 	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
 	"github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/server"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
@@ -14,7 +16,6 @@ import (
 	apiV2 "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller/v2"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/utils"
 	"k8s.io/apimachinery/pkg/api/resource"
-	"runtime/debug"
 )
 
 var (
@@ -41,11 +42,19 @@ func RunServer() {
 	logger.Info("Setting memoryLimit to: %s", memoryLimit.String())
 	debug.SetMemoryLimit(memoryLimit.Value())
 
-	platformClient, err := service.NewPlatformClientBuilder().WithWatchClientTimeout(utils.GetWatchClientTimeout()).
-		WithAllCaches().WithCacheSettings(utils.GetCacheSettings()).Build()
+	platformClientBuilder := service.NewPlatformClientBuilder().WithWatchClientTimeout(utils.GetWatchClientTimeout()).
+		WithBasicCaches().WithCacheSettings(utils.GetCacheSettings())
+
+	isGatewayRoutesEnabled := utils.IsGatewayRoutesEnabled()
+	if isGatewayRoutesEnabled {
+		platformClientBuilder = platformClientBuilder.WithGatewayApiRoutesCaches()
+	}
+
+	platformClient, err := platformClientBuilder.Build()
 	if err != nil {
 		panic("Cannot create Platform Builder: " + err.Error())
 	}
+
 	errorHandler := controller.NewErrorHandler()
 	app, err := controller.InitFiber(ctx, platformClient, errorHandler, true, true, true)
 	if err != nil {
@@ -53,7 +62,10 @@ func RunServer() {
 	}
 	namespace := configloader.GetKoanf().MustString("microservice.namespace")
 
-	apiV2.SetupRoutes(app, platformClient)
+	features := apiV2.Features{
+		GatewayRoutesEnabled: isGatewayRoutesEnabled,
+	}
+	apiV2.SetupRoutes(app, platformClient, features)
 	apiV2.WithRoutes(namespace)
 	apiV2.ErrorHandler(errorHandler)
 

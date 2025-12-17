@@ -20,6 +20,7 @@ The following parameters are specific for PaaS Mediation Service.
 | Parameter  name                         | Description                                                          |Default| Required |
 |-----------------------------------------|----------------------------------------------------------------------|-------|----------|
 | PAAS_PLATFORM                           | Indicates platform type, can be `OPENSHIFT` or `KUBERNETES`          |None   | Yes      |
+| CORE_PAAS_MEDIATION_GW_API_ENABLED      | Enables [Gateway API](https://gateway-api.sigs.k8s.io/) routes ([HTTPRoute](https://gateway-api.sigs.k8s.io/reference/spec/#httproute), [GRPCRoute](https://gateway-api.sigs.k8s.io/reference/spec/#grpcroute)) observation. Can be `true` or `false`. Ensure PaaS Mediation Service has sufficient permissions to operate (`get`, `list`, `watch`) with `gateway.networking.k8s.io/v1` entities (`HTTPRoute`, `GRPCRoute`)         |false  | No       |
 
 For detailed descriptions of the PaaS Mediation APIs refer to the following sections:
 

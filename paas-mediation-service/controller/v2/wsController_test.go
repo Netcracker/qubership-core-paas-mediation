@@ -3,11 +3,13 @@ package v2
 import (
 	"context"
 	"errors"
+	"net/http"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/fasthttp/websocket"
+	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	pmWatch "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
@@ -254,25 +256,22 @@ loop:
 	}
 }
 
-func Test_WatchGatewayHTTPRoutes_FeatureDisabled(t *testing.T) {
+func Test_WatchGatewayApiRoutes_FeatureDisabled(t *testing.T) {
 	initTestConfigWithFeatureFlag(false)
+	errorBody := map[string]string{"error": "Gateway API routes observing is disabled"}
+	assert404 := func(assertions *require.Assertions, resp *http.Response) {
+		assertions.Equal(fiber.StatusNotFound, resp.StatusCode)
+	}
 	tests := []*testCase{
 		{
-			rest:     r{"GET", url("/watchapi/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
-			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+			rest:           r{"GET", url("/watchapi/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
+			respBody:       errorBody,
+			assertResponse: assert404,
 		},
-	}
-	for _, tc := range tests {
-		runTestCase(t, tc)
-	}
-}
-
-func Test_WatchGatewayGRPCRoutes_FeatureDisabled(t *testing.T) {
-	initTestConfigWithFeatureFlag(false)
-	tests := []*testCase{
 		{
-			rest:     r{"GET", url("/watchapi/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
-			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+			rest:           r{"GET", url("/watchapi/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
+			respBody:       errorBody,
+			assertResponse: assert404,
 		},
 	}
 	for _, tc := range tests {

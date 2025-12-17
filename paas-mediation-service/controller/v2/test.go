@@ -15,6 +15,7 @@ import (
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
 	"github.com/netcracker/qubership-core-lib-go/v3/serviceloader"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
+	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/utils"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
@@ -66,7 +67,7 @@ func runTestCase(t *testing.T, test *testCase, fiberAndMockSrvOpt ...*fiberAndMo
 			var err error
 			fAnds.app, err = controller.InitFiber(context.Background(), fAnds.srv, errorHandler, false, false, false)
 			assertions.Nil(err)
-			SetupRoutes(fAnds.app, fAnds.srv)
+			SetupRoutes(fAnds.app, fAnds.srv, Features{GatewayRoutesEnabled: utils.IsGatewayRoutesEnabled()})
 		}
 		if test.mock != nil {
 			test.mock(fAnds.srv)
@@ -207,7 +208,7 @@ func testGetOrListConcurrency[T entity.HasMetadata](t *testing.T, resourceType s
 	ErrorHandler(errorHandler)
 	app, err := controller.InitFiber(context.Background(), srv, errorHandler, false, false, false)
 	assertions.Nil(err)
-	SetupRoutes(app, srv)
+	SetupRoutes(app, srv, Features{GatewayRoutesEnabled: utils.IsGatewayRoutesEnabled()})
 	fiberAndMockSrvOpt := &fiberAndMockSrv{srv: srv, app: app}
 
 	for _, tc := range tests {

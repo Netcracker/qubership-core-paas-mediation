@@ -23,7 +23,7 @@ import (
 // @Router /api/v2/namespaces/{namespace}/gateway/httproutes [get]
 func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
 	if !ctr.Features.GatewayRoutesEnabled {
-		return respondWithError(ctx.UserContext(), ctx, 404, "gateway routes feature is disabled")
+		return respondWithErrorGatewayApiRoutesDisabled(ctx)
 	}
 	return listAdapter(types.HttpRoute, ctr.Platform.GetHttpRouteList, Same, ctx)
 }
@@ -46,7 +46,7 @@ func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
 // @Router /api/v2/namespaces/{namespace}/gateway/grpcroutes [get]
 func (ctr *HttpController) GetGrpcRouteList(ctx *fiber.Ctx) error {
 	if !ctr.Features.GatewayRoutesEnabled {
-		return respondWithError(ctx.UserContext(), ctx, 404, "gateway routes feature is disabled")
+		return respondWithErrorGatewayApiRoutesDisabled(ctx)
 	}
 	return listAdapter(types.GrpcRoute, ctr.Platform.GetGrpcRouteList, Same, ctx)
 }

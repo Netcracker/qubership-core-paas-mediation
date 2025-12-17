@@ -423,6 +423,11 @@ func parseFilterParam(c *fiber.Ctx, paramName string) (map[string]string, error)
 	return result, nil
 }
 
+func respondWithErrorGatewayApiRoutesDisabled(c *fiber.Ctx) error {
+	ctx := c.UserContext()
+	return respondWithError(ctx, c, fiber.StatusNotFound, "Gateway API routes observing is disabled")
+}
+
 func respondWithError(ctx context.Context, c *fiber.Ctx, code int, msg string) error {
 	return respondWithJson(ctx, c, code, map[string]string{"error": msg})
 }

@@ -3,8 +3,10 @@ package v2
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"testing"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/knadh/koanf/providers/confmap"
 	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
@@ -12,6 +14,7 @@ import (
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
 	"github.com/netcracker/qubership-core-lib-go/v3/serviceloader"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
+	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
@@ -27,12 +30,22 @@ func initTestConfigWithFeatureFlag(enabled bool) {
 	serviceloader.Register(1, &fibersec.DummyFiberServerSecurityMiddleware{})
 }
 
-func Test_GetHttpRouteList_FeatureDisabled(t *testing.T) {
+func Test_GatewayApiRoutes_FeatureDisabled(t *testing.T) {
 	initTestConfigWithFeatureFlag(false)
+	errorBody := map[string]string{"error": "Gateway API routes observing is disabled"}
+	assert404 := func(assertions *require.Assertions, resp *http.Response) {
+		assertions.Equal(fiber.StatusNotFound, resp.StatusCode)
+	}
 	tests := []*testCase{
 		{
-			rest:     r{"GET", url("/api/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
-			respBody: map[string]string{"error": "gateway routes feature is disabled"},
+			rest:           r{"GET", url("/api/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
+			respBody:       errorBody,
+			assertResponse: assert404,
+		},
+		{
+			rest:           r{"GET", url("/api/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
+			respBody:       errorBody,
+			assertResponse: assert404,
 		},
 	}
 	for _, tc := range tests {
@@ -66,19 +79,6 @@ func Test_GetHttpRouteList_FeatureEnabled(t *testing.T) {
 				srv.EXPECT().GetHttpRouteList(gomock.Any(), testNamespace, gomock.Any()).
 					Return(nil, errors.New("test error"))
 			},
-		},
-	}
-	for _, tc := range tests {
-		runTestCase(t, tc)
-	}
-}
-
-func Test_GetGrpcRouteList_FeatureDisabled(t *testing.T) {
-	initTestConfigWithFeatureFlag(false)
-	tests := []*testCase{
-		{
-			rest:     r{"GET", url("/api/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
-			respBody: map[string]string{"error": "gateway routes feature is disabled"},
 		},
 	}
 	for _, tc := range tests {

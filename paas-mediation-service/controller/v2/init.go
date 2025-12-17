@@ -6,7 +6,6 @@ import (
 	routeregistration "github.com/netcracker/qubership-core-lib-go-rest-utils/v2/route-registration"
 	"github.com/netcracker/qubership-core-lib-go/v3/logging"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/pmservice"
-	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/utils"
 )
 
 var logger logging.Logger
@@ -16,12 +15,10 @@ func init() {
 }
 
 func SetupRoutes(app *fiber.App,
-	platformService paasMediation.PlatformService) {
+	platformService paasMediation.PlatformService,
+	features Features) {
 
 	pmService := pmservice.PmService{Platform: platformService}
-	features := Features{
-		GatewayRoutesEnabled: utils.IsGatewayRoutesEnabled(),
-	}
 	httpContr := HttpController{Platform: platformService, PmService: &pmService, Features: features}
 	wsContr := WsController{Platform: platformService, Features: features}
 
