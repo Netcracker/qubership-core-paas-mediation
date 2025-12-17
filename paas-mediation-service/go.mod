@@ -10,7 +10,7 @@ require (
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.1
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.2.1
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.5
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.6-0.20251216215822-4b25fff821df
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.5
 	github.com/netcracker/qubership-core-lib-go/v3 v3.2.5
 	github.com/stretchr/testify v1.11.1
@@ -21,6 +21,7 @@ require (
 	k8s.io/api v0.33.5
 	k8s.io/apimachinery v0.33.5
 	k8s.io/client-go v0.33.5
+	sigs.k8s.io/gateway-api v1.1.0
 )
 
 require (
@@ -129,7 +130,6 @@ require (
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
 	k8s.io/utils v0.0.0-20241210054802-24370beab758 // indirect
-	sigs.k8s.io/gateway-api v1.1.0 // indirect
 	sigs.k8s.io/json v0.0.0-20241014173422-cfa47c3a1cc8 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.6.0 // indirect
