@@ -302,8 +302,8 @@ github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.1.2 h1:EpP+kJtk
 github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.1.2/go.mod h1:Xv/Sj5hb1k/8ai+aP20s1jvTbtOVcmO2i1Zwlu/4VhA=
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.2.1 h1:BUVjYBfh3g51rZfERS3K4VmGLQgEWWN5prZ3PjERYpQ=
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.2.1/go.mod h1:+tMStDtN3ADx1MdJW+VuHX8k47L6lA8j3otz04/fyl8=
-github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.7-0.20251218132958-b619fae26fbb h1:G9eXZjhSNGCD+wqRx4fI8Gw4VWLWzP8A6E1txZc3YZM=
-github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.7-0.20251218132958-b619fae26fbb/go.mod h1:UzK8VTvXL4IaXZ5GPGnFR3WY4TmSEvFLYZVNFk5WoLo=
+github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.2.0 h1:NKO9P/J5p1ZYOjV/yNHhi2UY+Idh63xIRof/T1oruDw=
+github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.2.0/go.mod h1:UzK8VTvXL4IaXZ5GPGnFR3WY4TmSEvFLYZVNFk5WoLo=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.6 h1:mpXH6CqzA+h1LTldSGQxoZB2/YIRcExxrlbjkuPSR4A=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.6/go.mod h1:h33iHJizOEDyiK2T5PzHDJFlVUfy6IoeNaUHZfXiXi8=
 github.com/netcracker/qubership-core-lib-go/v3 v3.3.0 h1:3AMiSLfur9QADXFzAs42sPK3SMSjxVU8Sr9OrwB+UXI=
