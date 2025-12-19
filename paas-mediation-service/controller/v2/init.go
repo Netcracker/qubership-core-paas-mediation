@@ -15,11 +15,12 @@ func init() {
 }
 
 func SetupRoutes(app *fiber.App,
-	platformService paasMediation.PlatformService) {
+	platformService paasMediation.PlatformService,
+	features Features) {
 
 	pmService := pmservice.PmService{Platform: platformService}
-	httpContr := HttpController{Platform: platformService, PmService: &pmService}
-	wsContr := WsController{Platform: platformService}
+	httpContr := HttpController{Platform: platformService, PmService: &pmService, Features: features}
+	wsContr := WsController{Platform: platformService, Features: features}
 
 	app.Route("/api/v2", func(api fiber.Router) {
 		api.Get("/namespaces", httpContr.GetNamespaces)

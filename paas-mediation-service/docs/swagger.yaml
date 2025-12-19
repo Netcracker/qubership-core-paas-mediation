@@ -488,6 +488,7 @@ definitions:
         type: string
     type: object
 info:
+  contact: {}
   description: API for Paas Mediation.
   title: Paas Mediation API
   version: "2.0"
@@ -1020,6 +1021,94 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get Deployment by name and namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/gateway/grpcroutes:
+    get:
+      consumes:
+      - application/json
+      description: Get Gateway API GRPC Routes in namespace. This endpoint requires
+        the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the
+        feature flag is disabled, the endpoint will return a 404 error.
+      operationId: v2-get-gateway-grpcroutes
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found - Gateway routes feature is disabled
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Gateway API GRPC Routes in namespace
+      tags:
+      - since:2.0
+  /api/v2/namespaces/{namespace}/gateway/httproutes:
+    get:
+      consumes:
+      - application/json
+      description: Get Gateway API HTTP Routes in namespace. This endpoint requires
+        the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the
+        feature flag is disabled, the endpoint will return a 404 error.
+      operationId: v2-get-gateway-httproutes
+      parameters:
+      - description: target namespace
+        in: path
+        name: namespace
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "404":
+          description: Not Found - Gateway routes feature is disabled
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v2.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Gateway API HTTP Routes in namespace
       tags:
       - since:2.0
   /api/v2/namespaces/{namespace}/pods:

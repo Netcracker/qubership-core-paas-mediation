@@ -4,6 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
+	"strings"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
@@ -12,9 +16,6 @@ import (
 	pmErrors "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/errors"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/pmservice"
 	"github.com/valyala/fasthttp"
-	"regexp"
-	"strings"
-	"time"
 )
 
 const (
@@ -25,6 +26,7 @@ const (
 type HttpController struct {
 	Platform  service.PlatformService
 	PmService *pmservice.PmService
+	Features  Features
 }
 
 // GetDeploymentFamilyVersions godoc
@@ -419,6 +421,11 @@ func parseFilterParam(c *fiber.Ctx, paramName string) (map[string]string, error)
 		}
 	}
 	return result, nil
+}
+
+func respondWithErrorGatewayApiRoutesDisabled(c *fiber.Ctx) error {
+	ctx := c.UserContext()
+	return respondWithError(ctx, c, fiber.StatusNotFound, "Gateway API routes observing is disabled")
 }
 
 func respondWithError(ctx context.Context, c *fiber.Ctx, code int, msg string) error {

@@ -10,9 +10,9 @@ require (
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.1
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.2.1
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.1.5
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.5
-	github.com/netcracker/qubership-core-lib-go/v3 v3.2.5
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.2.0
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.1.6
+	github.com/netcracker/qubership-core-lib-go/v3 v3.3.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.68.0
@@ -21,6 +21,7 @@ require (
 	k8s.io/api v0.33.5
 	k8s.io/apimachinery v0.33.5
 	k8s.io/client-go v0.33.5
+	sigs.k8s.io/gateway-api v1.1.0
 )
 
 require (
@@ -85,7 +86,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.1.5 // indirect
+	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.2.0 // indirect
 	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.1.2 // indirect
 	github.com/openshift/api v0.0.0-20250919002755-a966b57583fb // indirect
 	github.com/openshift/client-go v0.0.0-20250915125341-81c9dc83a675 // indirect
@@ -129,7 +130,6 @@ require (
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
 	k8s.io/utils v0.0.0-20241210054802-24370beab758 // indirect
-	sigs.k8s.io/gateway-api v1.1.0 // indirect
 	sigs.k8s.io/json v0.0.0-20241014173422-cfa47c3a1cc8 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.6.0 // indirect

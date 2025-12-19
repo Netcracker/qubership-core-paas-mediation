@@ -3,11 +3,13 @@ package v2
 import (
 	"context"
 	"errors"
+	"net/http"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/fasthttp/websocket"
+	"github.com/gofiber/fiber/v2"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	pmWatch "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
@@ -124,7 +126,7 @@ func TestWsControllerWatch_ClosureAfterWrite(t *testing.T) {
 
 	wsConn.EXPECT().WriteControl(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseInternalServerErr, ""), gomock.Any())
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 
 	assertions.NotNil(watchErr)
@@ -159,7 +161,7 @@ func TestWsControllerWatch_ReadTerminatedBeforeWrite(t *testing.T) {
 			return 0, nil, &websocket.CloseError{Code: websocket.CloseNormalClosure}
 		})
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 	assertions.Nil(watchErr)
 
@@ -200,7 +202,7 @@ func TestWsControllerWatch_WatchHandlerClosed(t *testing.T) {
 			return nil
 		})
 
-	controller := WsController{platformService}
+	controller := WsController{Platform: platformService, Features: Features{GatewayRoutesEnabled: false}}
 	close(eventsChannel)
 	watchErr := controller.watch(context.Background(), testNamespace, types.ConfigMap, filter.Meta{}, wsConn, platformService.WatchConfigMaps)
 	assertions.Nil(watchErr)
@@ -251,5 +253,28 @@ loop:
 			break loop
 		default:
 		}
+	}
+}
+
+func Test_WatchGatewayApiRoutes_FeatureDisabled(t *testing.T) {
+	initTestConfigWithFeatureFlag(false)
+	errorBody := map[string]string{"error": "Gateway API routes observing is disabled"}
+	assert404 := func(assertions *require.Assertions, resp *http.Response) {
+		assertions.Equal(fiber.StatusNotFound, resp.StatusCode)
+	}
+	tests := []*testCase{
+		{
+			rest:           r{"GET", url("/watchapi/v2/namespaces/%s/gateway/httproutes", testNamespace), 404},
+			respBody:       errorBody,
+			assertResponse: assert404,
+		},
+		{
+			rest:           r{"GET", url("/watchapi/v2/namespaces/%s/gateway/grpcroutes", testNamespace), 404},
+			respBody:       errorBody,
+			assertResponse: assert404,
+		},
+	}
+	for _, tc := range tests {
+		runTestCase(t, tc)
 	}
 }

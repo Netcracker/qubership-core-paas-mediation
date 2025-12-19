@@ -39,6 +39,7 @@ type WsConn interface {
 
 type WsController struct {
 	Platform service.PlatformService
+	Features Features
 }
 
 func (contr *WsController) WatchServices(c *fiber.Ctx) error {
@@ -54,10 +55,16 @@ func (contr *WsController) WatchRoutes(c *fiber.Ctx) error {
 }
 
 func (contr *WsController) WatchGatewayHTTPRoutes(c *fiber.Ctx) error {
+	if !contr.Features.GatewayRoutesEnabled {
+		return respondWithErrorGatewayApiRoutesDisabled(c)
+	}
 	return contr.establishWebSocket(types.HttpRoute, c, contr.Platform.WatchGatewayHTTPRoutes)
 }
 
 func (contr *WsController) WatchGatewayGRPCRoutes(c *fiber.Ctx) error {
+	if !contr.Features.GatewayRoutesEnabled {
+		return respondWithErrorGatewayApiRoutesDisabled(c)
+	}
 	return contr.establishWebSocket(types.GrpcRoute, c, contr.Platform.WatchGatewayGRPCRoutes)
 }
 
