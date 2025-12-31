@@ -528,6 +528,8 @@ github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f h1:y5//uYreIhSUg3J
 github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f/go.mod h1:ZdcZmHo+o7JKHSa8/e818NopupXU1YMK5fe1lsApnBw=
 github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.1 h1:Oyi9/K/vfif6o1zTqE8q224zPHmNeXs2kqYMsL32+dk=
 github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.1/go.mod h1:+x2mbRx2Athud2sCCUUzPLg0mBn/yjI+8PCC9V0tyOg=
+github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.2 h1:sqTlmJf3KLHVVzWyEfh9Opd0g/HKO5Fm5KfYS/qxmtg=
+github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.2.2/go.mod h1:pZuRGCfcUekSUh7fwz98IVSGgXTO7B86pCjTEdMmSPM=
 github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.2.0 h1:QuRCOhwcc9Vp8ak5H0W0b/Ujyi9Vpv6S0Y7yqHdUQ7E=
 github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.2.0/go.mod h1:0MxFqWd5QcBSfSXgoZmtxC/aPdCpadpFkXj3/m7S/Ls=
 github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.1.2 h1:EpP+kJtkuxseKK9fmtyeGfsjSG5L6+h0Y/G79Lt8q+s=
