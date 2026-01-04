@@ -12,6 +12,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  packages: write
 
 concurrency:
   group: ci-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
@@ -47,8 +48,5 @@ jobs:
     with:
       event-name: ${{ github.event_name }}
       actor: ${{ github.actor }}
-      sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
       upload-artifact: false
       pom-file-path: paas-mediation-integration-tests/pom.xml
-    secrets:
-      sonar-token: ${{ secrets.SONAR_TOKEN }}    
