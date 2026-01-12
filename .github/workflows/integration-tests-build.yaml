@@ -4,10 +4,12 @@ on:
   push:
     paths:
       - 'paas-mediation-integration-tests/**'
+      - '.github/integration-tests-build.yaml'
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
       - 'paas-mediation-integration-tests/**'
+      - '.github/integration-tests-build.yaml'
 
 permissions:
   contents: read
