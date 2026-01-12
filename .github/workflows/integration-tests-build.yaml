@@ -52,3 +52,4 @@ jobs:
       actor: ${{ github.actor }}
       upload-artifact: false
       pom-file-path: paas-mediation-integration-tests/pom.xml
+      dry-run: true
