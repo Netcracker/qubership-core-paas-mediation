@@ -15,7 +15,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go/v3 v3.3.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.68.0
+	github.com/valyala/fasthttp v1.69.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.48.0
 	k8s.io/api v0.33.5
@@ -70,7 +70,7 @@ require (
 	github.com/hashicorp/serf v0.10.2 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.18.1 // indirect
+	github.com/klauspost/compress v1.18.2 // indirect
 	github.com/knadh/koanf/maps v0.1.2 // indirect
 	github.com/knadh/koanf/parsers/yaml v1.0.0 // indirect
 	github.com/knadh/koanf/providers/env v1.1.0 // indirect
