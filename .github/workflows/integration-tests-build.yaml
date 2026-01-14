@@ -51,5 +51,5 @@ jobs:
       event-name: ${{ github.event_name }}
       actor: ${{ github.actor }}
       upload-artifact: false
-      pom-file-path: paas-mediation-integration-tests/pom.xml
+      pom-file-path: integration-tests/pom.xml
       dry-run: true
