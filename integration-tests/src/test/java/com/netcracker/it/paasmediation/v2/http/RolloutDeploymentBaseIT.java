@@ -39,11 +39,11 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
 
             assertEquals(firstReplicaSetName, responseReplicas.getActive(), "ReplicaSet differ from the response");
             assertEquals(secondReplicaSetName, responseReplicas.getRolling(), "ReplicaSet differ from the response");
-        } catch (Exception e) {
-            log.error("Error in checkRestartDeployment", e);
         } finally {
-            kubernetesClient.apps().deployments().withName(createdDeploymentName).delete();
-            assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
+            if (createdDeploymentName != null) {
+                kubernetesClient.apps().deployments().withName(createdDeploymentName).delete();
+                assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
+            }
         }
     }
 
@@ -83,10 +83,14 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
             assertTrue(validateReplicasFunc.apply(firstReplicaSetName1, secondReplicaSetName1), "ReplicaSet differ from the response");
             assertTrue(validateReplicasFunc.apply(firstReplicaSetName2, secondReplicaSetName2), "ReplicaSet differ from the response");
         } finally {
-            kubernetesClient.apps().deployments().withName(createdDeploymentName1).delete();
-            kubernetesClient.apps().deployments().withName(createdDeploymentName2).delete();
-            assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
-            assertNull(kubernetesClient.apps().deployments().withName(deploymentName2).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
+            if (createdDeploymentName1 != null) {
+                kubernetesClient.apps().deployments().withName(createdDeploymentName1).delete();
+                assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
+            }
+            if (createdDeploymentName2 != null) {
+                kubernetesClient.apps().deployments().withName(createdDeploymentName2).delete();
+                assertNull(kubernetesClient.apps().deployments().withName(deploymentName2).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
+            }
         }
     }
 }
