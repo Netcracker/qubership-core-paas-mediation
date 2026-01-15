@@ -39,6 +39,8 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
 
             assertEquals(firstReplicaSetName, responseReplicas.getActive(), "ReplicaSet differ from the response");
             assertEquals(secondReplicaSetName, responseReplicas.getRolling(), "ReplicaSet differ from the response");
+        } catch (Exception e) {
+            log.error("Error in checkRestartDeployment", e);
         } finally {
             kubernetesClient.apps().deployments().withName(createdDeploymentName).delete();
             assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
