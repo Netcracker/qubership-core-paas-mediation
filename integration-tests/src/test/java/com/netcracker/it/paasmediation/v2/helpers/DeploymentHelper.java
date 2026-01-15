@@ -50,7 +50,7 @@ public class DeploymentHelper {
     public String createDeployment(String name, String image) throws Exception {
         Deployment deployment = getDeploymentContentFromTemplate(name, image);
         String createdDeployment = kubernetesClient.apps().deployments().resource(deployment).create().getMetadata().getName();
-        kubernetesClient.apps().deployments().withName(createdDeployment).waitUntilReady(1, TimeUnit.MINUTES);
+        kubernetesClient.apps().deployments().withName(createdDeployment).waitUntilReady(3, TimeUnit.MINUTES);
         log.info("Successful created deployment={}", createdDeployment);
         return createdDeployment;
     }
