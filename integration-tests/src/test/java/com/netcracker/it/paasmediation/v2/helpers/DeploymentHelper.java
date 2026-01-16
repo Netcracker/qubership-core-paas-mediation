@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class DeploymentHelper {
 
-    public static final int WAIT_FOR_DEPLOYMENT_CREATION_MIN = 3;
+    public static final int WAIT_FOR_DEPLOYMENT_CREATION_MIN = 5;
     private final PaasUtils paasUtils;
     private final KubernetesClient kubernetesClient;
     private final PaasMediationUtils paasMediationUtils;

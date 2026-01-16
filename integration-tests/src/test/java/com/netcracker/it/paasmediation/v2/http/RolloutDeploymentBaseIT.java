@@ -60,7 +60,7 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
             String firstReplicaSetName1 = deploymentHelper.getLatestReplicaSet(deploymentName1).getMetadata().getName();
             log.info("Last replicaSet={} from deployment={}", firstReplicaSetName1, deploymentName1);
 
-            log.debug("Start create deployment {}", deploymentName1);
+            log.debug("Start create deployment {}", deploymentName2);
             createdDeploymentName2 = deploymentHelper.createDeployment(deploymentName2, deploymentImage);
 
             String firstReplicaSetName2 = deploymentHelper.getLatestReplicaSet(deploymentName2).getMetadata().getName();
