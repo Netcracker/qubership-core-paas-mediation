@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Check for open PR
         id: pr
-        uses: Netcracker/qubership-core-infra/.github/actions/check-open-pr@v1.3.0
+        uses: Netcracker/qubership-core-infra/.github/actions/check-open-pr@v1.3.2
 
       - name: Explain routing decision
         if: ${{ github.event_name == 'push' && steps.pr.outputs.hasOpenPr == 'true' }}
@@ -45,7 +45,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
           
   mvn:
-    uses: netcracker/qubership-core-infra/.github/workflows/maven-build-with-sonar.yaml@v1.3.0
+    uses: netcracker/qubership-core-infra/.github/workflows/maven-build-with-sonar.yaml@v1.3.2
     if: ${{ !(github.event_name == 'push' && needs.check-pr.outputs.hasOpenPr == 'true') }}    
     with:
       event-name: ${{ github.event_name }}
