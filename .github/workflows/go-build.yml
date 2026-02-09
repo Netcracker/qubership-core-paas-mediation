@@ -8,12 +8,12 @@ run-name: >
 
 on:
   push:
-    paths:
-      - '!paas-mediation-integration-tests/**'
+    paths-ignore:
+      - 'paas-mediation-integration-tests/**'
   pull_request:
     types: [ opened, synchronize, reopened ]
-    paths:
-      - '!paas-mediation-integration-tests/**'
+    paths-ignore:
+      - 'paas-mediation-integration-tests/**'
 
 jobs:
   build-go-service:
