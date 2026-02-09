@@ -8,6 +8,9 @@ import (
 	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
 	// swagger docs
 	_ "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/docs"
+
+	// memlimit sets memory limit = 0.9 of cgroup memory limit
+	_ "github.com/netcracker/qubership-core-lib-go/v3/memlimit"
 )
 
 // @title           			Paas Mediation API
