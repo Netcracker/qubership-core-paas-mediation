@@ -2,7 +2,6 @@ package lib
 
 import (
 	"context"
-	"runtime/debug"
 
 	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
 	"github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/server"
@@ -15,7 +14,6 @@ import (
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
 	apiV2 "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller/v2"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/utils"
-	"k8s.io/apimachinery/pkg/api/resource"
 )
 
 var (
@@ -35,12 +33,6 @@ func RunServer() {
 	configloader.InitWithSourcesArray(append(propertySources, consulPS))
 	consul.StartWatchingForPropertiesWithRetry(context.Background(), consulPS, func(event interface{}, err error) {})
 	logger = logging.GetLogger("main")
-
-	// need to set soft memory limit based on what was passed to k8s container
-	memoryLimit := utils.GetMemoryLimit()
-	memoryLimit = resource.NewQuantity(memoryLimit.Value()*9/10, memoryLimit.Format)
-	logger.Info("Setting memoryLimit to: %s", memoryLimit.String())
-	debug.SetMemoryLimit(memoryLimit.Value())
 
 	platformClientBuilder := service.NewPlatformClientBuilder().WithWatchClientTimeout(utils.GetWatchClientTimeout()).
 		WithBasicCaches().WithCacheSettings(utils.GetCacheSettings())
