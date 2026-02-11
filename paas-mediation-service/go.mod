@@ -1,6 +1,6 @@
 module github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2
 
-go 1.25.7
+go 1.26.0
 
 require (
 	github.com/fasthttp/websocket v1.5.12
@@ -8,20 +8,20 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.11
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.3.0
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.3.0
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.3.0
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.2.0
-	github.com/netcracker/qubership-core-lib-go/v3 v3.4.0
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.4.0
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.4.0
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.4.0
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.3.0
+	github.com/netcracker/qubership-core-lib-go/v3 v3.5.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.69.0
 	go.uber.org/mock v0.6.0
-	golang.org/x/net v0.48.0
-	k8s.io/api v0.33.5
-	k8s.io/apimachinery v0.33.5
-	k8s.io/client-go v0.33.5
-	sigs.k8s.io/gateway-api v1.1.0
+	golang.org/x/net v0.50.0
+	k8s.io/api v0.35.1
+	k8s.io/apimachinery v0.35.1
+	k8s.io/client-go v0.35.1
+	sigs.k8s.io/gateway-api v1.4.1
 )
 
 require (
