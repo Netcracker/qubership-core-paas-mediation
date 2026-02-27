@@ -2,6 +2,8 @@ name: Integration tests build
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'paas-mediation-integration-tests/**'
       - '.github/workflows/integration-tests-build.yaml'
@@ -21,35 +23,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-pr:
-    name: Check is PR exists
-    runs-on: ubuntu-latest
-    outputs:
-      hasOpenPr: ${{ steps.pr.outputs.hasOpenPr }}
-    steps:
-      - name: Check for open PR
-        id: pr
-        uses: Netcracker/qubership-core-infra/.github/actions/check-open-pr@v1.3.3
-
-      - name: Explain routing decision
-        if: ${{ github.event_name == 'push' && steps.pr.outputs.hasOpenPr == 'true' }}
-        run: |
-          {
-            echo "### Router decision"
-            echo ""
-            echo "- Event: \`${{ github.event_name }}\`"
-            echo "- Branch: \`${{ github.head_ref || github.ref_name }}\`"
-            echo "- Open PR detected: **yes**"
-            echo ""
-            echo "Work is delegated to the PR workflow. Skip next steps."
-          } >> "$GITHUB_STEP_SUMMARY"
-          
-  mvn:
-    uses: netcracker/qubership-core-infra/.github/workflows/maven-build-with-sonar.yaml@v1.3.3
-    if: ${{ !(github.event_name == 'push' && needs.check-pr.outputs.hasOpenPr == 'true') }}    
+  build:
+    name: Build integration tests
+    uses: Netcracker/qubership-core-infra/.github/workflows/generic-maven-build.yaml@v2.1.0
     with:
-      event-name: ${{ github.event_name }}
-      actor: ${{ github.actor }}
-      upload-artifact: false
-      pom-file-path: integration-tests/pom.xml
-      dry-run: true
+      pom-file: 'integration-tests/pom.xml'
+      dry-run: 'true'
+      upload-artifact: 'false'
+      sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
+    secrets: inherit
