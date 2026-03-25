@@ -80,7 +80,7 @@ func (contr *WsController) WatchRollout(c *fiber.Ctx) error {
 	return contr.establishWebSocket("rollout", c, func(ctx context.Context, namespace string, filter filter.Meta) (*watch.Handler, error) {
 		replicasMap, err := parseFilterParamFromRollout(queryArgs, "replicas")
 		if err != nil {
-			logger.ErrorC(ctx, "Error while Parsing parameters", err)
+			logger.ErrorC(ctx, "Error while Parsing parameters %v", err)
 			return nil, err
 		}
 		return contr.Platform.WatchPodsRestarting(ctx, namespace, filter, replicasMap)

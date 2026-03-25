@@ -312,7 +312,7 @@ func extractVersionsFromConfigMap(ctx context.Context, versionsMap *entity.Confi
 				dtFormatted := strings.ReplaceAll(deployTime, constants.Dash, constants.Dot)
 				deployTimeParsed, err := time.Parse(constants.DateFormat, dtFormatted)
 				if err != nil {
-					logger.WarnC(ctx, "failed to parse time '%s', err: %w, skipping", deployTime, err)
+					logger.WarnC(ctx, "failed to parse time '%s', err: %v, skipping", deployTime, err)
 					continue
 				}
 				if appData, ok := versions[appName]; !ok {

@@ -63,7 +63,7 @@ func InitFiber(ctx context.Context, platformService paasMediation.PlatformServic
 	// logging
 	app.Use(fiberLogger.New(fiberLogger.Config{
 		Done: func(c *fiber.Ctx, logString []byte) {
-			logger.DebugC(c.UserContext(), string(logString))
+			logger.DebugC(c.UserContext(), "%s", string(logString))
 		},
 		Format: "Processed request: pid=${pid} source=${ip}:${port} latency=${latency}\n" +
 			"${method} ${url}\n" +
