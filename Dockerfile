@@ -1,11 +1,11 @@
-FROM golang:1.26 AS build
+FROM --platform=$BUILDPLATFORM golang:1.26 AS build
 
 WORKDIR /app
 
 COPY paas-mediation-service/ .
 
 RUN go mod download
-RUN go build -o paas-mediation-service .
+RUN CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -o paas-mediation-service .
 
 FROM ghcr.io/netcracker/qubership-core-base:2.2.6 AS run
 
