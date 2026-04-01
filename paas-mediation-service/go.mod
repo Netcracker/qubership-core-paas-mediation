@@ -8,8 +8,8 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.12
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.5.3
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.3
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.5.4
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.4
 	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260401122547-ff9d5645db8d
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.4.4
 	github.com/netcracker/qubership-core-lib-go/v3 v3.7.3
@@ -18,10 +18,10 @@ require (
 	github.com/valyala/fasthttp v1.69.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.52.0
-	k8s.io/api v0.35.2
-	k8s.io/apimachinery v0.35.2
-	k8s.io/client-go v0.35.2
-	sigs.k8s.io/gateway-api v1.5.0
+	k8s.io/api v0.35.3
+	k8s.io/apimachinery v0.35.3
+	k8s.io/client-go v0.35.3
+	sigs.k8s.io/gateway-api v1.5.1
 )
 
 require (
@@ -86,7 +86,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.5.4 // indirect
-	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.4.1 // indirect
+	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.4.2 // indirect
 	github.com/openshift/api v0.0.0-20260401014341-80fcf457ee87 // indirect
 	github.com/openshift/client-go v0.0.0-20260330134249-7e1499aaacd7 // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
