@@ -10,7 +10,7 @@ require (
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.5.4
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.4
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260401122547-ff9d5645db8d
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260402084111-11c620495040
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.4.4
 	github.com/netcracker/qubership-core-lib-go/v3 v3.7.3
 	github.com/stretchr/testify v1.11.1
@@ -31,7 +31,7 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/avast/retry-go/v4 v4.7.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/cert-manager/cert-manager v1.19.4 // indirect
+	github.com/cert-manager/cert-manager v1.20.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dgraph-io/ristretto/v2 v2.4.0 // indirect
@@ -55,7 +55,7 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/gofiber/adaptor/v2 v2.2.1 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
-	github.com/google/gnostic-models v0.7.0 // indirect
+	github.com/google/gnostic-models v0.7.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/consul/api v1.33.5 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
@@ -115,7 +115,7 @@ require (
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
 	golang.org/x/mod v0.34.0 // indirect
-	golang.org/x/oauth2 v0.34.0 // indirect
+	golang.org/x/oauth2 v0.35.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/term v0.41.0 // indirect
@@ -127,9 +127,9 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apiextensions-apiserver v0.35.2 // indirect
-	k8s.io/klog/v2 v2.130.1 // indirect
-	k8s.io/kube-openapi v0.0.0-20250910181357-589584f1c912 // indirect
-	k8s.io/utils v0.0.0-20260108192941-914a6e750570 // indirect
+	k8s.io/klog/v2 v2.140.0 // indirect
+	k8s.io/kube-openapi v0.0.0-20260127142750-a19766b6e2d4 // indirect
+	k8s.io/utils v0.0.0-20260210185600-b8788abfbbc2 // indirect
 	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.2 // indirect
