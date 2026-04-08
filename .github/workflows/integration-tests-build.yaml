@@ -25,7 +25,7 @@ concurrency:
 jobs:
   build:
     name: Build integration tests
-    uses: Netcracker/qubership-core-infra/.github/workflows/generic-maven-build.yaml@v2.3.0
+    uses: Netcracker/qubership-core-infra/.github/workflows/generic-maven-build.yaml@v2.4.0
     with:
       pom-file: 'integration-tests/pom.xml'
       dry-run: true
