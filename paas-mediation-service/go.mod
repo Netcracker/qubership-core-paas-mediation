@@ -10,7 +10,7 @@ require (
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.5.4
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.4
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260408134515-725c0e1d20e3
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260409084324-32bd5b8519aa
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.4.4
 	github.com/netcracker/qubership-core-lib-go/v3 v3.7.3
 	github.com/stretchr/testify v1.11.1
@@ -87,7 +87,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.5.4 // indirect
 	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.4.2 // indirect
-	github.com/openshift/api v0.0.0-20260408103927-9ed1def81b09 // indirect
+	github.com/openshift/api v0.0.0-20260408160412-464776f95207 // indirect
 	github.com/openshift/client-go v0.0.0-20260330134249-7e1499aaacd7 // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
