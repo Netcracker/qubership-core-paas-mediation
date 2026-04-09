@@ -302,8 +302,8 @@ github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.4.2 h1:D9JIw161
 github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.4.2/go.mod h1:tq2t5XjPQYsEbMT+7IveK8Da6DU5X9ckm1OOhUOXV+s=
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.4 h1:0IqvuWNNpp0RXVuBxbaEi994gi4pSKRDGD+VGFSVirs=
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.4/go.mod h1:RAFGNpFDBwpw4nXUSRhQZ4bKfqaZson6//yoIINL1EA=
-github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260408132519-86389a2f0d26 h1:NH0rcVmvOBMsyybjAATtVREbuu943VJovazdXqV0WAo=
-github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260408132519-86389a2f0d26/go.mod h1:HHLMdZfIGhjOltzgDIyy0Ioe1eDrCCjudlEnE4ECfdM=
+github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260408134515-725c0e1d20e3 h1:eOV+d57tH3Q+vQry1loflKhtM4zoNVsOub9gMiAJbd8=
+github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.5.5-0.20260408134515-725c0e1d20e3/go.mod h1:hiqFpD73/U96OyXL30bN0UkT9BgXi5z4EfUKZ7jVZmU=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.4.4 h1:/geyL2wbYArgz4qNOz5V7NKyDP1Kf5Y8xqPVGjCCbaw=
 github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.4.4/go.mod h1:6zaf/VTC88lj+68UElf2jEhyUE2KHmtQ765XKVH0zmA=
 github.com/netcracker/qubership-core-lib-go/v3 v3.7.3 h1:getPT9H0ScPmqzjGWsdMmGCH0PoAgcK6R3YBRKuCv0A=
@@ -316,8 +316,8 @@ github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8
 github.com/opencontainers/go-digest v1.0.0/go.mod h1:0JzlMkj0TRzQZfJkVvzbP0HBR3IKzErnv2BNG4W4MAM=
 github.com/opencontainers/image-spec v1.1.1 h1:y0fUlFfIZhPF1W537XOLg0/fcx6zcHCJwooC2xJA040=
 github.com/opencontainers/image-spec v1.1.1/go.mod h1:qpqAh3Dmcf36wStyyWU+kCeDgrGnAve2nCC8+7h8Q0M=
-github.com/openshift/api v0.0.0-20260407211144-d87d63a5dc82 h1:N3id5ZND6fDuYLvanhjgbGU4Hs82g6/oXSHA4YCMJNc=
-github.com/openshift/api v0.0.0-20260407211144-d87d63a5dc82/go.mod h1:pyVjK0nZ4sRs4fuQVQ4rubsJdahI1PB94LnQ8sGdvxo=
+github.com/openshift/api v0.0.0-20260408103927-9ed1def81b09 h1:xS1GLqD5JofDfYckjlKIID7WHrappvfiyTNLFA5NrRI=
+github.com/openshift/api v0.0.0-20260408103927-9ed1def81b09/go.mod h1:pyVjK0nZ4sRs4fuQVQ4rubsJdahI1PB94LnQ8sGdvxo=
 github.com/openshift/client-go v0.0.0-20260330134249-7e1499aaacd7 h1:5GSoQlywIwYsRCw3qN+ZDmN6HrXTMZfI33bdRNm2jRQ=
 github.com/openshift/client-go v0.0.0-20260330134249-7e1499aaacd7/go.mod h1:HhXTUIMhgzxR3Ln/zEkr4QjTL0NN7A+t9Py/we9j2ug=
 github.com/openzipkin/zipkin-go v0.4.3 h1:9EGwpqkgnwdEIJ+Od7QVSEIH+ocmm5nPat0G7sjsSdg=
