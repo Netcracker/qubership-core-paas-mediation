@@ -1,4 +1,5 @@
 {{- if eq .Values.SERVICE_MESH_TYPE "Istio" }}
+# Private routes
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -14,9 +15,9 @@ spec:
     - name: {{ .Values.ISTIO_PRIVATE_GATEWAY_NAME }}
   rules:
     - matches:
-      - path:
-          type: PathPrefix
-          value: "/api/v2/{{ .Values.SERVICE_NAME }}/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
+        - path:
+            type: PathPrefix
+            value: "/api/v2/{{ .Values.SERVICE_NAME }}/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -27,9 +28,9 @@ spec:
         - name: {{ .Values.SERVICE_NAME }}
           port: 8080
     - matches:
-      - path:
-          type: PathPrefix
-          value: "/api/v2/{{ .Values.SERVICE_NAME }}/versions"
+        - path:
+            type: PathPrefix
+            value: "/api/v2/{{ .Values.SERVICE_NAME }}/versions"
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -39,7 +40,9 @@ spec:
       backendRefs:
         - name: {{ .Values.SERVICE_NAME }}
           port: 8080
+
 ---
+# Internal routes
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -56,9 +59,9 @@ spec:
       name: {{ .Values.INTERNAL_SERVICE_NAME }}
   rules:
     - matches:
-      - path:
-          type: PathPrefix
-          value: "/watchapi/v2/{{ .Values.SERVICE_NAME }}"
+        - path:
+            type: PathPrefix
+            value: "/watchapi/v2/{{ .Values.SERVICE_NAME }}"
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -69,9 +72,9 @@ spec:
         - name: {{ .Values.SERVICE_NAME }}
           port: 8080
     - matches:
-      - path:
-          type: PathPrefix
-          value: "/api/v2/{{ .Values.SERVICE_NAME }}"
+        - path:
+            type: PathPrefix
+            value: "/api/v2/{{ .Values.SERVICE_NAME }}"
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -82,9 +85,9 @@ spec:
         - name: {{ .Values.SERVICE_NAME }}
           port: 8080
     - matches:
-      - path:
-          type: PathPrefix
-          value: "/api/v2/{{ .Values.SERVICE_NAME }}/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
+        - path:
+            type: PathPrefix
+            value: "/api/v2/{{ .Values.SERVICE_NAME }}/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -95,9 +98,9 @@ spec:
         - name: {{ .Values.SERVICE_NAME }}
           port: 8080
     - matches:
-      - path:
-          type: PathPrefix
-          value: "/api/v2/{{ .Values.SERVICE_NAME }}/versions"
+        - path:
+            type: PathPrefix
+            value: "/api/v2/{{ .Values.SERVICE_NAME }}/versions"
       filters:
         - type: URLRewrite
           urlRewrite:
