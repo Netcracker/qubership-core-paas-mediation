@@ -7,30 +7,31 @@ import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 public class PaasMediationUtils {
     private static final MediaType JSON = MediaType.parse("application/json");
     private final ObjectMapper objectMapper;
-    private String internalGateway;
-    private OkHttpClient okHttpClient;
-    private String apiVersion;
+    private final String internalGateway;
+    private final String apiVersion;
+    private final RequestExecutor requestExecutor;
 
-    public PaasMediationUtils(String apiVersion, String internalGateway, OkHttpClient okHttpClient, ObjectMapper objectMapper) {
+    public PaasMediationUtils(String apiVersion, String internalGateway, RequestExecutor requestExecutor, ObjectMapper objectMapper) {
         this.apiVersion = apiVersion;
         this.internalGateway = internalGateway;
-        this.okHttpClient = okHttpClient;
+        this.requestExecutor = requestExecutor;
         this.objectMapper = objectMapper;
     }
 
     public <T> T doRequest(Request request, int expectStatus, Class<T> clazz) throws IOException {
-        try (Response response = doRequest(request)) {
-            String respBody = response.body().string();
+        try (Response response = requestExecutor.execute(request)) {
+            String respBody = response.body() != null ? response.body().string() : "";
             log.info("Response: {}, body {}", response, respBody);
             assertEquals(expectStatus, response.code());
             if (clazz == null) {
@@ -41,7 +42,7 @@ public class PaasMediationUtils {
     }
 
     public Response doRequest(Request request) throws IOException {
-        return okHttpClient.newCall(request).execute();
+        return requestExecutor.execute(request);
     }
 
     private Response doRequestWithRetry(Request request, int expectStatus, int retryAmount) {
@@ -77,7 +78,7 @@ public class PaasMediationUtils {
                 return null;
             }
             assertEquals(expectStatus, response.code());
-            String respBody = response.body().string();
+            String respBody = response.body() != null ? response.body().string() : "";
             return objectMapper.readValue(respBody, clazz);
         }
     }
@@ -104,13 +105,10 @@ public class PaasMediationUtils {
             body = RequestBody.create(toJson, JSON);
         }
         return new Request.Builder()
-                .url(internalGateway
-                        + path
-                        + (!StringUtils.isEmpty(paramString) ? "?" + paramString : ""))
+                .url(internalGateway + path + (!StringUtils.isEmpty(paramString) ? "?" + paramString : ""))
                 .method(httpMethod, body)
                 .build();
     }
-
 
     private String buildEndpoint(String resource, String name, String namespace) {
         String url = !StringUtils.isEmpty(namespace) ?
@@ -126,19 +124,15 @@ public class PaasMediationUtils {
         NAMESPACES("namespaces"), PODS("pods"), DEPLOYMENTS("deployments"),
         ROLLOUT("rollout"), ROLLOUT_STATUS("rollout-status"), ANNOTATIONS("annotations");
 
-        private String value;
-
-        public String getValue() {
-            return value;
-        }
+        private final String value;
 
         Resources(String s) {
             this.value = s;
         }
-    }
 
-    public WebSocket websocketConnect(WebSocketListener webSocketListener, Request request) {
-        return okHttpClient.newWebSocket(request, webSocketListener);
+        public String getValue() {
+            return value;
+        }
     }
 
     public Request createWsRequest(Resources resource, String namespace) {
@@ -148,10 +142,21 @@ public class PaasMediationUtils {
     public Request createWsRequest(Resources resource, String namespace, PaasRequestFilter filter) {
         String wsUrl = buildWsEndpoint(resource.toString().toLowerCase(), namespace, filter);
         String id = "paas-mediation-it-test-" + UUID.randomUUID().toString().substring(24);
-        log.debug("wsUrl={} X-Request-Id={}", wsUrl, id);
-        return new Request.Builder().url(wsUrl)
+        log.debug("WebSocket URL built: {}", wsUrl);
+        log.debug("X-Request-Id: {}", id);
+        
+        String secWebSocketKey = Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes());
+        
+        Request request = new Request.Builder()
+                .url(wsUrl)
                 .header("X-Request-Id", id)
+                .header("Connection", "Upgrade")
+                .header("Upgrade", "websocket")
+                .header("Sec-WebSocket-Key", secWebSocketKey)
+                .header("Sec-WebSocket-Version", "13")
                 .build();
+        log.debug("After build wsUrl={}", request.url()); 
+        return request;
     }
 
     public Request createWsRequest(String wsUrl) {
@@ -159,17 +164,29 @@ public class PaasMediationUtils {
     }
 
     private String buildWsEndpoint(String resource, String namespace, PaasRequestFilter filter) {
-        String url = internalGateway.replace("http", "ws") + String.format("watchapi/%s/paas-mediation", apiVersion);
-        url += StringUtils.isEmpty(namespace) ? String.format("/%s", resource) : String.format("/namespaces/%s/%s", namespace, resource);
+        String base = internalGateway;
+        if (base.endsWith("/")) {
+            base = base.substring(0, base.length() - 1);
+        }
+        
+        String wsBase = base.replace("http://", "ws://").replace("https://", "wss://");
+        
+        String url = String.format("%s/watchapi/%s/paas-mediation", wsBase, apiVersion);
+        url += StringUtils.isEmpty(namespace) ? 
+                String.format("/%s", resource) : 
+                String.format("/namespaces/%s/%s", namespace, resource);
+        
         String query = "";
         String annotations = getFilterParam("annotations", filter.getAnnotations());
         query = addParamToQuery(query, annotations);
         String labels = getFilterParam("labels", filter.getLabels());
         query = addParamToQuery(query, labels);
+        
         if (query.length() > 0) {
             url += "?" + query;
         }
-        log.info("watch url was built {}", url);
+        
+        log.info("WebSocket URL built: {}", url);
         return url;
     }
 
@@ -197,5 +214,4 @@ public class PaasMediationUtils {
             return "";
         }
     }
-
 }

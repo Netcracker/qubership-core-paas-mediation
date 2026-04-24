@@ -27,3 +27,7 @@ CONSUL_URL: ''
 CORE_PAAS_MEDIATION_GW_API_ENABLED: false
 
 K8S_SERVICE_TYPE: 'HEADLESS'
+
+ISTIO_PRIVATE_GATEWAY_NAME: 'private-gateway'
+INTERNAL_SERVICE_NAME: "internal-gateway-service"
+SERVICE_MESH_TYPE: 'Core' # Options: Core, Istio

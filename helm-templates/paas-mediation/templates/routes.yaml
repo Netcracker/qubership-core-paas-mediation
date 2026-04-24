@@ -1,0 +1,116 @@
+{{- if eq .Values.SERVICE_MESH_TYPE "Istio" }}
+# Private routes
+{{ $ServiceName := .Values.SERVICE_NAME }}
+{{ $ServiceName := eq .Values.K8S_SERVICE_TYPE "HEADLESS" | ternary (printf "%s-clusterip" $ServiceName) $ServiceName }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: '{{ .Values.SERVICE_NAME }}-private-routes'
+  labels:
+    app.kubernetes.io/name: '{{ .Values.SERVICE_NAME }}-private-routes'
+    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
+    app.kubernetes.io/component: gateway-routes
+    app.kubernetes.io/part-of: {{ .Values.SERVICE_NAME }}
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: {{ .Values.ISTIO_PRIVATE_GATEWAY_NAME }}
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: "/api/v2/{{ .Values.SERVICE_NAME }}/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: "/api/v2/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
+      backendRefs:
+        - name: {{ .Values.SERVICE_NAME }}
+          port: 8080
+    - matches:
+      - path:
+          type: PathPrefix
+          value: "/api/v2/{{ .Values.SERVICE_NAME }}/versions"
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: "/api/v2/namespaces/{{ .Values.NAMESPACE }}/configmaps/versions"
+      backendRefs:
+        - name: {{ .Values.SERVICE_NAME }}
+          port: 8080
+---
+# Internal routes
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: '{{ .Values.SERVICE_NAME }}-internal-routes'
+  labels:
+    app.kubernetes.io/name: '{{ .Values.SERVICE_NAME }}-internal-routes'
+    app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
+    app.kubernetes.io/component: gateway-routes
+    app.kubernetes.io/part-of: {{ .Values.SERVICE_NAME }}
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - kind: Service
+      name: {{ .Values.INTERNAL_SERVICE_NAME }}
+      group: ""
+      port: 8080
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: "/watchapi/v2/{{ .Values.SERVICE_NAME }}"
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: "/watchapi/v2"
+      backendRefs:
+        - name: {{ $ServiceName }}
+          port: 8080
+    - matches:
+      - path:
+          type: PathPrefix
+          value: "/api/v2/{{ .Values.SERVICE_NAME }}"
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: "/api/v2/"
+      backendRefs:
+        - name: {{ $ServiceName }}
+          port: 8080
+    - matches:
+      - path:
+          type: PathPrefix
+          value: "/api/v2/{{ .Values.SERVICE_NAME }}/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: "/api/v2/namespaces/{{ .Values.NAMESPACE }}/configmaps/bg-version"
+      backendRefs:
+        - name: {{ $ServiceName }}
+          port: 8080
+    - matches:
+      - path:
+          type: PathPrefix
+          value: "/api/v2/{{ .Values.SERVICE_NAME }}/versions"
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: "/api/v2/namespaces/{{ .Values.NAMESPACE }}/configmaps/versions"
+      backendRefs:
+        - name: {{ $ServiceName }}
+          port: 8080
+{{- end }}
