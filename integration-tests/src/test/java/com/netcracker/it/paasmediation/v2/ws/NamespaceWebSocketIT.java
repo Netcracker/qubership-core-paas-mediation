@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Tag("watch")
+@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class NamespaceWebSocketIT extends PaasMediationParentV2Test {
 
     private WSListener wsListener;

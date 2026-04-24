@@ -6,10 +6,7 @@ import com.netcracker.it.paasmediation.v2.domain.DeploymentRolloutWSResponse;
 import com.netcracker.it.paasmediation.v2.http.AbstractRolloutDeployment;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Tag("watch")
+@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class RolloutDeploymentWebSocketIT extends AbstractRolloutDeployment {
 
     protected WSListener webSocketListener;

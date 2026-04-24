@@ -6,16 +6,18 @@ import com.netcracker.it.paasmediation.v2.domain.MediationConfigMap;
 import com.netcracker.it.paasmediation.v2.helpers.ConfigMapHelper;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Request;
+import okhttp3.*;
 import org.junit.jupiter.api.*;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Slf4j
 @Tag("watch")
+@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class ConfigMapWebSocketIT extends ConfigMapHelper {
 
     private WSListener wsListener;
@@ -37,13 +39,18 @@ public class ConfigMapWebSocketIT extends ConfigMapHelper {
 
     @BeforeAll
     void connect() throws Exception {
+        OkHttpClient client = new OkHttpClient.Builder()
+        .readTimeout(0, TimeUnit.MILLISECONDS) // Важно для WebSocket
+        .build();
+ 
         Request request1 = paasMediationUtils.createWsRequest(PaasMediationUtils.Resources.CONFIGMAPS, namespace);
-        wsListener = new WSListener(okHttpClient, request1, onAddedWatcher, onDeletedWatcher);
+        
+        wsListener = new WSListener(client, request1, onAddedWatcher, onDeletedWatcher);
         wsListener.waitConnected(WAIT_WS_TIMEOUT, WAIT_WS_TIMEUNIT);
 
         PaasRequestFilter filter = new PaasRequestFilter().withLabel(label_2, label_2_val);
         Request request2 = paasMediationUtils.createWsRequest(PaasMediationUtils.Resources.CONFIGMAPS, namespace, filter);
-        wsListenerWithFilter = new WSListener(okHttpClient, request2, onAddedWatcherWithFilter, onDeletedWatcherWithFilter);
+        wsListenerWithFilter = new WSListener(client, request2, onAddedWatcherWithFilter, onDeletedWatcherWithFilter);
         wsListenerWithFilter.waitConnected(WAIT_WS_TIMEOUT, WAIT_WS_TIMEUNIT);
     }
 

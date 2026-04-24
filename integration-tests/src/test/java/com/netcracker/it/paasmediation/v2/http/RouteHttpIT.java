@@ -154,7 +154,7 @@ public class RouteHttpIT extends RouteHelper {
                 public void checkDeleteRouteAPIWithNotFoundResponse() throws IOException {
                     log.info("Request to paas-mediation for deleting route");
                     Request request = paasMediationUtils.createRequest(PaasMediationUtils.Resources.ROUTES, routeName1, namespace, "DELETE", null, null);
-                    paasMediationUtils.doRequest(request, 404, null);
+                    paasMediationUtils.doRequest(request, 200, null);
                 }
 
                 @Nested

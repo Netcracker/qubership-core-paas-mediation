@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Tag("watch")
+@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class RouteWebSocketIT extends RouteHelper {
 
     private WSListener wsListener;
@@ -114,5 +115,21 @@ public class RouteWebSocketIT extends RouteHelper {
                 Assertions.assertDoesNotThrow(() -> onDeletedWatcherWithFilter.waitMessagesReceived(WAIT_WS_TIMEOUT, WAIT_WS_TIMEUNIT));
             }
         }
+    }
+
+    @Test
+    public void verifyWebSocketUrl() {
+        Request request = paasMediationUtils.createWsRequest(PaasMediationUtils.Resources.SERVICES, namespace);
+        String url = request.url().toString();
+        
+        log.info("Generated WebSocket URL: {}", url);
+        
+        // Правильный URL должен быть:
+        // ws://internal-gateway-service.core-1-core.svc.cluster.local:8080/watchapi/v2/paas-mediation/namespaces/core-1-core/services
+        
+        Assertions.assertTrue(url.startsWith("ws://"), 
+            "URL should start with ws://, got: " + url);
+        Assertions.assertTrue(url.contains("/watchapi/"), 
+            "URL should contain /watchapi/, got: " + url);
     }
 }

@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Tag("watch")
+@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class ServiceWebSocketIT extends ServiceHelper {
 
     private WSListener wsListener;
