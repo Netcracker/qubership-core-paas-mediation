@@ -8,11 +8,11 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.13
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.6.0
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.5
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.6.0
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.5.0
-	github.com/netcracker/qubership-core-lib-go/v3 v3.8.0
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.6.1
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.5.6
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.6.1
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.5.1
+	github.com/netcracker/qubership-core-lib-go/v3 v3.8.1
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.69.0
@@ -31,7 +31,7 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/avast/retry-go/v4 v4.7.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/cert-manager/cert-manager v1.20.1 // indirect
+	github.com/cert-manager/cert-manager v1.20.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dgraph-io/ristretto/v2 v2.4.0 // indirect
@@ -57,7 +57,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/gnostic-models v0.7.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/hashicorp/consul/api v1.34.0 // indirect
+	github.com/hashicorp/consul/api v1.34.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
@@ -85,10 +85,10 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.5.5 // indirect
-	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.5.0 // indirect
-	github.com/openshift/api v0.0.0-20260408160412-464776f95207 // indirect
-	github.com/openshift/client-go v0.0.0-20260330134249-7e1499aaacd7 // indirect
+	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.5.6 // indirect
+	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.5.1 // indirect
+	github.com/openshift/api v0.0.0-20260424174501-4f63a40a2970 // indirect
+	github.com/openshift/client-go v0.0.0-20260428164731-4b85fc5b4e75 // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -114,14 +114,14 @@ require (
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
-	golang.org/x/mod v0.34.0 // indirect
+	golang.org/x/mod v0.35.0 // indirect
 	golang.org/x/oauth2 v0.35.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/term v0.41.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.42.0 // indirect
+	golang.org/x/tools v0.43.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
