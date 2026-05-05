@@ -142,21 +142,10 @@ public class PaasMediationUtils {
     public Request createWsRequest(Resources resource, String namespace, PaasRequestFilter filter) {
         String wsUrl = buildWsEndpoint(resource.toString().toLowerCase(), namespace, filter);
         String id = "paas-mediation-it-test-" + UUID.randomUUID().toString().substring(24);
-        log.debug("WebSocket URL built: {}", wsUrl);
-        log.debug("X-Request-Id: {}", id);
-        
-        String secWebSocketKey = Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes());
-        
-        Request request = new Request.Builder()
-                .url(wsUrl)
+        log.debug("wsUrl={} X-Request-Id={}", wsUrl, id);
+        return new Request.Builder().url(wsUrl)
                 .header("X-Request-Id", id)
-                .header("Connection", "Upgrade")
-                .header("Upgrade", "websocket")
-                .header("Sec-WebSocket-Key", secWebSocketKey)
-                .header("Sec-WebSocket-Version", "13")
                 .build();
-        log.debug("After build wsUrl={}", request.url()); 
-        return request;
     }
 
     public Request createWsRequest(String wsUrl) {

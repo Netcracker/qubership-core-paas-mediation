@@ -79,14 +79,6 @@ public class PaasUtils {
         }
     }
 
-    public String execInPodByLabel(String labelKey, String labelValue, String... command) throws Exception {
-        String podName = getPodNameByLabel(labelKey, labelValue);
-        if (podName == null) {
-            throw new RuntimeException(String.format("No pod found with label %s=%s", labelKey, labelValue));
-        }
-        return execInPod(podName, command);
-    }
-
     public Response doRequestFromInclusterPod(String podName, Request request) throws Exception {
         String curlCommand = buildCurlCommand(request);
         log.info("Executing curl from pod {}: {}", podName, curlCommand);
@@ -155,13 +147,6 @@ public class PaasUtils {
         return curlCommand;
     }
 
-    private String escapeForShell(String input) {
-        if (input == null) {
-            return "";
-        }
-        return input.replace("'", "'\\''");
-    }
-
     private Response parseCurlResponse(String output) throws IOException {
         if (output == null || output.isEmpty()) {
             throw new IOException("Empty response from pod");
@@ -224,24 +209,6 @@ public class PaasUtils {
             return reason.toString();
         }
         return "";
-    }
-
-    public <T> T doRequestFromInclusterPod(String podName, Request request, int expectStatus, Class<T> clazz)
-            throws Exception {
-        try (Response response = doRequestFromInclusterPod(podName, request)) {
-            String respBody = response.body() != null ? response.body().string() : "";
-            log.info("Response from incluster pod: status={}, body={}", response.code(), respBody);
-
-            if (response.code() != expectStatus) {
-                throw new AssertionError(String.format("Expected status %d but got %d. Body: %s",
-                        expectStatus, response.code(), respBody));
-            }
-
-            if (clazz == null) {
-                return null;
-            }
-            return objectMapper.readValue(respBody, clazz);
-        }
     }
 
     public void deleteIngress(String name) {
