@@ -122,7 +122,6 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
             paasMediationUtils.doRequest(request, 200, null);
         }
             
-        // WebSocket маршруты проверяем отдельно
         List<String> wsRoutes = expectedRoutes.get("internal").stream()
             .filter(route -> route.contains("watchapi/"))
             .collect(Collectors.toList());
