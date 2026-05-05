@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Tag("watch")
-@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class RolloutDeploymentWebSocketIT extends AbstractRolloutDeployment {
 
     protected WSListener webSocketListener;

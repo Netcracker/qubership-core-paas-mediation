@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Tag("watch")
-@Disabled("WebSocket logic for execution from in cluster pod is not implemented, skipping")
 public class ConfigMapWebSocketIT extends ConfigMapHelper {
 
     private WSListener wsListener;
@@ -40,7 +39,7 @@ public class ConfigMapWebSocketIT extends ConfigMapHelper {
     @BeforeAll
     void connect() throws Exception {
         OkHttpClient client = new OkHttpClient.Builder()
-        .readTimeout(0, TimeUnit.MILLISECONDS) // Важно для WebSocket
+        .readTimeout(0, TimeUnit.MILLISECONDS)  
         .build();
  
         Request request1 = paasMediationUtils.createWsRequest(PaasMediationUtils.Resources.CONFIGMAPS, namespace);
