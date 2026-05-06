@@ -42,6 +42,7 @@ public class PaasMediationParentV2Test extends PaasMediationParentTest {
         paasMediationUtils = new PaasMediationUtils(
             "v2", 
             internalGateway.toString(), 
+            privateGateway.toString(),
             executor, 
             objectMapper
         );
