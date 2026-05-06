@@ -195,19 +195,5 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
             assertTrue(body.contains("version"), "Response should contain version data");
             log.info("✅ bg-version ConfigMap accessible");
         }
-    }
-
-    private List<String> extractPathsFromRoutes(JsonNode routes) {
-        List<String> paths = new ArrayList<>();
-        if (routes.isArray()) {
-            for (JsonNode route : routes) {
-                String path = route.path("spec").path("path").asText();
-                if (!path.isEmpty()) {
-                    paths.add(path);
-                }
-            }
-        }
-        return paths;
-    }
-    
+    }    
 }

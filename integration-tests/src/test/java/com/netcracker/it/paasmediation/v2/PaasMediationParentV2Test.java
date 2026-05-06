@@ -31,9 +31,6 @@ public class PaasMediationParentV2Test extends PaasMediationParentTest {
         paasUtils = new PaasUtils(kubernetesClient);
         
         RequestExecutorFactory.init(okHttpClient, paasUtils);
-        
-        //RequestExecutorFactory.setMode(RequestExecutorFactory.ExecutionMode.PORT_FORWARD);
-        //RequestExecutorFactory.setMode(RequestExecutorFactory.ExecutionMode.EXEC_IN_POD);
 
         String mode = System.getProperty("executor.mode", "PORT_FORWARD");
         RequestExecutorFactory.setMode(RequestExecutorFactory.ExecutionMode.valueOf(mode));

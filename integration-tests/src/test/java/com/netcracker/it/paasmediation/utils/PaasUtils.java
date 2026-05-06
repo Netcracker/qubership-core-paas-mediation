@@ -1,6 +1,5 @@
 package com.netcracker.it.paasmediation.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.Secret;
@@ -8,21 +7,16 @@ import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.ReplicaSet;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
-import io.fabric8.kubernetes.api.model.networking.v1.IngressBuilder;
-import io.fabric8.kubernetes.api.model.StatusDetails;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.ExecWatch;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okio.Buffer;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -31,11 +25,9 @@ import java.util.stream.Collectors;
 public class PaasUtils {
 
     private final KubernetesClient kubernetesClient;
-    private final ObjectMapper objectMapper;
 
     public PaasUtils(KubernetesClient kubernetesClient) {
         this.kubernetesClient = kubernetesClient;
-        this.objectMapper = new ObjectMapper();
     }
 
     public String execInPod(String podName, String... command) throws Exception {
@@ -124,7 +116,7 @@ public class PaasUtils {
             }
             
             try {
-                okio.Buffer buffer = new okio.Buffer();
+                Buffer buffer = new Buffer();
                 body.writeTo(buffer);
                 String bodyString = buffer.readUtf8();
                 String escapedBody = bodyString.replace("'", "'\\''");
