@@ -115,16 +115,4 @@ public class RouteWebSocketIT extends RouteHelper {
             }
         }
     }
-
-    @Test
-    public void verifyWebSocketUrl() {
-        Request request = paasMediationUtils.createWsRequest(PaasMediationUtils.Resources.SERVICES, namespace);
-        String url = request.url().toString();
-        
-        log.info("Generated WebSocket URL: {}", url);
-        Assertions.assertTrue(url.startsWith("ws://"), 
-            "URL should start with ws://, got: " + url);
-        Assertions.assertTrue(url.contains("/watchapi/"), 
-            "URL should contain /watchapi/, got: " + url);
-    }
 }

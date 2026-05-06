@@ -7,7 +7,6 @@ import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,12 +18,14 @@ public class PaasMediationUtils {
     private static final MediaType JSON = MediaType.parse("application/json");
     private final ObjectMapper objectMapper;
     private final String internalGateway;
+    private final String privateGateway;
     private final String apiVersion;
     private final RequestExecutor requestExecutor;
 
-    public PaasMediationUtils(String apiVersion, String internalGateway, RequestExecutor requestExecutor, ObjectMapper objectMapper) {
+    public PaasMediationUtils(String apiVersion, String internalGateway, String privateGateway, RequestExecutor requestExecutor, ObjectMapper objectMapper) {
         this.apiVersion = apiVersion;
         this.internalGateway = internalGateway;
+        this.privateGateway = privateGateway;
         this.requestExecutor = requestExecutor;
         this.objectMapper = objectMapper;
     }
@@ -98,16 +99,24 @@ public class PaasMediationUtils {
                 .build();
     }
 
-    public Request createRequest(String path, String httpMethod, Object requestBody, String paramString) throws JsonProcessingException {
+    public Request createRequest(String url, String path, String httpMethod, Object requestBody, String paramString) throws JsonProcessingException {
         RequestBody body = null;
         if (requestBody != null) {
             String toJson = objectMapper.writeValueAsString(requestBody);
             body = RequestBody.create(toJson, JSON);
         }
         return new Request.Builder()
-                .url(internalGateway + path + (!StringUtils.isEmpty(paramString) ? "?" + paramString : ""))
+                .url(url + path + (!StringUtils.isEmpty(paramString) ? "?" + paramString : ""))
                 .method(httpMethod, body)
                 .build();
+    }
+
+    public Request createRequest(String path, String httpMethod, Object requestBody, String paramString) throws JsonProcessingException {
+        return createRequest(internalGateway.toString(), path, httpMethod, requestBody, paramString);
+    }
+
+    public Request createPrivateRequest(String path, String httpMethod, Object requestBody, String paramString) throws JsonProcessingException {
+        return createRequest(privateGateway.toString(), path, httpMethod, requestBody, paramString);
     }
 
     private String buildEndpoint(String resource, String name, String namespace) {

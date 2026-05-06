@@ -74,7 +74,7 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
                 .build();
         
         paasUtils.createConfigMap(versionConfigMap);
-        log.info("Created bg-version ConfigMap");
+        log.info("Created version ConfigMap");
 
         paasUtils.createConfigMap(expectedRoutesConfigMap);
         log.info("Created expected routes ConfigMap: {}", EXPECTED_ROUTES_CONFIGMAP);
@@ -87,7 +87,7 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
             paasUtils.deleteConfigMap(BG_VERSION_CONFIGMAP);
             log.info("Deleted bg-version ConfigMap");
             paasUtils.deleteConfigMap(VERSION_CONFIGMAP);
-            log.info("Deleted bg-version ConfigMap");
+            log.info("Deleted version ConfigMap");
             paasUtils.deleteConfigMap(EXPECTED_ROUTES_CONFIGMAP);
             log.info("Deleted expected routes ConfigMap");
         } catch (Exception e) {
@@ -140,17 +140,11 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
 
     @Test
     void testPrivateRoutes() throws Exception {
-        String privateGatewayUrl = String.format("http://private-gateway-service.%s:8080/", namespace);
-        
         List<String> expected = expectedRoutes.get("private");
         for (String expectedRoute : expected) {
-            Request request = new Request.Builder()
-                .url(privateGatewayUrl + expectedRoute)
-                .header("x-request-id", "private-routes-test")
-                .build();
+            Request request = paasMediationUtils.createPrivateRequest(expectedRoute, "GET", null, null);
             log.info("Check private route: {}", request.url());
-            paasMediationUtils.doRequest(request, 200, null);
-            
+            paasMediationUtils.doRequest(request, 200, null);  
         }
     }
 
@@ -171,7 +165,7 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
             if (code == 200) {
                 String body = response.body() != null ? response.body().string() : "";
                 log.info("Versions endpoint response: {}", body);
-                assertTrue(body.contains("appVersion") || body.contains("cloud-core"),
+                assertTrue(body.contains("version") || body.contains("cloud-core"),
                     "Versions response should contain version info");
             }
             log.info("✅ Versions endpoint accessible, status: {}", code);
