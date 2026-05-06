@@ -70,7 +70,7 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
                     .withName(VERSION_CONFIGMAP)
                     .withNamespace(namespace)
                 .endMetadata()
-                .addToData("version", "1.0.0")
+                .addToData("cloud-core.2026-05-06-11-44-51-309", "1.0.0")
                 .build();
         
         paasUtils.createConfigMap(versionConfigMap);
@@ -151,7 +151,7 @@ public class ExpectedRoutesIT extends PaasMediationParentV2Test {
     @Test
     void testVersionsEndpoint() throws Exception {
         Request request = paasMediationUtils.createRequest(
-            "/api/v2/paas-mediation/versions",
+            "api/v2/paas-mediation/versions",
             "GET",
             null,
             null
