@@ -9,7 +9,6 @@ import com.netcracker.cloud.junit.cloudcore.extension.annotations.PortForward;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.Value;
 import com.netcracker.cloud.security.core.utils.tls.TlsUtils;
 import com.netcracker.it.paasmediation.utils.PaasUtils;
-import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 
 import java.net.URL;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
 @EnableExtension
@@ -34,6 +27,9 @@ public class PaasMediationParentTest {
 
     @PortForward(serviceName = @Value("internal-gateway-service"))
     protected static URL internalGateway;
+
+    @PortForward(serviceName = @Value("private-gateway-service"))
+    protected static URL privateGateway;
 
     @Cloud
     protected static KubernetesClient kubernetesClient;

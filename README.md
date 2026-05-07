@@ -10,9 +10,9 @@
 
 | Section Link                            | Contents                                                                                                                            |
 |-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| [Overview](/docs/paas-mediation-overview.md) | [Basic concept description](/docs/paas-mediation-overview.md) and [Deploy parameters](/docs/paas-mediation-overview.md#deploy-parameters) |
-| [REST API](/docs/rest_api.md)           | PaaS Mediation REST API description                                                                                                 |
-| [Websocket API](/docs/websocket_api.md) | PaaS Mediation Websocket API description                                                                                            | 
+| [Overview](./docs/paas-mediation-overview.md) | [Basic concept description](./docs/paas-mediation-overview.md) and [Deploy parameters](./docs/paas-mediation-overview.md#deploy-parameters) |
+| [REST API](./docs/rest_api.md)           | PaaS Mediation REST API description                                                                                                 |
+| [Websocket API](./docs/websocket_api.md) | PaaS Mediation Websocket API description                                                                                            | 
 
 
 # How to run locally

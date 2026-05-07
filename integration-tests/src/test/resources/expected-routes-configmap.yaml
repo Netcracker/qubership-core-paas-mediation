@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: paas-mediation-expected-routes
+data:
+  routes.json: |
+    {
+      "internal": [
+        "watchapi/v2/paas-mediation/namespaces/{namespace}/routes",
+        "api/v2/paas-mediation/namespaces",
+        "api/v2/paas-mediation/namespaces/{namespace}/configmaps/bg-version",
+        "api/v2/paas-mediation/versions",
+        "health"
+      ],
+      "private": [
+        "api/v2/paas-mediation/versions",
+        "api/v2/paas-mediation/namespaces/{namespace}/configmaps/bg-version"
+      ] 
+    }
