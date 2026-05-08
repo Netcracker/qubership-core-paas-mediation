@@ -8,7 +8,7 @@ import (
 // GetHttpRouteList godoc
 //
 // @Summary Get Gateway API HTTP Routes in namespace
-// @Description Get Gateway API HTTP Routes in namespace. This endpoint requires the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the feature flag is disabled, the endpoint will return a 404 error.
+// @Description Get Gateway API HTTP Routes in namespace. This endpoint requires the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the feature flag is absent, the endpoint will return a 404 error.
 // @Tags since:2.0
 // @ID v2-get-gateway-httproutes
 // @Accept  json
@@ -31,7 +31,7 @@ func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
 // GetGrpcRouteList godoc
 //
 // @Summary Get Gateway API GRPC Routes in namespace
-// @Description Get Gateway API GRPC Routes in namespace. This endpoint requires the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the feature flag is disabled, the endpoint will return a 404 error.
+// @Description Get Gateway API GRPC Routes in namespace. This endpoint requires the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the feature flag is absent, the endpoint will return a 404 error.
 // @Tags since:2.0
 // @ID v2-get-gateway-grpcroutes
 // @Accept  json

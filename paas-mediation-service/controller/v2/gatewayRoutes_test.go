@@ -20,18 +20,18 @@ import (
 	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
 )
 
-func initTestConfigWithFeatureFlag(enabled bool) {
+func initTestConfigWithFeatureFlag(gatewaySystemType string) {
 	configloader.Init(&configloader.PropertySource{Provider: configloader.AsPropertyProvider(confmap.Provider(
 		map[string]any{
-			"microservice.namespace":             "test-namespace",
-			"core.paas.mediation.gw.api.enabled": enabled,
+			"microservice.namespace": "test-namespace",
+			"gateway.system.type":    gatewaySystemType,
 		}, "."))})
 
 	serviceloader.Register(1, &fibersec.DummyFiberServerSecurityMiddleware{})
 }
 
 func Test_GatewayApiRoutes_FeatureDisabled(t *testing.T) {
-	initTestConfigWithFeatureFlag(false)
+	initTestConfigWithFeatureFlag("legacy-ingress")
 	errorBody := map[string]string{"error": "Gateway API routes observing is disabled"}
 	assert404 := func(assertions *require.Assertions, resp *http.Response) {
 		assertions.Equal(fiber.StatusNotFound, resp.StatusCode)
@@ -54,7 +54,7 @@ func Test_GatewayApiRoutes_FeatureDisabled(t *testing.T) {
 }
 
 func Test_GetHttpRouteList_FeatureEnabled(t *testing.T) {
-	initTestConfigWithFeatureFlag(true)
+	initTestConfigWithFeatureFlag("gateway-api-default")
 	expectedRoutes := []entity.HttpRoute{
 		{HTTPRoute: &gatewayv1.HTTPRoute{
 			ObjectMeta: metav1.ObjectMeta{Name: "route-1", Namespace: testNamespace},
@@ -87,7 +87,7 @@ func Test_GetHttpRouteList_FeatureEnabled(t *testing.T) {
 }
 
 func Test_GetGrpcRouteList_FeatureEnabled(t *testing.T) {
-	initTestConfigWithFeatureFlag(true)
+	initTestConfigWithFeatureFlag("gateway-api-default")
 	expectedRoutes := []entity.GrpcRoute{
 		{GRPCRoute: &gatewayv1.GRPCRoute{
 			ObjectMeta: metav1.ObjectMeta{Name: "grpc-route-1", Namespace: testNamespace},

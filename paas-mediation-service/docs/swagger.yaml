@@ -1028,7 +1028,7 @@ paths:
       consumes:
       - application/json
       description: Get Gateway API GRPC Routes in namespace. This endpoint requires
-        the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the
+        the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the
         feature flag is disabled, the endpoint will return a 404 error.
       operationId: v2-get-gateway-grpcroutes
       parameters:
@@ -1072,8 +1072,8 @@ paths:
       consumes:
       - application/json
       description: Get Gateway API HTTP Routes in namespace. This endpoint requires
-        the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the
-        feature flag is disabled, the endpoint will return a 404 error.
+        the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the
+        feature flag is absent, the endpoint will return a 404 error.
       operationId: v2-get-gateway-httproutes
       parameters:
       - description: target namespace
