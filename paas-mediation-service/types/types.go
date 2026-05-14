@@ -7,7 +7,7 @@ const (
 	Pod            = "pod"
 	Route          = "route"
 	HttpRoute      = "httproute"
-	GrpcRoute      = "httproute"
+	GrpcRoute      = "grpcroute"
 	Secret         = "secret"
 	Service        = "service"
 	ServiceAccount = "serviceaccount"
