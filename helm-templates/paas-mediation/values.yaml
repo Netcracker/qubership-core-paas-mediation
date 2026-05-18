@@ -25,6 +25,8 @@ CONSUL_ENABLED: false
 CONSUL_URL: ''
 
 GATEWAY_SYSTEM_TYPE: legacy-ingress
+GATEWAY_SYSTEM_NAMESPACE: "gateway-system"
+GATEWAY_SYSTEM_NAME: "default-external-gateway"
 
 K8S_SERVICE_TYPE: 'HEADLESS'
 
