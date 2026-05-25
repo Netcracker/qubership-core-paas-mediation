@@ -239,6 +239,39 @@ public class RouteHttpIT extends RouteHelper {
         }
     }
 
+    @Test
+    void checkDeleteRouteDualModeWhenBothRoutesExistThenSecondDeleteReturnsNotFound() throws Exception {
+        assumeDualGatewayModeFromDeploymentEnv();
+
+        String routeName = routeNamePrefix + "-dual-delete-404";
+        createDualRouteViaApi(routeName);
+
+        paasMediationUtils.doRequest(deleteRouteRequest(routeName), 200, null);
+        assertNull(getHttpRoute(routeName));
+        assertNull(paasUtils.getIngressByName(routeName));
+
+        paasMediationUtils.doRequest(deleteRouteRequest(routeName), 404, null);
+
+        cleanupDualRoute(routeName);
+    }
+
+    @Test
+    void checkDeleteRouteDualModeWhenHttpRouteMissingAndIngressExistsReturnsOk() throws Exception {
+        assumeDualGatewayModeFromDeploymentEnv();
+
+        String routeName = routeNamePrefix + "-dual-delete-200";
+        createDualRouteViaApi(routeName);
+
+        deleteHttpRouteIfExists(routeName);
+        assertNull(getHttpRoute(routeName));
+        assertNotNull(paasUtils.getIngressByName(routeName));
+
+        paasMediationUtils.doRequest(deleteRouteRequest(routeName), 200, null);
+        assertNull(paasUtils.getIngressByName(routeName));
+
+        cleanupDualRoute(routeName);
+    }
+
     private static Object getHttpRoute(String routeName) {
         return kubernetesClient.genericKubernetesResources(HTTP_ROUTE_GVK)
                 .inNamespace(namespace)
@@ -254,6 +287,30 @@ public class RouteHttpIT extends RouteHelper {
                     .delete();
             assertNull(getHttpRoute(routeName));
         }
+    }
+
+    private static void cleanupDualRoute(String routeName) {
+        deleteHttpRouteIfExists(routeName);
+        if (paasUtils.getIngressByName(routeName) != null) {
+            paasUtils.deleteIngress(routeName);
+            assertNull(paasUtils.getIngressByName(routeName));
+        }
+    }
+
+    private static void createDualRouteViaApi(String routeName) throws Exception {
+        cleanupDualRoute(routeName);
+        Ingress testIngress = createTestRoute(routeName);
+        MediationRoute mediationRoute = new MediationRoute(testIngress);
+        Request createRequest = paasMediationUtils.createRequest(
+                PaasMediationUtils.Resources.ROUTES, null, namespace, "POST", mediationRoute, null);
+        paasMediationUtils.doRequest(createRequest, 201, MediationRoute.class);
+        assertNotNull(getHttpRoute(routeName), "HTTPRoute should exist after create");
+        assertNotNull(paasUtils.getIngressByName(routeName), "Ingress should exist after create");
+    }
+
+    private static Request deleteRouteRequest(String routeName) throws IOException {
+        return paasMediationUtils.createRequest(
+                PaasMediationUtils.Resources.ROUTES, routeName, namespace, "DELETE", null, null);
     }
 
     private static void assumeDualGatewayModeFromDeploymentEnv() {
