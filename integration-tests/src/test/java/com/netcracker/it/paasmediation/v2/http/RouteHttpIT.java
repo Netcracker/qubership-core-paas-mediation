@@ -1,6 +1,7 @@
 package com.netcracker.it.paasmediation.v2.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.PortForward;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.SmokeTest;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.Value;
@@ -9,10 +10,14 @@ import com.netcracker.it.paasmediation.v2.domain.AnnotationResource;
 import com.netcracker.it.paasmediation.v2.domain.HealthProbe;
 import com.netcracker.it.paasmediation.v2.domain.MediationRoute;
 import com.netcracker.it.paasmediation.v2.helpers.RouteHelper;
+import io.fabric8.kubernetes.api.model.EnvVar;
+import io.fabric8.kubernetes.api.model.GroupVersionKind;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
+import io.fabric8.kubernetes.api.model.apps.Deployment;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -178,6 +184,105 @@ public class RouteHttpIT extends RouteHelper {
                 }
             }
         }
+    }
+
+    private static final GroupVersionKind HTTP_ROUTE_GVK =
+            new GroupVersionKind("gateway.networking.k8s.io", "v1", "HTTPRoute");
+
+    private static final String PARTIAL_ROUTE_CREATE_MESSAGE =
+            "httproute route was created, ingress route was not created - try using Update endpoint";
+
+    private static final String PAAS_MEDIATION_DEPLOYMENT = "paas-mediation";
+    private static final String GATEWAY_SYSTEM_TYPE_ENV = "GATEWAY_SYSTEM_TYPE";
+    private static final String LEGACY_INGRESS = "legacy-ingress";
+    private static final String GATEWAY_API_DEFAULT = "gateway-api-default";
+
+    @Test
+    void checkCreateRouteDualModeWhenHttpRouteCreatedAndIngressNotCreatedReturnsPartialError() throws Exception {
+        assumeDualGatewayModeFromDeploymentEnv();
+
+        String routeName = routeName2;
+        String gatewayPath = String.format("api/v2/paas-mediation/namespaces/%s/gateway/httproutes", namespace);
+
+        deleteHttpRouteIfExists(routeName);
+        if (paasUtils.getIngressByName(routeName) != null) {
+            paasUtils.deleteIngress(routeName);
+        }
+        assertNull(getHttpRoute(routeName), "HTTPRoute must not exist before POST");
+
+        // Only Ingress exists: POST should create HTTPRoute via mediation, then fail on Ingress -> 500
+        Ingress existingIngress = createTestRoute(routeName);
+        kubernetesClient.network().v1().ingresses().inNamespace(namespace).resource(existingIngress).create();
+
+        MediationRoute mediationRoute = new MediationRoute(existingIngress);
+        Request request = paasMediationUtils.createRequest(
+                PaasMediationUtils.Resources.ROUTES, null, namespace, "POST", mediationRoute, null);
+        try (Response response = paasMediationUtils.doRequest(request)) {
+            String respBody = response.body() != null ? response.body().string() : "";
+            assertEquals(500, response.code(), () -> "Unexpected response body: " + respBody);
+            assertTrue(respBody.contains(PARTIAL_ROUTE_CREATE_MESSAGE),
+                    () -> "Expected body to contain partial-create message but was: " + respBody);
+        }
+
+        assertNotNull(getHttpRoute(routeName),
+                "HTTPRoute should be created by POST before Ingress creation failed");
+        assertNotNull(paasUtils.getIngressByName(routeName), "Ingress should remain from pre-create");
+
+        JsonNode[] httpRoutes = paasMediationUtils.doRequest(
+                paasMediationUtils.createRequest(gatewayPath, "GET", null, null), 200, JsonNode[].class);
+        assertTrue(Arrays.stream(httpRoutes)
+                        .anyMatch(r -> routeName.equals(r.path("metadata").path("name").asText())),
+                "HTTPRoute should be visible via gateway httproutes API after POST");
+
+        deleteHttpRouteIfExists(routeName);
+        if (paasUtils.getIngressByName(routeName) != null) {
+            paasUtils.deleteIngress(routeName);
+        }
+    }
+
+    private static Object getHttpRoute(String routeName) {
+        return kubernetesClient.genericKubernetesResources(HTTP_ROUTE_GVK)
+                .inNamespace(namespace)
+                .withName(routeName)
+                .get();
+    }
+
+    private static void deleteHttpRouteIfExists(String routeName) {
+        if (getHttpRoute(routeName) != null) {
+            kubernetesClient.genericKubernetesResources(HTTP_ROUTE_GVK)
+                    .inNamespace(namespace)
+                    .withName(routeName)
+                    .delete();
+            assertNull(getHttpRoute(routeName));
+        }
+    }
+
+    private static void assumeDualGatewayModeFromDeploymentEnv() {
+        String gatewaySystemType = readGatewaySystemTypeFromPaasMediationDeployment();
+        Assumptions.assumeTrue(gatewaySystemType != null,
+                "Skipped: GATEWAY_SYSTEM_TYPE env not found on paas-mediation deployment");
+        String normalized = gatewaySystemType.toLowerCase().replace(" ", "");
+        Assumptions.assumeTrue(
+                normalized.contains(LEGACY_INGRESS) && normalized.contains(GATEWAY_API_DEFAULT),
+                () -> "Skipped: GATEWAY_SYSTEM_TYPE must include legacy-ingress and gateway-api-default (dual mode), but was: "
+                        + gatewaySystemType);
+    }
+
+    private static String readGatewaySystemTypeFromPaasMediationDeployment() {
+        Deployment deployment = kubernetesClient.apps().deployments()
+                .inNamespace(namespace)
+                .withName(PAAS_MEDIATION_DEPLOYMENT)
+                .get();
+        if (deployment == null || deployment.getSpec() == null
+                || deployment.getSpec().getTemplate().getSpec() == null) {
+            return null;
+        }
+        return deployment.getSpec().getTemplate().getSpec().getContainers().stream()
+                .flatMap(container -> container.getEnv() == null ? Stream.<EnvVar>empty() : container.getEnv().stream())
+                .filter(env -> GATEWAY_SYSTEM_TYPE_ENV.equals(env.getName()))
+                .map(EnvVar::getValue)
+                .findFirst()
+                .orElse(null);
     }
 
     @Test
