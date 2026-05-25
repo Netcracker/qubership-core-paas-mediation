@@ -210,7 +210,6 @@ public class RouteHttpIT extends RouteHelper {
         }
         assertNull(getHttpRoute(routeName), "HTTPRoute must not exist before POST");
 
-        // Only Ingress exists: POST should create HTTPRoute via mediation, then fail on Ingress -> 500
         Ingress existingIngress = createTestRoute(routeName);
         kubernetesClient.network().v1().ingresses().inNamespace(namespace).resource(existingIngress).create();
 
