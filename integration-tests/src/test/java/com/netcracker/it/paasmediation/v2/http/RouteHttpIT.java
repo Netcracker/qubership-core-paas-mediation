@@ -1,7 +1,6 @@
 package com.netcracker.it.paasmediation.v2.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.PortForward;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.SmokeTest;
 import com.netcracker.cloud.junit.cloudcore.extension.annotations.Value;
@@ -10,14 +9,10 @@ import com.netcracker.it.paasmediation.v2.domain.AnnotationResource;
 import com.netcracker.it.paasmediation.v2.domain.HealthProbe;
 import com.netcracker.it.paasmediation.v2.domain.MediationRoute;
 import com.netcracker.it.paasmediation.v2.helpers.RouteHelper;
-import io.fabric8.kubernetes.api.model.EnvVar;
-import io.fabric8.kubernetes.api.model.GroupVersionKind;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
-import io.fabric8.kubernetes.api.model.apps.Deployment;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,7 +22,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
