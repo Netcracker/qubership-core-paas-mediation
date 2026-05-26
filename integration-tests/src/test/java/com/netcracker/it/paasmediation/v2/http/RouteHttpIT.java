@@ -180,7 +180,6 @@ public class RouteHttpIT extends RouteHelper {
         }
     }
 
-
     @Test
     public void checkBadRoutesAPI() throws IOException {
         Request request = new Request.Builder().url(paasMediationService.toString() + "health").get().build();
