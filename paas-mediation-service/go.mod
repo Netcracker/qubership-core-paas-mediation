@@ -8,8 +8,8 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.13
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.7.0
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.6.0
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.10.0
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.9.0
 	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.8.0
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.6.0
 	github.com/netcracker/qubership-core-lib-go/v3 v3.11.0
