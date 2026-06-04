@@ -10,7 +10,7 @@ require (
 	github.com/knadh/koanf/providers/confmap v1.0.0
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.7.0
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.6.0
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.8.0
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.8.1-0.20260603213329-63a70e93497c
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.6.0
 	github.com/netcracker/qubership-core-lib-go/v3 v3.11.0
 	github.com/stretchr/testify v1.11.1
