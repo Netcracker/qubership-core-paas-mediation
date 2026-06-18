@@ -8,11 +8,11 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.13
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.0
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.7.0
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.6.0
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.8.1-0.20260615151120-c885c03de3b0
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.6.0
-	github.com/netcracker/qubership-core-lib-go/v3 v3.11.0
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.10.0
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.9.0
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.8.1
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.7.0
+	github.com/netcracker/qubership-core-lib-go/v3 v3.11.1
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.71.0
@@ -75,7 +75,7 @@ require (
 	github.com/knadh/koanf/parsers/yaml v1.0.0 // indirect
 	github.com/knadh/koanf/providers/env v1.1.0 // indirect
 	github.com/knadh/koanf/providers/file v1.2.1 // indirect
-	github.com/knadh/koanf/v2 v2.3.4 // indirect
+	github.com/knadh/koanf/v2 v2.3.5 // indirect
 	github.com/mailru/easyjson v0.9.1 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -86,8 +86,8 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.6.0 // indirect
-	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.6.0 // indirect
+	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.6.1 // indirect
+	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.6.1 // indirect
 	github.com/openshift/api v0.0.0-20260615110019-261e3a0546f3 // indirect
 	github.com/openshift/client-go v0.0.0-20260603140539-6892dc3e1ffc // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
