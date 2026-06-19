@@ -257,7 +257,7 @@ loop:
 }
 
 func Test_WatchGatewayApiRoutes_FeatureDisabled(t *testing.T) {
-	initTestConfigWithFeatureFlag(false)
+	initTestConfigWithFeatureFlag("legacy-ingress")
 	errorBody := map[string]string{"error": "Gateway API routes observing is disabled"}
 	assert404 := func(assertions *require.Assertions, resp *http.Response) {
 		assertions.Equal(fiber.StatusNotFound, resp.StatusCode)

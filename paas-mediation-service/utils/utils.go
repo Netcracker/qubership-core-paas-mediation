@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"strings"
 	"time"
 
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
@@ -68,5 +69,6 @@ func GetCacheSettings() (numItems int64, maxSizeInBytes int64, maxItemSizeInByte
 }
 
 func IsGatewayRoutesEnabled() bool {
-	return configloader.GetKoanf().Bool("core.paas.mediation.gw.api.enabled")
+	gatewaySystemType := strings.ToLower(configloader.GetKoanf().String("gateway.system.type"))
+	return strings.Contains(gatewaySystemType, "gateway-api-default")
 }

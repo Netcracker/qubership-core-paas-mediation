@@ -22,3 +22,4 @@
    for openshift ```PAAS_PLATFORM=OPENSHIFT;IDP_CLIENT_USERNAME=paas-mediation;IDP_CLIENT_PASSWORD=<secret>;MICROSERVICE_NAMESPACE=<ns>```
 3. Run with flag ```-local```
 
+

@@ -839,7 +839,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get Gateway API GRPC Routes in namespace. This endpoint requires the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the feature flag is disabled, the endpoint will return a 404 error.",
+                "description": "Get Gateway API GRPC Routes in namespace. This endpoint requires the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the feature flag is absent, the endpoint will return a 404 error.",
                 "consumes": [
                     "application/json"
                 ],
@@ -904,7 +904,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get Gateway API HTTP Routes in namespace. This endpoint requires the CORE_PAAS_MEDIATION_GW_API_ENABLED feature flag to be enabled. If the feature flag is disabled, the endpoint will return a 404 error.",
+                "description": "Get Gateway API HTTP Routes in namespace. This endpoint requires the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the feature flag is absent, the endpoint will return a 404 error.",
                 "consumes": [
                     "application/json"
                 ],
