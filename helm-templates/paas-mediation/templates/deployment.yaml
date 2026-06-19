@@ -127,7 +127,6 @@ spec:
                       timeoutSeconds: {{ .Values.paasMediation.readinessProbe.timeoutSeconds }}
                   securityContext:
 {{ if eq .Values.PAAS_PLATFORM "KUBERNETES" }}
-                      runAsUser: 10001
                       runAsGroup: 10001
 {{ end }}
                       runAsNonRoot: true
