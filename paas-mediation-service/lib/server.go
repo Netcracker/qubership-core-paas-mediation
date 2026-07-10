@@ -3,8 +3,9 @@ package lib
 import (
 	"context"
 
-	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
-	"github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/server"
+	"github.com/gofiber/fiber/v3"
+	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v3/security"
+	"github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v3/server"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-lib-go-rest-utils/v2/consul-propertysource"
 	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
@@ -61,5 +62,5 @@ func RunServer() {
 	apiV2.WithRoutes(namespace)
 	apiV2.ErrorHandler(errorHandler)
 
-	server.StartServer(app, "http.server.bind")
+	server.StartServer(app, "http.server.bind", fiber.ListenConfig{ListenerNetwork: fiber.NetworkTCP})
 }

@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
 
@@ -22,7 +22,7 @@ import (
 // @Failure 404 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/deployments/{name} [get]
-func (ctr *HttpController) GetDeployment(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetDeployment(ctx fiber.Ctx) error {
 	return getAdapter(types.Deployment, ctr.Platform.GetDeployment, ToDeployment, ctx)
 }
 
@@ -43,6 +43,6 @@ func (ctr *HttpController) GetDeployment(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/deployments [get]
-func (ctr *HttpController) GetDeploymentList(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetDeploymentList(ctx fiber.Ctx) error {
 	return listAdapter(types.Deployment, ctr.Platform.GetDeploymentList, ToDeployment, ctx)
 }
