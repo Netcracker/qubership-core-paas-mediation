@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
@@ -23,7 +23,7 @@ import (
 // @Failure 404 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps/{name} [get]
-func (ctr *HttpController) GetConfigMap(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetConfigMap(ctx fiber.Ctx) error {
 	return getAdapter(types.ConfigMap, ctr.Platform.GetConfigMap, ToConfigMap, ctx)
 }
 
@@ -44,7 +44,7 @@ func (ctr *HttpController) GetConfigMap(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps [get]
-func (ctr *HttpController) GetConfigMapList(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetConfigMapList(ctx fiber.Ctx) error {
 	return listAdapter(types.ConfigMap, ctr.Platform.GetConfigMapList, ToConfigMap, ctx)
 }
 
@@ -65,7 +65,7 @@ func (ctr *HttpController) GetConfigMapList(ctx *fiber.Ctx) error {
 // @Failure 409 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps [post]
-func (ctr *HttpController) CreateConfigMap(ctx *fiber.Ctx) error {
+func (ctr *HttpController) CreateConfigMap(ctx fiber.Ctx) error {
 	return createAdapter[entity.ConfigMap, ConfigMap](types.ConfigMap, ctr.Platform.CreateConfigMap, ToConfigMap, FromConfigMap, ctx)
 }
 
@@ -86,7 +86,7 @@ func (ctr *HttpController) CreateConfigMap(ctx *fiber.Ctx) error {
 // @Failure 409 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps [put]
-func (ctr *HttpController) UpdateOrCreateConfigMap(ctx *fiber.Ctx) error {
+func (ctr *HttpController) UpdateOrCreateConfigMap(ctx fiber.Ctx) error {
 	return updateAdapter[entity.ConfigMap, ConfigMap](types.ConfigMap, ctr.Platform.UpdateOrCreateConfigMap, ToConfigMap, FromConfigMap, ctx)
 }
 
@@ -106,6 +106,6 @@ func (ctr *HttpController) UpdateOrCreateConfigMap(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps/{name} [delete]
-func (ctr *HttpController) DeleteConfigMap(ctx *fiber.Ctx) error {
+func (ctr *HttpController) DeleteConfigMap(ctx fiber.Ctx) error {
 	return deleteAdapter(types.ConfigMap, ctr.Platform.DeleteConfigMap, ctx)
 }

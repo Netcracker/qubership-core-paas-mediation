@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
+	"testing"
+
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang/mock/gomock"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
@@ -14,7 +16,6 @@ import (
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 	"github.com/stretchr/testify/require"
 	"github.com/valyala/fasthttp"
-	"testing"
 )
 
 func Test_Secret(t *testing.T) {
@@ -22,11 +23,11 @@ func Test_Secret(t *testing.T) {
 	tests := []*testCase{
 		{
 			rest:     r{"GET", url("/api/v1/namespaces/%s/%ss", testNamespace, resourceType), 404},
-			respBody: map[string]string{"error": "Cannot GET /api/v1/namespaces/test-namespace/secrets"},
+			respBody: map[string]string{"error": "Not Found"},
 		},
 		{
 			rest:     r{"GET", url("/api/v1/namespaces/%s/%ss/%s", testNamespace, resourceType, "test-1"), 404},
-			respBody: map[string]string{"error": "Cannot GET /api/v1/namespaces/test-namespace/secrets/test-1"},
+			respBody: map[string]string{"error": "Not Found"},
 		},
 	}
 	for _, tc := range tests {
