@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
@@ -45,8 +45,8 @@ type HttpController struct {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/deployment-family/{family_name} [get]
-func (ctr *HttpController) GetDeploymentFamilyVersions(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) GetDeploymentFamilyVersions(c fiber.Ctx) error {
+	ctx := c.Context()
 	namespace := c.Params(ParamNamespace)
 	familyName := c.Params("family_name", "")
 	if strings.TrimSpace(familyName) == "" {
@@ -77,8 +77,8 @@ func (ctr *HttpController) GetDeploymentFamilyVersions(c *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces [get]
-func (ctr *HttpController) GetNamespaces(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) GetNamespaces(c fiber.Ctx) error {
+	ctx := c.Context()
 	logger.InfoC(ctx, "Received request on get list of available projects")
 	namespaces, err := ctr.Platform.GetNamespaces(ctx, filter.Meta{})
 	if err != nil {
@@ -109,8 +109,8 @@ func (ctr *HttpController) GetNamespaces(c *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/annotations [get]
-func (ctr *HttpController) GetAnnotationResource(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) GetAnnotationResource(c fiber.Ctx) error {
+	ctx := c.Context()
 	logger.InfoC(ctx, "Received a request to get an annotation resource")
 
 	namespace := c.Params(ParamNamespace)
@@ -149,8 +149,8 @@ func (ctr *HttpController) GetAnnotationResource(c *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/rollout/{resource-name} [post]
-func (ctr *HttpController) RestartDeployment(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) RestartDeployment(c fiber.Ctx) error {
+	ctx := c.Context()
 	resourceName, namespace := getURLParams(ctx, c)
 	var err error
 	if strings.TrimSpace(resourceName) == "" {
@@ -187,8 +187,8 @@ func (ctr *HttpController) RestartDeployment(c *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/rollout [post]
-func (ctr *HttpController) RestartDeploymentsBulk(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) RestartDeploymentsBulk(c fiber.Ctx) error {
+	ctx := c.Context()
 	namespace := c.Params(ParamNamespace)
 	body, pErr := parseRolloutDeploymentBody(c)
 	if pErr != nil {
@@ -229,8 +229,8 @@ func (ctr *HttpController) RestartDeploymentsBulk(c *fiber.Ctx) error {
 // @Failure 404 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps/bg-version [get]
-func (ctr *HttpController) GetBgVersionMap(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) GetBgVersionMap(c fiber.Ctx) error {
+	ctx := c.Context()
 	_, namespace := getURLParams(ctx, c)
 	versionsMap, err := ctr.Platform.GetConfigMap(ctx, constants.BlueGreenVersionConfigMap, namespace)
 	if err != nil {
@@ -258,8 +258,8 @@ func (ctr *HttpController) GetBgVersionMap(c *fiber.Ctx) error {
 // @Failure 404 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/configmaps/versions [get]
-func (ctr *HttpController) GetVersions(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func (ctr *HttpController) GetVersions(c fiber.Ctx) error {
+	ctx := c.Context()
 	_, namespace := getURLParams(ctx, c)
 	result, err := ctr.getVersions(ctx, namespace)
 	if err != nil {
@@ -338,16 +338,16 @@ func extractVersionsFromConfigMap(ctx context.Context, versionsMap *entity.Confi
 	return versions
 }
 
-func parseRolloutDeploymentBody(c *fiber.Ctx) (*RolloutDeploymentBody, error) {
+func parseRolloutDeploymentBody(c fiber.Ctx) (*RolloutDeploymentBody, error) {
 	var body RolloutDeploymentBody
-	err := c.BodyParser(&body)
+	err := c.Bind().Body(&body)
 	if err != nil {
 		return nil, fmt.Errorf("error while parsing json, %v", err)
 	}
 	return &body, nil
 }
 
-func getURLParams(ctx context.Context, c *fiber.Ctx) (resourceName, namespace string) {
+func getURLParams(ctx context.Context, c fiber.Ctx) (resourceName, namespace string) {
 	namespace = c.Params(ParamNamespace)
 	resourceName = c.Params(ParamResourceName, "")
 	logger.DebugC(ctx, "resources_name=%s", resourceName)
@@ -383,7 +383,7 @@ func getParamsToAnnotationKey(args *fasthttp.Args) (*AnnotationKey, error) {
 	return &AnnotationKey{Annotation: annotation, ResourceType: resourceType}, nil
 }
 
-func buildFilterFromParams(c *fiber.Ctx) (filter.Meta, error) {
+func buildFilterFromParams(c fiber.Ctx) (filter.Meta, error) {
 	filter := filter.Meta{}
 	annotationsFilter, err := parseFilterParam(c, "annotations")
 	if err != nil {
@@ -402,7 +402,7 @@ func buildFilterFromParams(c *fiber.Ctx) (filter.Meta, error) {
 // <param_name>=<key_1>:<key_1_value>;<key_2>:<key_2_value>...<key_N>:<key_N_value>
 // returns the map of parsed keys and values
 // returns error in case param's value has invalid format
-func parseFilterParam(c *fiber.Ctx, paramName string) (map[string]string, error) {
+func parseFilterParam(c fiber.Ctx, paramName string) (map[string]string, error) {
 	result := make(map[string]string)
 	if paramByte := c.Request().URI().QueryArgs().Peek(paramName); paramByte != nil {
 		param := string(paramByte)
@@ -423,16 +423,16 @@ func parseFilterParam(c *fiber.Ctx, paramName string) (map[string]string, error)
 	return result, nil
 }
 
-func respondWithErrorGatewayApiRoutesDisabled(c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func respondWithErrorGatewayApiRoutesDisabled(c fiber.Ctx) error {
+	ctx := c.Context()
 	return respondWithError(ctx, c, fiber.StatusNotFound, "Gateway API routes observing is disabled")
 }
 
-func respondWithError(ctx context.Context, c *fiber.Ctx, code int, msg string) error {
+func respondWithError(ctx context.Context, c fiber.Ctx, code int, msg string) error {
 	return respondWithJson(ctx, c, code, map[string]string{"error": msg})
 }
 
-func respondWithJson(ctx context.Context, c *fiber.Ctx, code int, payload interface{}) error {
+func respondWithJson(ctx context.Context, c fiber.Ctx, code int, payload interface{}) error {
 	logger.DebugC(ctx, "Send response code: %v, body: %+v", code, payload)
 	return c.Status(code).JSON(payload)
 }
