@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	pmErrors "github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/errors"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/pmservice"
@@ -41,8 +41,8 @@ func createLimitChanMap(limit int, types ...string) map[string]chan struct{} {
 }
 
 // limit parallel processing of get requests to max 4 concurrent requests per resource type
-func getAdapter[T any, R any](resourceType string, get GetResource[*T], convert func(resource T) R, c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func getAdapter[T any, R any](resourceType string, get GetResource[*T], convert func(resource T) R, c fiber.Ctx) error {
+	ctx := c.Context()
 	resourceName, namespace := getURLParams(ctx, c)
 	logger.InfoC(ctx, "Received a request to get %s with name=%s in namespace=%s",
 		resourceType, resourceName, namespace)
@@ -64,8 +64,8 @@ func getAdapter[T any, R any](resourceType string, get GetResource[*T], convert 
 
 // for now list requests must not be executed in parallel because they may consume a lot of memory for heavy resources which can lead to OutOfMemory fails
 // so limit list request processing to max 1 concurrent processing per resource type
-func listAdapter[T any, R any](resourceType string, list ListResource[T], convert func(resource T) R, c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func listAdapter[T any, R any](resourceType string, list ListResource[T], convert func(resource T) R, c fiber.Ctx) error {
+	ctx := c.Context()
 	_, namespace := getURLParams(ctx, c)
 	logger.InfoC(ctx, "Received a request to get %s list in namespace=%s", resourceType, namespace)
 	limitChanList[resourceType] <- struct{}{}
@@ -89,17 +89,17 @@ func listAdapter[T any, R any](resourceType string, list ListResource[T], conver
 	return respondWithJson(ctx, c, fiber.StatusOK, modelResources)
 }
 
-func createAdapter[T any, R any](resourceType string, createFunc CreateResource[T], convertTo func(T) R, convertFrom func(R) T, c *fiber.Ctx) error {
+func createAdapter[T any, R any](resourceType string, createFunc CreateResource[T], convertTo func(T) R, convertFrom func(R) T, c fiber.Ctx) error {
 	return updateOrCreateAdapter("create", resourceType, fiber.StatusCreated, createFunc, convertTo, convertFrom, c)
 }
 
-func updateAdapter[T any, R any](resourceType string, createFunc CreateResource[T], convertTo func(T) R, convertFrom func(R) T, c *fiber.Ctx) error {
+func updateAdapter[T any, R any](resourceType string, createFunc CreateResource[T], convertTo func(T) R, convertFrom func(R) T, c fiber.Ctx) error {
 	return updateOrCreateAdapter("update or create", resourceType, fiber.StatusOK, createFunc, convertTo, convertFrom, c)
 }
 
 func updateOrCreateAdapter[T any, R any](action, resourceType string, successCode int,
-	createFunc CreateResource[T], convertTo func(resource T) R, convertFrom func(resource R) T, c *fiber.Ctx) error {
-	ctx := c.UserContext()
+	createFunc CreateResource[T], convertTo func(resource T) R, convertFrom func(resource R) T, c fiber.Ctx) error {
+	ctx := c.Context()
 	_, namespace := getURLParams(ctx, c)
 	logger.InfoC(ctx, "Received request to %s %s in namespace %s", action, resourceType, namespace)
 	limitChanCreate[resourceType] <- struct{}{}
@@ -107,7 +107,7 @@ func updateOrCreateAdapter[T any, R any](action, resourceType string, successCod
 		<-limitChanCreate[resourceType]
 	}()
 	var modelResource R
-	if err := c.BodyParser(&modelResource); err != nil {
+	if err := c.Bind().Body(&modelResource); err != nil {
 		pErr := fmt.Errorf("failed to parse request body: %w", err)
 		return pmErrors.New(fiber.StatusBadRequest, pErr)
 	}
@@ -121,8 +121,8 @@ func updateOrCreateAdapter[T any, R any](action, resourceType string, successCod
 	return respondWithJson(ctx, c, successCode, convertTo(*result))
 }
 
-func deleteAdapter(resourceType string, deleteFunc DeleteResource, c *fiber.Ctx) error {
-	ctx := c.UserContext()
+func deleteAdapter(resourceType string, deleteFunc DeleteResource, c fiber.Ctx) error {
+	ctx := c.Context()
 	resourceName, namespace := getURLParams(ctx, c)
 	logger.InfoC(ctx, "Received request to delete %s with name=%s", resourceType, resourceName)
 	limitChanDelete[resourceType] <- struct{}{}
