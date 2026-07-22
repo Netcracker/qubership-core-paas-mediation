@@ -20,8 +20,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <skipIT>true</skipIT>
-        <cloud-core-extension.version>8.9.3</cloud-core-extension.version>
-        <cloud.core.security.utils.version>3.1.5</cloud.core.security.utils.version>
+        <cloud-core-extension.version>8.9.4</cloud-core-extension.version>
+        <cloud.core.security.utils.version>3.1.6</cloud.core.security.utils.version>
     </properties>
 
     <profiles>
