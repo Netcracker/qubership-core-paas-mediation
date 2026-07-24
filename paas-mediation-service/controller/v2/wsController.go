@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/fasthttp/websocket"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
