@@ -12,7 +12,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.9.6
 	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.8.6
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.7.5
-	github.com/netcracker/qubership-core-lib-go/v3 v3.13.2
+	github.com/netcracker/qubership-core-lib-go/v3 v3.13.3-0.20260731185759-d563714f099a
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.72.0
