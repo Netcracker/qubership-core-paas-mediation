@@ -3,7 +3,7 @@ name: Integration tests build
 on:
   push:
     branches:
-      - main
+      - lts/26.3
     paths:
       - 'paas-mediation-integration-tests/**'
       - '.github/workflows/integration-tests-build.yaml'
