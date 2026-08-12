@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
@@ -23,7 +23,7 @@ import (
 // @Failure 404 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/services/{name} [get]
-func (ctr *HttpController) GetService(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetService(ctx fiber.Ctx) error {
 	return getAdapter(types.Service, ctr.Platform.GetService, ToService, ctx)
 }
 
@@ -44,7 +44,7 @@ func (ctr *HttpController) GetService(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/services [get]
-func (ctr *HttpController) GetServiceList(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetServiceList(ctx fiber.Ctx) error {
 	return listAdapter(types.Service, ctr.Platform.GetServiceList, ToService, ctx)
 }
 
@@ -65,7 +65,7 @@ func (ctr *HttpController) GetServiceList(ctx *fiber.Ctx) error {
 // @Failure 409 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/services [post]
-func (ctr *HttpController) CreateService(ctx *fiber.Ctx) error {
+func (ctr *HttpController) CreateService(ctx fiber.Ctx) error {
 	return createAdapter[entity.Service, Service](types.Service, ctr.Platform.CreateService, ToService, FromService, ctx)
 }
 
@@ -86,7 +86,7 @@ func (ctr *HttpController) CreateService(ctx *fiber.Ctx) error {
 // @Failure 409 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/services [put]
-func (ctr *HttpController) UpdateOrCreateService(ctx *fiber.Ctx) error {
+func (ctr *HttpController) UpdateOrCreateService(ctx fiber.Ctx) error {
 	return updateAdapter[entity.Service, Service](types.Service, ctr.Platform.UpdateOrCreateService, ToService, FromService, ctx)
 }
 
@@ -106,6 +106,6 @@ func (ctr *HttpController) UpdateOrCreateService(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/services/{name} [delete]
-func (ctr *HttpController) DeleteService(ctx *fiber.Ctx) error {
+func (ctr *HttpController) DeleteService(ctx fiber.Ctx) error {
 	return deleteAdapter(types.Service, ctr.Platform.DeleteService, ctx)
 }

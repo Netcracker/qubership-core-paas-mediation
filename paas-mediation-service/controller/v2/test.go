@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/knadh/koanf/providers/confmap"
-	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2/security"
+	fibersec "github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v3/security"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
@@ -82,7 +82,7 @@ func runTestCase(t *testing.T, test *testCase, fiberAndMockSrvOpt ...*fiberAndMo
 		if test.alterReq != nil {
 			test.alterReq(req)
 		}
-		resp, rErr := fAnds.app.Test(req, -1)
+		resp, rErr := fAnds.app.Test(req, fiber.TestConfig{Timeout: 0, FailOnTimeout: false})
 		assertions.Nil(rErr)
 		assertions.Equal(test.rest.code, resp.StatusCode)
 		if test.respBody != nil {
