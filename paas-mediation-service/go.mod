@@ -1,6 +1,6 @@
 module github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2
 
-go 1.26.5
+go 1.27.1
 
 require (
 	github.com/fasthttp/websocket v1.5.12
@@ -18,9 +18,9 @@ require (
 	github.com/valyala/fasthttp v1.73.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.58.0
-	k8s.io/api v0.36.2
-	k8s.io/apimachinery v0.36.2
-	k8s.io/client-go v0.36.2
+	k8s.io/api v0.37.0
+	k8s.io/apimachinery v0.37.0
+	k8s.io/client-go v0.37.0
 	sigs.k8s.io/gateway-api v1.6.1
 )
 
