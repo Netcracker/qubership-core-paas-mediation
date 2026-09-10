@@ -15,12 +15,12 @@ require (
 	github.com/netcracker/qubership-core-lib-go/v3 v3.14.0
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.73.0
+	github.com/valyala/fasthttp v1.74.0
 	go.uber.org/mock v0.6.0
-	golang.org/x/net v0.58.0
-	k8s.io/api v0.36.2
-	k8s.io/apimachinery v0.36.2
-	k8s.io/client-go v0.36.2
+	golang.org/x/net v0.59.0
+	k8s.io/api v0.37.0
+	k8s.io/apimachinery v0.37.0
+	k8s.io/client-go v0.37.0
 	sigs.k8s.io/gateway-api v1.6.1
 )
 
