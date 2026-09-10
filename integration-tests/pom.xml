@@ -20,8 +20,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <skipIT>true</skipIT>
-        <cloud-core-extension.version>8.10.0</cloud-core-extension.version>
-        <cloud.core.security.utils.version>3.2.0</cloud.core.security.utils.version>
+        <cloud-core-extension.version>8.10.2</cloud-core-extension.version>
+        <cloud.core.security.utils.version>3.2.2</cloud.core.security.utils.version>
         <junit-bom.version>6.0.3</junit-bom.version>
     </properties>
 
