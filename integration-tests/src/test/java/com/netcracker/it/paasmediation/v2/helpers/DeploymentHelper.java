@@ -17,6 +17,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class DeploymentHelper {
 
     public static final int WAIT_FOR_DEPLOYMENT_CREATION_MIN = 5;
+    public static final int WAIT_FOR_DEPLOYMENT_DELETION_MIN = 1;
     private final PaasUtils paasUtils;
     private final KubernetesClient kubernetesClient;
     private final PaasMediationUtils paasMediationUtils;
@@ -51,9 +53,23 @@ public class DeploymentHelper {
     public String createDeployment(String name, String image) throws Exception {
         Deployment deployment = getDeploymentContentFromTemplate(name, image);
         String createdDeployment = kubernetesClient.apps().deployments().resource(deployment).create().getMetadata().getName();
-        kubernetesClient.apps().deployments().withName(createdDeployment).waitUntilReady(WAIT_FOR_DEPLOYMENT_CREATION_MIN, TimeUnit.MINUTES);
+        try {
+            kubernetesClient.apps().deployments().withName(createdDeployment).waitUntilReady(WAIT_FOR_DEPLOYMENT_CREATION_MIN, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            // the deployment is already created, so remove it here: the caller never gets its name back
+            // and the next test would fail with 'deployment already exists' instead of its own reason
+            log.error("Deployment={} did not become ready, deleting it", createdDeployment, e);
+            deleteDeployment(createdDeployment);
+            throw e;
+        }
         log.info("Successful created deployment={}", createdDeployment);
         return createdDeployment;
+    }
+
+    public void deleteDeployment(String name) {
+        log.info("Delete deployment={}", name);
+        kubernetesClient.apps().deployments().withName(name).delete();
+        kubernetesClient.apps().deployments().withName(name).waitUntilCondition(Objects::isNull, WAIT_FOR_DEPLOYMENT_DELETION_MIN, TimeUnit.MINUTES);
     }
 
     public DeploymentRolloutResponse rolloutDeployment(DeploymentRequestBody deploymentRequestBody) throws IOException {
