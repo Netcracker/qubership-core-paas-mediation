@@ -3,10 +3,12 @@ package v2
 import (
 	"errors"
 	"fmt"
-	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
-	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
+
+	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
+	"github.com/stretchr/testify/require"
+	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
 )
 
 // run these test to make sure all fields from entity structs are processed by To... functions
@@ -71,6 +73,13 @@ var (
 			Service:          Target{Name: "test"},
 			Port:             RoutePort{TargetPort: 8080},
 			IngressClassName: &testIngressClassName,
+			Filters: []gatewayv1.HTTPRouteFilter{{
+				Type: gatewayv1.HTTPRouteFilterResponseHeaderModifier,
+				ResponseHeaderModifier: &gatewayv1.HTTPHeaderFilter{
+					Remove: []string{"authorization"},
+				},
+			}},
+			StreamIdleTimeout: "1800s",
 		}}
 
 	testServiceModel = Service{Metadata: testMetadataModel,
@@ -112,6 +121,13 @@ var (
 			Service:          entity.Target{Name: "test"},
 			Port:             entity.RoutePort{TargetPort: 8080},
 			IngressClassName: &testIngressClassName,
+			Filters: []gatewayv1.HTTPRouteFilter{{
+				Type: gatewayv1.HTTPRouteFilterResponseHeaderModifier,
+				ResponseHeaderModifier: &gatewayv1.HTTPHeaderFilter{
+					Remove: []string{"authorization"},
+				},
+			}},
+			StreamIdleTimeout: "1800s",
 		}}
 
 	testServiceEntity = entity.Service{Metadata: testMetadataEntity,

@@ -2485,6 +2485,13 @@ const docTemplate = `{
                 "port": {
                     "$ref": "#/definitions/v2.RoutePort"
                 },
+                "filters": {
+                    "type": "array",
+                    "items": {}
+                },
+                "streamIdleTimeout": {
+                    "type": "string"
+                },
                 "to": {
                     "$ref": "#/definitions/v2.Target"
                 }

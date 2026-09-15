@@ -371,6 +371,11 @@ definitions:
         type: string
       port:
         $ref: '#/definitions/v2.RoutePort'
+      filters:
+        items: {}
+        type: array
+      streamIdleTimeout:
+        type: string
       to:
         $ref: '#/definitions/v2.Target'
     type: object
