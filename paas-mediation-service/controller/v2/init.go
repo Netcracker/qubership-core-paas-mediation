@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	paasMediation "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	routeregistration "github.com/netcracker/qubership-core-lib-go-rest-utils/v2/route-registration"
 	"github.com/netcracker/qubership-core-lib-go/v3/logging"
