@@ -10,7 +10,7 @@ require (
 	github.com/knadh/koanf/providers/confmap v1.0.1
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.11.0
 	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.10.0
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.9.1-0.20260915100852-41e8fc23413f
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.9.1-0.20260921075837-b4ffab850315
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.8.0
 	github.com/netcracker/qubership-core-lib-go/v3 v3.14.0
 	github.com/stretchr/testify v1.12.1
@@ -43,20 +43,19 @@ require (
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v1.0.0 // indirect
-	github.com/go-openapi/jsonreference v1.0.0 // indirect
+	github.com/go-openapi/jsonreference v1.0.1 // indirect
 	github.com/go-openapi/swag v0.27.1 // indirect
 	github.com/go-openapi/swag/cmdutils v0.27.1 // indirect
-	github.com/go-openapi/swag/conv v0.27.1 // indirect
+	github.com/go-openapi/swag/conv v0.29.1 // indirect
 	github.com/go-openapi/swag/fileutils v0.27.1 // indirect
-	github.com/go-openapi/swag/jsonname v0.26.1 // indirect
-	github.com/go-openapi/swag/jsonutils v0.27.1 // indirect
-	github.com/go-openapi/swag/loading v0.27.1 // indirect
+	github.com/go-openapi/swag/jsonutils v0.29.1 // indirect
+	github.com/go-openapi/swag/loading v0.29.1 // indirect
 	github.com/go-openapi/swag/mangling v0.27.1 // indirect
 	github.com/go-openapi/swag/netutils v0.27.1 // indirect
-	github.com/go-openapi/swag/pools v0.27.1 // indirect
-	github.com/go-openapi/swag/stringutils v0.27.1 // indirect
-	github.com/go-openapi/swag/typeutils v0.27.1 // indirect
-	github.com/go-openapi/swag/yamlutils v0.27.1 // indirect
+	github.com/go-openapi/swag/pools v0.29.1 // indirect
+	github.com/go-openapi/swag/stringutils v0.29.1 // indirect
+	github.com/go-openapi/swag/typeutils v0.29.1 // indirect
+	github.com/go-openapi/swag/yamlutils v0.29.1 // indirect
 	github.com/go-pkgz/expirable-cache/v3 v3.1.1 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/gofiber/adaptor/v2 v2.2.1 // indirect
