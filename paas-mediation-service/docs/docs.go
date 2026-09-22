@@ -2331,6 +2331,14 @@ const docTemplate = `{
                 }
             }
         },
+        "v2.ForwardBodyConfig": {
+            "type": "object",
+            "properties": {
+                "maxSize": {
+                    "type": "integer"
+                }
+            }
+        },
         "v2.Fraction": {
             "type": "object",
             "properties": {
@@ -2339,6 +2347,37 @@ const docTemplate = `{
                 },
                 "numerator": {
                     "type": "integer"
+                }
+            }
+        },
+        "v2.GRPCAuthConfig": {
+            "type": "object",
+            "properties": {
+                "allowedHeaders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "v2.HTTPAuthConfig": {
+            "type": "object",
+            "properties": {
+                "allowedHeaders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allowedResponseHeaders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "path": {
+                    "type": "string"
                 }
             }
         },
@@ -2382,6 +2421,15 @@ const docTemplate = `{
             "properties": {
                 "backendRef": {
                     "$ref": "#/definitions/v2.BackendObjectReference"
+                },
+                "forwardBody": {
+                    "$ref": "#/definitions/v2.ForwardBodyConfig"
+                },
+                "grpc": {
+                    "$ref": "#/definitions/v2.GRPCAuthConfig"
+                },
+                "http": {
+                    "$ref": "#/definitions/v2.HTTPAuthConfig"
                 },
                 "protocol": {
                     "type": "string",

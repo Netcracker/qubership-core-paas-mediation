@@ -76,9 +76,30 @@ type HTTPCORSFilter struct {
 }
 
 // HTTPExternalAuthFilter sends the request to an external auth service.
+// JSON matches sigs.k8s.io/gateway-api/apis/v1.HTTPExternalAuthFilter.
 type HTTPExternalAuthFilter struct {
-	Protocol   string                 `json:"protocol,omitempty" example:"HTTP"`
-	BackendRef BackendObjectReference `json:"backendRef,omitempty"`
+	Protocol    string                 `json:"protocol,omitempty" example:"HTTP"`
+	BackendRef  BackendObjectReference `json:"backendRef,omitempty"`
+	GRPC        *GRPCAuthConfig        `json:"grpc,omitempty"`
+	HTTP        *HTTPAuthConfig        `json:"http,omitempty"`
+	ForwardBody *ForwardBodyConfig     `json:"forwardBody,omitempty"`
+}
+
+// GRPCAuthConfig configures gRPC ext_authz backends.
+type GRPCAuthConfig struct {
+	AllowedRequestHeaders []string `json:"allowedHeaders,omitempty"`
+}
+
+// HTTPAuthConfig configures HTTP authorization backends.
+type HTTPAuthConfig struct {
+	Path                   string   `json:"path,omitempty"`
+	AllowedRequestHeaders  []string `json:"allowedHeaders,omitempty"`
+	AllowedResponseHeaders []string `json:"allowedResponseHeaders,omitempty"`
+}
+
+// ForwardBodyConfig controls forwarding the client request body to the auth server.
+type ForwardBodyConfig struct {
+	MaxSize uint16 `json:"maxSize,omitempty"`
 }
 
 // LocalObjectReference references a namespaced API object in the same namespace.

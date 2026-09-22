@@ -272,12 +272,37 @@ definitions:
       fieldPath:
         type: string
     type: object
+  v2.ForwardBodyConfig:
+    properties:
+      maxSize:
+        type: integer
+    type: object
   v2.Fraction:
     properties:
       denominator:
         type: integer
       numerator:
         type: integer
+    type: object
+  v2.GRPCAuthConfig:
+    properties:
+      allowedHeaders:
+        items:
+          type: string
+        type: array
+    type: object
+  v2.HTTPAuthConfig:
+    properties:
+      allowedHeaders:
+        items:
+          type: string
+        type: array
+      allowedResponseHeaders:
+        items:
+          type: string
+        type: array
+      path:
+        type: string
     type: object
   v2.HTTPCORSFilter:
     properties:
@@ -306,6 +331,12 @@ definitions:
     properties:
       backendRef:
         $ref: '#/definitions/v2.BackendObjectReference'
+      forwardBody:
+        $ref: '#/definitions/v2.ForwardBodyConfig'
+      grpc:
+        $ref: '#/definitions/v2.GRPCAuthConfig'
+      http:
+        $ref: '#/definitions/v2.HTTPAuthConfig'
       protocol:
         example: HTTP
         type: string
