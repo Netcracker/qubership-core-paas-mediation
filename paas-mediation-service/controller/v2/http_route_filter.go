@@ -107,14 +107,9 @@ func toAPIFilters(src []gatewayv1.HTTPRouteFilter) []HTTPRouteFilter {
 	if src == nil {
 		return nil
 	}
-	raw, err := json.Marshal(src)
-	if err != nil {
-		return nil
-	}
+	raw, _ := json.Marshal(src)
 	var dst []HTTPRouteFilter
-	if err := json.Unmarshal(raw, &dst); err != nil {
-		return nil
-	}
+	_ = json.Unmarshal(raw, &dst)
 	return dst
 }
 
@@ -122,13 +117,8 @@ func fromAPIFilters(src []HTTPRouteFilter) []gatewayv1.HTTPRouteFilter {
 	if src == nil {
 		return nil
 	}
-	raw, err := json.Marshal(src)
-	if err != nil {
-		return nil
-	}
+	raw, _ := json.Marshal(src)
 	var dst []gatewayv1.HTTPRouteFilter
-	if err := json.Unmarshal(raw, &dst); err != nil {
-		return nil
-	}
+	_ = json.Unmarshal(raw, &dst)
 	return dst
 }
