@@ -1984,6 +1984,29 @@ const docTemplate = `{
                 }
             }
         },
+        "v2.BackendObjectReference": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "type": "string"
+                },
+                "kind": {
+                    "type": "string",
+                    "example": "Service"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "backend"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer",
+                    "example": 8080
+                }
+            }
+        },
         "v2.ConfigMap": {
             "type": "object",
             "properties": {
@@ -2308,6 +2331,213 @@ const docTemplate = `{
                 }
             }
         },
+        "v2.Fraction": {
+            "type": "object",
+            "properties": {
+                "denominator": {
+                    "type": "integer"
+                },
+                "numerator": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v2.HTTPCORSFilter": {
+            "type": "object",
+            "properties": {
+                "allowCredentials": {
+                    "type": "boolean"
+                },
+                "allowHeaders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allowMethods": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allowOrigins": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "exposeHeaders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "maxAge": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v2.HTTPExternalAuthFilter": {
+            "type": "object",
+            "properties": {
+                "backendRef": {
+                    "$ref": "#/definitions/v2.BackendObjectReference"
+                },
+                "protocol": {
+                    "type": "string",
+                    "example": "HTTP"
+                }
+            }
+        },
+        "v2.HTTPHeader": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "X-Request-Id"
+                },
+                "value": {
+                    "type": "string",
+                    "example": "abc"
+                }
+            }
+        },
+        "v2.HTTPHeaderFilter": {
+            "type": "object",
+            "properties": {
+                "add": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v2.HTTPHeader"
+                    }
+                },
+                "remove": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "set": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v2.HTTPHeader"
+                    }
+                }
+            }
+        },
+        "v2.HTTPPathModifier": {
+            "type": "object",
+            "properties": {
+                "replaceFullPath": {
+                    "type": "string"
+                },
+                "replacePrefixMatch": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "ReplacePrefixMatch"
+                }
+            }
+        },
+        "v2.HTTPRequestMirrorFilter": {
+            "type": "object",
+            "properties": {
+                "backendRef": {
+                    "$ref": "#/definitions/v2.BackendObjectReference"
+                },
+                "fraction": {
+                    "$ref": "#/definitions/v2.Fraction"
+                },
+                "percent": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v2.HTTPRequestRedirectFilter": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "path": {
+                    "$ref": "#/definitions/v2.HTTPPathModifier"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "scheme": {
+                    "type": "string",
+                    "example": "https"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "example": 302
+                }
+            }
+        },
+        "v2.HTTPRouteFilter": {
+            "type": "object",
+            "properties": {
+                "cors": {
+                    "$ref": "#/definitions/v2.HTTPCORSFilter"
+                },
+                "extensionRef": {
+                    "$ref": "#/definitions/v2.LocalObjectReference"
+                },
+                "externalAuth": {
+                    "$ref": "#/definitions/v2.HTTPExternalAuthFilter"
+                },
+                "requestHeaderModifier": {
+                    "$ref": "#/definitions/v2.HTTPHeaderFilter"
+                },
+                "requestMirror": {
+                    "$ref": "#/definitions/v2.HTTPRequestMirrorFilter"
+                },
+                "requestRedirect": {
+                    "$ref": "#/definitions/v2.HTTPRequestRedirectFilter"
+                },
+                "responseHeaderModifier": {
+                    "$ref": "#/definitions/v2.HTTPHeaderFilter"
+                },
+                "type": {
+                    "description": "Type identifies the filter. Supported values include RequestHeaderModifier,\nResponseHeaderModifier, RequestMirror, RequestRedirect, URLRewrite, CORS,\nExternalAuth, ExtensionRef.",
+                    "type": "string",
+                    "example": "ResponseHeaderModifier"
+                },
+                "urlRewrite": {
+                    "$ref": "#/definitions/v2.HTTPURLRewriteFilter"
+                }
+            }
+        },
+        "v2.HTTPURLRewriteFilter": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "path": {
+                    "$ref": "#/definitions/v2.HTTPPathModifier"
+                }
+            }
+        },
+        "v2.LocalObjectReference": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "type": "string",
+                    "example": ""
+                },
+                "kind": {
+                    "type": "string",
+                    "example": "ConfigMap"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "my-filter"
+                }
+            }
+        },
         "v2.Metadata": {
             "type": "object",
             "properties": {
@@ -2470,6 +2700,12 @@ const docTemplate = `{
         "v2.RouteSpec": {
             "type": "object",
             "properties": {
+                "filters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v2.HTTPRouteFilter"
+                    }
+                },
                 "host": {
                     "type": "string"
                 },
@@ -2484,10 +2720,6 @@ const docTemplate = `{
                 },
                 "port": {
                     "$ref": "#/definitions/v2.RoutePort"
-                },
-                "filters": {
-                    "type": "array",
-                    "items": {}
                 },
                 "streamIdleTimeout": {
                     "type": "string"

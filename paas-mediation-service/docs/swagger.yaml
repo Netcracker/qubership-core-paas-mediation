@@ -47,6 +47,22 @@ definitions:
       deployTime:
         type: string
     type: object
+  v2.BackendObjectReference:
+    properties:
+      group:
+        type: string
+      kind:
+        example: Service
+        type: string
+      name:
+        example: backend
+        type: string
+      namespace:
+        type: string
+      port:
+        example: 8080
+        type: integer
+    type: object
   v2.ConfigMap:
     properties:
       data:
@@ -256,6 +272,147 @@ definitions:
       fieldPath:
         type: string
     type: object
+  v2.Fraction:
+    properties:
+      denominator:
+        type: integer
+      numerator:
+        type: integer
+    type: object
+  v2.HTTPCORSFilter:
+    properties:
+      allowCredentials:
+        type: boolean
+      allowHeaders:
+        items:
+          type: string
+        type: array
+      allowMethods:
+        items:
+          type: string
+        type: array
+      allowOrigins:
+        items:
+          type: string
+        type: array
+      exposeHeaders:
+        items:
+          type: string
+        type: array
+      maxAge:
+        type: integer
+    type: object
+  v2.HTTPExternalAuthFilter:
+    properties:
+      backendRef:
+        $ref: '#/definitions/v2.BackendObjectReference'
+      protocol:
+        example: HTTP
+        type: string
+    type: object
+  v2.HTTPHeader:
+    properties:
+      name:
+        example: X-Request-Id
+        type: string
+      value:
+        example: abc
+        type: string
+    type: object
+  v2.HTTPHeaderFilter:
+    properties:
+      add:
+        items:
+          $ref: '#/definitions/v2.HTTPHeader'
+        type: array
+      remove:
+        items:
+          type: string
+        type: array
+      set:
+        items:
+          $ref: '#/definitions/v2.HTTPHeader'
+        type: array
+    type: object
+  v2.HTTPPathModifier:
+    properties:
+      replaceFullPath:
+        type: string
+      replacePrefixMatch:
+        type: string
+      type:
+        example: ReplacePrefixMatch
+        type: string
+    type: object
+  v2.HTTPRequestMirrorFilter:
+    properties:
+      backendRef:
+        $ref: '#/definitions/v2.BackendObjectReference'
+      fraction:
+        $ref: '#/definitions/v2.Fraction'
+      percent:
+        type: integer
+    type: object
+  v2.HTTPRequestRedirectFilter:
+    properties:
+      hostname:
+        type: string
+      path:
+        $ref: '#/definitions/v2.HTTPPathModifier'
+      port:
+        type: integer
+      scheme:
+        example: https
+        type: string
+      statusCode:
+        example: 302
+        type: integer
+    type: object
+  v2.HTTPRouteFilter:
+    properties:
+      cors:
+        $ref: '#/definitions/v2.HTTPCORSFilter'
+      extensionRef:
+        $ref: '#/definitions/v2.LocalObjectReference'
+      externalAuth:
+        $ref: '#/definitions/v2.HTTPExternalAuthFilter'
+      requestHeaderModifier:
+        $ref: '#/definitions/v2.HTTPHeaderFilter'
+      requestMirror:
+        $ref: '#/definitions/v2.HTTPRequestMirrorFilter'
+      requestRedirect:
+        $ref: '#/definitions/v2.HTTPRequestRedirectFilter'
+      responseHeaderModifier:
+        $ref: '#/definitions/v2.HTTPHeaderFilter'
+      type:
+        description: |-
+          Type identifies the filter. Supported values include RequestHeaderModifier,
+          ResponseHeaderModifier, RequestMirror, RequestRedirect, URLRewrite, CORS,
+          ExternalAuth, ExtensionRef.
+        example: ResponseHeaderModifier
+        type: string
+      urlRewrite:
+        $ref: '#/definitions/v2.HTTPURLRewriteFilter'
+    type: object
+  v2.HTTPURLRewriteFilter:
+    properties:
+      hostname:
+        type: string
+      path:
+        $ref: '#/definitions/v2.HTTPPathModifier'
+    type: object
+  v2.LocalObjectReference:
+    properties:
+      group:
+        example: ""
+        type: string
+      kind:
+        example: ConfigMap
+        type: string
+      name:
+        example: my-filter
+        type: string
+    type: object
   v2.Metadata:
     properties:
       annotations:
@@ -361,6 +518,10 @@ definitions:
     type: object
   v2.RouteSpec:
     properties:
+      filters:
+        items:
+          $ref: '#/definitions/v2.HTTPRouteFilter'
+        type: array
       host:
         type: string
       ingressClassName:
@@ -371,9 +532,6 @@ definitions:
         type: string
       port:
         $ref: '#/definitions/v2.RoutePort'
-      filters:
-        items: {}
-        type: array
       streamIdleTimeout:
         type: string
       to:
@@ -1034,7 +1192,7 @@ paths:
       - application/json
       description: Get Gateway API GRPC Routes in namespace. This endpoint requires
         the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the
-        feature flag is disabled, the endpoint will return a 404 error.
+        feature flag is absent, the endpoint will return a 404 error.
       operationId: v2-get-gateway-grpcroutes
       parameters:
       - description: target namespace

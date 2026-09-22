@@ -6,7 +6,6 @@ import (
 
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	pmTypes "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/types"
-	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
 )
 
 type Features struct {
@@ -66,14 +65,14 @@ type (
 	}
 
 	RouteSpec struct {
-		Host              string                      `json:"host"`
-		PathType          string                      `json:"pathType"`
-		Path              string                      `json:"path"`
-		Service           Target                      `json:"to"`
-		Port              RoutePort                   `json:"port"`
-		IngressClassName  *string                     `json:"ingressClassName"`
-		Filters           []gatewayv1.HTTPRouteFilter `json:"filters,omitempty"`
-		StreamIdleTimeout string                      `json:"streamIdleTimeout,omitempty"`
+		Host              string            `json:"host"`
+		PathType          string            `json:"pathType"`
+		Path              string            `json:"path"`
+		Service           Target            `json:"to"`
+		Port              RoutePort         `json:"port"`
+		IngressClassName  *string           `json:"ingressClassName"`
+		Filters           []HTTPRouteFilter `json:"filters,omitempty"`
+		StreamIdleTimeout string            `json:"streamIdleTimeout,omitempty"`
 	}
 
 	RoutePort struct {
@@ -363,7 +362,7 @@ func ToRoute(resource entity.Route) Route {
 			Service:           Target{Name: resource.Spec.Service.Name},
 			Port:              RoutePort{TargetPort: resource.Spec.Port.TargetPort},
 			IngressClassName:  resource.Spec.IngressClassName,
-			Filters:           resource.Spec.Filters,
+			Filters:           toAPIFilters(resource.Spec.Filters),
 			StreamIdleTimeout: resource.Spec.StreamIdleTimeout,
 		},
 	}
@@ -379,7 +378,7 @@ func FromRoute(resource Route) entity.Route {
 			Service:           entity.Target{Name: resource.Spec.Service.Name},
 			Port:              entity.RoutePort{TargetPort: resource.Spec.Port.TargetPort},
 			IngressClassName:  resource.Spec.IngressClassName,
-			Filters:           resource.Spec.Filters,
+			Filters:           fromAPIFilters(resource.Spec.Filters),
 			StreamIdleTimeout: resource.Spec.StreamIdleTimeout,
 		},
 	}

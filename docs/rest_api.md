@@ -1,8 +1,8 @@
 
 
 
-# Paas-Mediation API
-Paas-Mediation Service
+# Paas Mediation API
+API for Paas Mediation.
   
 
 ## Informations
@@ -15,6 +15,16 @@ Paas-Mediation Service
 
   
 
+## Tags
+
+  ### <span id="tag-api-version-info"></span>api version info
+
+Apis provides information related to versions
+
+  ### <span id="tag-since-2-0"></span>since:2.0
+
+Apis existed since 2.0 version
+
 ## Content negotiation
 
 ### URI Schemes
@@ -25,6 +35,16 @@ Paas-Mediation Service
 
 ### Produces
   * application/json
+
+## Access control
+
+### Security Schemes
+
+#### ApiKeyAuth (header: Authorization)
+
+
+
+> **Type**: apikey
 
 ## All endpoints
 
@@ -87,6 +107,9 @@ Get Major, Minor and Supported Major versions
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### All responses
 | Code | Status | Description | Has headers | Schema |
 |------|--------|-------------|:-----------:|--------|
@@ -117,6 +140,9 @@ Create ConfigMap in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -196,6 +222,9 @@ Create Route in namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -273,6 +302,9 @@ Create Service in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -352,6 +384,9 @@ Delete ConfigMap with name in namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -419,6 +454,9 @@ Delete Route with name in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -488,6 +526,9 @@ Delete Service with name in namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -555,6 +596,9 @@ Get resources by resource type and annotation name in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -625,6 +669,9 @@ Get Blue-Green version ('bg-version') ConfigMap
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -691,6 +738,9 @@ Get ConfigMap by name and namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -770,6 +820,9 @@ Get ConfigMap by name and namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -838,6 +891,9 @@ Get Deployment by name and namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -917,6 +973,9 @@ Get Deployment by name and namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -986,6 +1045,9 @@ Get DeploymentFamily data based on Deployments labeled with 'family_name' label 
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -1046,13 +1108,16 @@ Status: Internal Server Error
 GET /api/v2/namespaces/{namespace}/gateway/grpcroutes
 ```
 
-Get Gateway API GRPC Routes in namespace
+Get Gateway API GRPC Routes in namespace. This endpoint requires the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the feature flag is absent, the endpoint will return a 404 error.
 
 #### Consumes
   * application/json
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1066,7 +1131,7 @@ Get Gateway API GRPC Routes in namespace
 | [200](#v2-get-gateway-grpcroutes-200) | OK | OK |  | [schema](#v2-get-gateway-grpcroutes-200-schema) |
 | [400](#v2-get-gateway-grpcroutes-400) | Bad Request | Bad Request |  | [schema](#v2-get-gateway-grpcroutes-400-schema) |
 | [403](#v2-get-gateway-grpcroutes-403) | Forbidden | Forbidden |  | [schema](#v2-get-gateway-grpcroutes-403-schema) |
-| [404](#v2-get-gateway-grpcroutes-404) | Not Found | Not Found |  | [schema](#v2-get-gateway-grpcroutes-404-schema) |
+| [404](#v2-get-gateway-grpcroutes-404) | Not Found | Not Found - Gateway routes feature is disabled |  | [schema](#v2-get-gateway-grpcroutes-404-schema) |
 | [500](#v2-get-gateway-grpcroutes-500) | Internal Server Error | Internal Server Error |  | [schema](#v2-get-gateway-grpcroutes-500-schema) |
 
 #### Responses
@@ -1099,7 +1164,7 @@ Status: Forbidden
 
 [V2ErrorResponse](#v2-error-response)
 
-##### <span id="v2-get-gateway-grpcroutes-404"></span> 404 - Not Found
+##### <span id="v2-get-gateway-grpcroutes-404"></span> 404 - Not Found - Gateway routes feature is disabled
 Status: Not Found
 
 ###### <span id="v2-get-gateway-grpcroutes-404-schema"></span> Schema
@@ -1123,13 +1188,16 @@ Status: Internal Server Error
 GET /api/v2/namespaces/{namespace}/gateway/httproutes
 ```
 
-Get Gateway API HTTP Routes in namespace
+Get Gateway API HTTP Routes in namespace. This endpoint requires the GATEWAY_SYSTEM_TYPE feature flag to contain gateway-api-default. If the feature flag is absent, the endpoint will return a 404 error.
 
 #### Consumes
   * application/json
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1143,7 +1211,7 @@ Get Gateway API HTTP Routes in namespace
 | [200](#v2-get-gateway-httproutes-200) | OK | OK |  | [schema](#v2-get-gateway-httproutes-200-schema) |
 | [400](#v2-get-gateway-httproutes-400) | Bad Request | Bad Request |  | [schema](#v2-get-gateway-httproutes-400-schema) |
 | [403](#v2-get-gateway-httproutes-403) | Forbidden | Forbidden |  | [schema](#v2-get-gateway-httproutes-403-schema) |
-| [404](#v2-get-gateway-httproutes-404) | Not Found | Not Found |  | [schema](#v2-get-gateway-httproutes-404-schema) |
+| [404](#v2-get-gateway-httproutes-404) | Not Found | Not Found - Gateway routes feature is disabled |  | [schema](#v2-get-gateway-httproutes-404-schema) |
 | [500](#v2-get-gateway-httproutes-500) | Internal Server Error | Internal Server Error |  | [schema](#v2-get-gateway-httproutes-500-schema) |
 
 #### Responses
@@ -1176,7 +1244,7 @@ Status: Forbidden
 
 [V2ErrorResponse](#v2-error-response)
 
-##### <span id="v2-get-gateway-httproutes-404"></span> 404 - Not Found
+##### <span id="v2-get-gateway-httproutes-404"></span> 404 - Not Found - Gateway routes feature is disabled
 Status: Not Found
 
 ###### <span id="v2-get-gateway-httproutes-404-schema"></span> Schema
@@ -1207,6 +1275,9 @@ Get namespaces
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### All responses
 | Code | Status | Description | Has headers | Schema |
@@ -1268,6 +1339,9 @@ Get Pod by name and namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1347,6 +1421,9 @@ Get Pod by name and namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -1415,6 +1492,9 @@ Get Route by name and namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1494,6 +1574,9 @@ Get Route by name and namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -1562,6 +1645,9 @@ Get Service by name and namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1641,6 +1727,9 @@ Get Service by name and namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -1710,6 +1799,9 @@ Get versions from 'version' ConfigMap
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -1776,6 +1868,9 @@ RestartDeployment by name in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1845,6 +1940,9 @@ Restart Deployments in bulk by names in namespace in parallel or sequentially
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -1912,6 +2010,9 @@ Update or Create ConfigMap in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -1991,6 +2092,9 @@ Update or Create Route in namespace
 #### Produces
   * application/json
 
+#### Security Requirements
+  * ApiKeyAuth
+
 #### Parameters
 
 | Name | Source | Type | Go type | Separator | Required | Default | Description |
@@ -2068,6 +2172,9 @@ Update or Create Service in namespace
 
 #### Produces
   * application/json
+
+#### Security Requirements
+  * ApiKeyAuth
 
 #### Parameters
 
@@ -2203,6 +2310,25 @@ Status: Internal Server Error
 | appName | string| `string` |  | |  |  |
 | appVersion | string| `string` |  | |  |  |
 | deployTime | string| `string` |  | |  |  |
+
+
+
+### <span id="v2-backend-object-reference"></span> v2.BackendObjectReference
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| group | string| `string` |  | |  |  |
+| kind | string| `string` |  | |  | `Service` |
+| name | string| `string` |  | |  | `backend` |
+| namespace | string| `string` |  | |  |  |
+| port | integer| `int64` |  | |  | `8080` |
 
 
 
@@ -2569,6 +2695,200 @@ Status: Internal Server Error
 
 
 
+### <span id="v2-fraction"></span> v2.Fraction
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| denominator | integer| `int64` |  | |  |  |
+| numerator | integer| `int64` |  | |  |  |
+
+
+
+### <span id="v2-http-c-o-r-s-filter"></span> v2.HTTPCORSFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| allowCredentials | boolean| `bool` |  | |  |  |
+| allowHeaders | []string| `[]string` |  | |  |  |
+| allowMethods | []string| `[]string` |  | |  |  |
+| allowOrigins | []string| `[]string` |  | |  |  |
+| exposeHeaders | []string| `[]string` |  | |  |  |
+| maxAge | integer| `int64` |  | |  |  |
+
+
+
+### <span id="v2-http-external-auth-filter"></span> v2.HTTPExternalAuthFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| backendRef | [V2BackendObjectReference](#v2-backend-object-reference)| `V2BackendObjectReference` |  | |  |  |
+| protocol | string| `string` |  | |  | `HTTP` |
+
+
+
+### <span id="v2-http-header"></span> v2.HTTPHeader
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| name | string| `string` |  | |  | `X-Request-Id` |
+| value | string| `string` |  | |  | `abc` |
+
+
+
+### <span id="v2-http-header-filter"></span> v2.HTTPHeaderFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| add | [][V2HTTPHeader](#v2-http-header)| `[]*V2HTTPHeader` |  | |  |  |
+| remove | []string| `[]string` |  | |  |  |
+| set | [][V2HTTPHeader](#v2-http-header)| `[]*V2HTTPHeader` |  | |  |  |
+
+
+
+### <span id="v2-http-path-modifier"></span> v2.HTTPPathModifier
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| replaceFullPath | string| `string` |  | |  |  |
+| replacePrefixMatch | string| `string` |  | |  |  |
+| type | string| `string` |  | |  | `ReplacePrefixMatch` |
+
+
+
+### <span id="v2-http-request-mirror-filter"></span> v2.HTTPRequestMirrorFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| backendRef | [V2BackendObjectReference](#v2-backend-object-reference)| `V2BackendObjectReference` |  | |  |  |
+| fraction | [V2Fraction](#v2-fraction)| `V2Fraction` |  | |  |  |
+| percent | integer| `int64` |  | |  |  |
+
+
+
+### <span id="v2-http-request-redirect-filter"></span> v2.HTTPRequestRedirectFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| hostname | string| `string` |  | |  |  |
+| path | [V2HTTPPathModifier](#v2-http-path-modifier)| `V2HTTPPathModifier` |  | |  |  |
+| port | integer| `int64` |  | |  |  |
+| scheme | string| `string` |  | |  | `https` |
+| statusCode | integer| `int64` |  | |  | `302` |
+
+
+
+### <span id="v2-http-route-filter"></span> v2.HTTPRouteFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| cors | [V2HTTPCORSFilter](#v2-http-c-o-r-s-filter)| `V2HTTPCORSFilter` |  | |  |  |
+| extensionRef | [V2LocalObjectReference](#v2-local-object-reference)| `V2LocalObjectReference` |  | |  |  |
+| externalAuth | [V2HTTPExternalAuthFilter](#v2-http-external-auth-filter)| `V2HTTPExternalAuthFilter` |  | |  |  |
+| requestHeaderModifier | [V2HTTPHeaderFilter](#v2-http-header-filter)| `V2HTTPHeaderFilter` |  | |  |  |
+| requestMirror | [V2HTTPRequestMirrorFilter](#v2-http-request-mirror-filter)| `V2HTTPRequestMirrorFilter` |  | |  |  |
+| requestRedirect | [V2HTTPRequestRedirectFilter](#v2-http-request-redirect-filter)| `V2HTTPRequestRedirectFilter` |  | |  |  |
+| responseHeaderModifier | [V2HTTPHeaderFilter](#v2-http-header-filter)| `V2HTTPHeaderFilter` |  | |  |  |
+| type | string| `string` |  | | Type identifies the filter. Supported values include RequestHeaderModifier,</br>ResponseHeaderModifier, RequestMirror, RequestRedirect, URLRewrite, CORS,</br>ExternalAuth, ExtensionRef. | `ResponseHeaderModifier` |
+| urlRewrite | [V2HTTPURLRewriteFilter](#v2-http-url-rewrite-filter)| `V2HTTPURLRewriteFilter` |  | |  |  |
+
+
+
+### <span id="v2-http-url-rewrite-filter"></span> v2.HTTPURLRewriteFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| hostname | string| `string` |  | |  |  |
+| path | [V2HTTPPathModifier](#v2-http-path-modifier)| `V2HTTPPathModifier` |  | |  |  |
+
+
+
+### <span id="v2-local-object-reference"></span> v2.LocalObjectReference
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| group | string| `string` |  | |  |  |
+| kind | string| `string` |  | |  | `ConfigMap` |
+| name | string| `string` |  | |  | `my-filter` |
+
+
+
 ### <span id="v2-metadata"></span> v2.Metadata
 
 
@@ -2737,11 +3057,13 @@ Status: Internal Server Error
 
 | Name | Type | Go type | Required | Default | Description | Example |
 |------|------|---------|:--------:| ------- |-------------|---------|
+| filters | [][V2HTTPRouteFilter](#v2-http-route-filter)| `[]*V2HTTPRouteFilter` |  | |  |  |
 | host | string| `string` |  | |  |  |
 | ingressClassName | string| `string` |  | |  |  |
 | path | string| `string` |  | |  |  |
 | pathType | string| `string` |  | |  |  |
 | port | [V2RoutePort](#v2-route-port)| `V2RoutePort` |  | |  |  |
+| streamIdleTimeout | string| `string` |  | |  |  |
 | to | [V2Target](#v2-target)| `V2Target` |  | |  |  |
 
 
