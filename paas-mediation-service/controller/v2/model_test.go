@@ -73,9 +73,9 @@ var (
 			Service:          Target{Name: "test"},
 			Port:             RoutePort{TargetPort: 8080},
 			IngressClassName: &testIngressClassName,
-			Filters: []HTTPRouteFilter{{
-				Type: string(gatewayv1.HTTPRouteFilterResponseHeaderModifier),
-				ResponseHeaderModifier: &HTTPHeaderFilter{
+			Filters: []gatewayv1.HTTPRouteFilter{{
+				Type: gatewayv1.HTTPRouteFilterResponseHeaderModifier,
+				ResponseHeaderModifier: &gatewayv1.HTTPHeaderFilter{
 					Remove: []string{"authorization"},
 				},
 			}},

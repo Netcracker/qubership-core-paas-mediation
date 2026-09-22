@@ -1,7 +1,7 @@
 package main
 
 //go:generate go get github.com/swaggo/swag/cmd/swag@v1.16.3
-//go:generate go run github.com/swaggo/swag/cmd/swag init --generalInfo /main.go --parseDependency --parseDepth 2
+//go:generate go run github.com/swaggo/swag/cmd/swag@v1.16.3 init --generalInfo main.go --parseDependency --parseDepth 2
 
 import (
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/lib"
