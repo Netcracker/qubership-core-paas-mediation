@@ -2279,6 +2279,302 @@ Status: Internal Server Error
 
 
 
+### <span id="sigs-k8s-io-gateway-api-apis-v1-backend-object-reference"></span> sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| group | string| `string` |  | | Group is the group of the referent. For example, "gateway.networking.k8s.io".</br>When unspecified or empty string, core API group is inferred.</br></br>+optional</br>+kubebuilder:default="" |  |
+| kind | string| `string` |  | | Kind is the Kubernetes resource kind of the referent. For example</br>"Service".</br></br>Defaults to "Service" when not specified.</br></br>ExternalName services can refer to CNAME DNS records that may live</br>outside of the cluster and as such are difficult to reason about in</br>terms of conformance. They also may not be safe to forward to (see</br>CVE-2021-25740 for more information). Implementations SHOULD NOT</br>support ExternalName Services.</br></br>Support: Core (Services with a type other than ExternalName)</br></br>Support: Implementation-specific (Services with type ExternalName)</br></br>+optional</br>+kubebuilder:default=Service |  |
+| name | string| `string` |  | | Name is the name of the referent.</br>+required |  |
+| namespace | string| `string` |  | | Namespace is the namespace of the backend. When unspecified, the local</br>namespace is inferred.</br></br>Note that when a namespace different than the local namespace is specified,</br>a ReferenceGrant object is required in the referent namespace to allow that</br>namespace's owner to accept the reference. See the ReferenceGrant</br>documentation for details.</br></br>Support: Core</br></br>+optional |  |
+| port | integer| `int64` |  | | Port specifies the destination port number to use for this resource.</br>Port is required when the referent is a Kubernetes Service. In this</br>case, the port number is the service port number, not the target port.</br>For other resources, destination port might be derived from the referent</br>resource or this field.</br></br>+optional</br>+kubebuilder:validation:Minimum=1</br>+kubebuilder:validation:Maximum=65535 |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-forward-body-config"></span> sigs_k8s_io_gateway-api_apis_v1.ForwardBodyConfig
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| maxSize | integer| `int64` |  | | MaxSize specifies how large in bytes the largest body that will be buffered</br>and sent to the authorization server. If the body size is larger than</br>`maxSize`, then the body sent to the authorization server must be</br>truncated to `maxSize` bytes.</br></br>Experimental note: This behavior needs to be checked against</br>various dataplanes; it may need to be changed.</br>See https://github.com/kubernetes-sigs/gateway-api/pull/4001#discussion_r2291405746</br>for more.</br></br>If 0, the body will not be sent to the authorization server.</br>+optional |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-fraction"></span> sigs_k8s_io_gateway-api_apis_v1.Fraction
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| denominator | integer| `int64` |  | | +optional</br>+kubebuilder:default=100</br>+kubebuilder:validation:Minimum=1 |  |
+| numerator | integer| `int64` |  | | +kubebuilder:validation:Minimum=0</br>+required |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-g-rpc-auth-config"></span> sigs_k8s_io_gateway-api_apis_v1.GRPCAuthConfig
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| allowedHeaders | []string| `[]string` |  | | AllowedRequestHeaders specifies what headers from the client request</br>will be sent to the authorization server.</br></br>If this list is empty, then all headers must be sent.</br></br>If the list has entries, only those entries must be sent.</br></br>+optional</br>+listType=set</br>+kubebuilder:validation:MaxItems=64 |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-auth-config"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPAuthConfig
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| allowedHeaders | []string| `[]string` |  | | AllowedRequestHeaders specifies what additional headers from the client request</br>will be sent to the authorization server.</br></br>The following headers must always be sent to the authorization server,</br>regardless of this setting:</br></br>* `Host`</br>* `Method`</br>* `Path`</br>* `Content-Length`</br>* `Authorization`</br></br>If this list is empty, then only those headers must be sent.</br></br>Note that `Content-Length` has a special behavior, in that the length</br>sent must be correct for the actual request to the external authorization</br>server - that is, it must reflect the actual number of bytes sent in the</br>body of the request to the authorization server.</br></br>So if the `forwardBody` stanza is unset, or `forwardBody.maxSize` is set</br>to `0`, then `Content-Length` must be `0`. If `forwardBody.maxSize` is set</br>to anything other than `0`, then the `Content-Length` of the authorization</br>request must be set to the actual number of bytes forwarded.</br></br>+optional</br>+listType=set</br>+kubebuilder:validation:MaxItems=64 |  |
+| allowedResponseHeaders | []string| `[]string` |  | | AllowedResponseHeaders specifies what headers from the authorization response</br>will be copied into the request to the backend.</br></br>If this list is empty, then all headers from the authorization server</br>except Authority or Host must be copied.</br></br>+optional</br>+listType=set</br>+kubebuilder:validation:MaxItems=64 |  |
+| path | string| `string` |  | | Path sets the prefix that paths from the client request will have added</br>when forwarded to the authorization server.</br></br>When empty or unspecified, no prefix is added.</br></br>Valid values are the same as the "value" regex for path values in the `match`</br>stanza, and the validation regex will screen out invalid paths in the same way.</br>Even with the validation, implementations MUST sanitize this input before using it</br>directly.</br></br>+optional</br>+kubebuilder:validation:MaxLength=1024</br>+kubebuilder:validation:Pattern="^(?:[-A-Za-z0-9/._~!$&'()*+,;=:@]|[%][0-9a-fA-F]{2})+$" |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-c-o-r-s-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPCORSFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| allowCredentials | boolean| `bool` |  | | AllowCredentials indicates whether the actual cross-origin request allows</br>to include credentials.</br></br>When set to true, the gateway will include the `Access-Control-Allow-Credentials`</br>response header with value true (case-sensitive).</br></br>When set to false or omitted the gateway will omit the header</br>`Access-Control-Allow-Credentials` entirely (this is the standard CORS</br>behavior).</br></br>Support: Extended</br></br>+optional |  |
+| allowHeaders | []string| `[]string` |  | | AllowHeaders indicates which HTTP request headers are supported for</br>accessing the requested resource.</br></br>Header names are not case-sensitive.</br></br>Multiple header names in the value of the `Access-Control-Allow-Headers`</br>response header are separated by a comma (",").</br></br>When the `allowHeaders` field is configured with one or more headers, the</br>gateway must return the `Access-Control-Allow-Headers` response header</br>which value is present in the `allowHeaders` field.</br></br>If any header name in the `Access-Control-Request-Headers` request header</br>is not included in the list of header names specified by the response</br>header `Access-Control-Allow-Headers`, it will present an error on the</br>client side.</br></br>If any header name in the `Access-Control-Allow-Headers` response header</br>does not recognize by the client, it will also occur an error on the</br>client side.</br></br>A wildcard indicates that the requests with all HTTP headers are allowed.</br></br>If the configuration contains the wildcard `*` in `allowHeaders` and</br>`allowCredentials` is set to `false`, the `Access-Control-Allow-Headers`</br>response header may either contain the wildcard `*` or echo the value</br>of the `Access-Control-Request-Headers` request header.</br></br>If the configuration contains the wildcard `*` in `allowHeaders` and</br>`allowCredentials` is set to `true`, the gateway must not return `*`</br>in the `Access-Control-Allow-Headers` response header. Instead, it must</br>return one or more header names matching the value of the</br>`Access-Control-Request-Headers` request header.</br>If the `Access-Control-Request-Headers` header is not present in the</br>request, the gateway must omit the `Access-Control-Allow-Headers`</br>response header.</br></br>Support: Extended</br></br>+listType=set</br>+kubebuilder:validation:MaxItems=64</br>+kubebuilder:validation:XValidation:message="AllowHeaders cannot contain '*' alongside other methods",rule="!('*' in self && self.size() > 1)"</br>+optional |  |
+| allowMethods | []string| `[]string` |  | | AllowMethods indicates which HTTP methods are supported for accessing the</br>requested resource.</br></br>Valid values are any method defined by RFC9110, along with the special</br>value `*`, which represents all HTTP methods are allowed.</br></br>Method names are case-sensitive, so these values are also case-sensitive.</br>(See https://www.rfc-editor.org/rfc/rfc2616#section-5.1.1)</br></br>Multiple method names in the value of the `Access-Control-Allow-Methods`</br>response header are separated by a comma (",").</br></br>A CORS-safelisted method is a method that is `GET`, `HEAD`, or `POST`.</br>(See https://fetch.spec.whatwg.org/#cors-safelisted-method) The</br>CORS-safelisted methods are always allowed, regardless of whether they</br>are specified in the `allowMethods` field.</br></br>When the `allowMethods` field is configured with one or more methods, the</br>gateway must return the `Access-Control-Allow-Methods` response header</br>which value is present in the `allowMethods` field.</br></br>If the HTTP method of the `Access-Control-Request-Method` request header</br>is not included in the list of methods specified by the response header</br>`Access-Control-Allow-Methods`, it will present an error on the client</br>side.</br></br>If the configuration contains the wildcard `*` in `allowMethods` and</br>`allowCredentials` is set to `false`, the `Access-Control-Allow-Methods`</br>response header may either contain the wildcard `*` or echo the value</br>of the `Access-Control-Request-Method` request header.</br></br>If the configuration contains the wildcard `*` in `allowMethods` and</br>`allowCredentials` is set to `true`, the gateway must not return `*`</br>in the `Access-Control-Allow-Methods` response header. Instead, it must</br>return a single HTTP method matching the value of the</br>`Access-Control-Request-Method` request header.</br>If the `Access-Control-Request-Method` header is not present in the request,</br>the gateway must omit the `Access-Control-Allow-Methods` response header.</br></br>Support: Extended</br></br>+listType=set</br>+kubebuilder:validation:MaxItems=9</br>+kubebuilder:validation:XValidation:message="AllowMethods cannot contain '*' alongside other methods",rule="!('*' in self && self.size() > 1)"</br>+optional |  |
+| allowOrigins | []string| `[]string` |  | | AllowOrigins indicates whether the response can be shared with requested</br>resource from the given `Origin`.</br></br>The `Origin` consists of a scheme and a host, with an optional port, and</br>takes the form `<scheme>://<host>(:<port>)`.</br></br>Valid values for scheme are: `http` and `https`.</br></br>Valid values for port are any integer between 1 and 65535 (the list of</br>available TCP/UDP ports). Note that, if not included, port `80` is</br>assumed for `http` scheme origins, and port `443` is assumed for `https`</br>origins. This may affect origin matching.</br></br>The host part of the origin may contain the wildcard character `*`. These</br>wildcard characters behave as follows:</br></br>* `*` is a greedy match to the _left_, including any number of</br>  DNS labels to the left of its position. This also means that</br>  `*` will include any number of period `.` characters to the</br>  left of its position.</br>* A wildcard by itself matches all hosts.</br></br>An origin value that includes _only_ the `*` character indicates requests</br>from all `Origin`s are allowed.</br></br>When the `allowOrigins` field is configured with multiple origins, it</br>means the server supports clients from multiple origins. If the request</br>`Origin` matches the configured allowed origins, the gateway must return</br>the given `Origin` and sets value of the header</br>`Access-Control-Allow-Origin` same as the `Origin` header provided by the</br>client.</br></br>The status code of a successful response to a "preflight" request is</br>always an OK status (i.e., 204 or 200).</br></br>If the request `Origin` does not match the configured allowed origins,</br>the gateway returns 204/200 response but doesn't set the relevant</br>cross-origin response headers. Alternatively, the gateway responds with</br>403 status to the "preflight" request is denied, coupled with omitting</br>the CORS headers. The cross-origin request fails on the client side.</br>Therefore, the client doesn't attempt the actual cross-origin request.</br></br>Conversely, if the request `Origin` matches one of the configured</br>allowed origins, the gateway sets the response header</br>`Access-Control-Allow-Origin` to the same value as the `Origin`</br>header provided by the client.</br></br>If the configuration contains the wildcard `*` in `allowOrigins` and</br>`allowCredentials` is set to `false`, the `Access-Control-Allow-Origin`</br>response header may either contain the wildcard `*` or echo the value</br>of the `Origin` request header.</br></br>If the configuration contains the wildcard `*` in `allowOrigins` and</br>`allowCredentials` is set to `true`, the gateway must not return `*`</br>in the `Access-Control-Allow-Origin` response header. Instead, it must</br>return a single origin matching the value of the `Origin` request header.</br></br>Support: Extended</br>+listType=set</br>+kubebuilder:validation:MaxItems=64</br>+kubebuilder:validation:XValidation:message="AllowOrigins cannot contain '*' alongside other origins",rule="!('*' in self && self.size() > 1)"</br>+optional |  |
+| exposeHeaders | []string| `[]string` |  | | ExposeHeaders indicates which HTTP response headers can be exposed</br>to client-side scripts in response to a cross-origin request.</br></br>A CORS-safelisted response header is an HTTP header in a CORS response</br>that it is considered safe to expose to the client scripts.</br>The CORS-safelisted response headers include the following headers:</br>`Cache-Control`</br>`Content-Language`</br>`Content-Length`</br>`Content-Type`</br>`Expires`</br>`Last-Modified`</br>`Pragma`</br>(See https://fetch.spec.whatwg.org/#cors-safelisted-response-header-name)</br>The CORS-safelisted response headers are exposed to client by default.</br></br>When an HTTP header name is specified using the `exposeHeaders` field,</br>this additional header will be exposed as part of the response to the</br>client.</br></br>Header names are not case-sensitive.</br></br>Multiple header names in the value of the `Access-Control-Expose-Headers`</br>response header are separated by a comma (",").</br></br>A wildcard indicates that the responses with all HTTP headers are exposed</br>to clients.</br></br>If the configuration contains the wildcard `*` in `exposeHeaders` and</br>`allowCredentials` is set to `false`, the `Access-Control-Expose-Headers`</br>response header can contain the wildcard `*`.</br></br>If the configuration contains the wildcard `*` in `exposeHeaders` and</br>`allowCredentials` is set to `true`, the gateway cannot use the `*`</br>in the `Access-Control-Expose-Headers` response header.</br></br>Support: Extended</br></br>+optional</br>+listType=set</br>+kubebuilder:validation:MaxItems=64 |  |
+| maxAge | integer| `int64` |  | | MaxAge indicates the duration (in seconds) for the client to cache the</br>results of a "preflight" request.</br></br>The information provided by the `Access-Control-Allow-Methods` and</br>`Access-Control-Allow-Headers` response headers can be cached by the</br>client until the time specified by `Access-Control-Max-Age` elapses.</br></br>The default value of `Access-Control-Max-Age` response header is 5</br>(seconds).</br></br>When the `MaxAge` field is unspecified, the gateway sets the response</br>header "Access-Control-Max-Age: 5" by default.</br></br>+optional</br>+kubebuilder:default=5</br>+kubebuilder:validation:Minimum=1 |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-external-auth-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPExternalAuthFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| backendRef | [SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter](#sigs-k8s-io-gateway-api-apis-v1-http-external-auth-filter)| `SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter` |  | | BackendRef is a reference to a backend to send authorization</br>requests to.</br></br>The backend must speak the selected protocol (GRPC or HTTP) on the</br>referenced port.</br></br>If the backend service requires TLS, use BackendTLSPolicy to tell the</br>implementation to supply the TLS details to be used to connect to that</br>backend.</br></br>+required |  |
+| forwardBody | [SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter](#sigs-k8s-io-gateway-api-apis-v1-http-external-auth-filter)| `SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter` |  | | ForwardBody controls if requests to the authorization server should include</br>the body of the client request; and if so, how big that body is allowed</br>to be.</br></br>It is expected that implementations will buffer the request body up to</br>`forwardBody.maxSize` bytes. Bodies over that size must be rejected with a</br>4xx series error (413 or 403 are common examples), and fail processing</br>of the filter.</br></br>If unset, or `forwardBody.maxSize` is set to `0`, then the body will not</br>be forwarded.</br></br>Feature Name: HTTPRouteExternalAuthForwardBody</br></br>+optional |  |
+| grpc | [SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter](#sigs-k8s-io-gateway-api-apis-v1-http-external-auth-filter)| `SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter` |  | | GRPCAuthConfig contains configuration for communication with ext_authz</br>protocol-speaking backends.</br></br>If unset, implementations must assume the default behavior for each</br>included field is intended.</br></br>+optional |  |
+| http | [SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter](#sigs-k8s-io-gateway-api-apis-v1-http-external-auth-filter)| `SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter` |  | | HTTPAuthConfig contains configuration for communication with HTTP-speaking</br>backends.</br></br>If unset, implementations must assume the default behavior for each</br>included field is intended.</br></br>+optional |  |
+| protocol | [SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter](#sigs-k8s-io-gateway-api-apis-v1-http-external-auth-filter)| `SigsK8sIoGatewayAPIApisV1HTTPExternalAuthFilter` |  | | ExternalAuthProtocol describes which protocol to use when communicating with an</br>ext_authz authorization server.</br></br>When this is set to GRPC, each backend must use the Envoy ext_authz protocol</br>on the port specified in `backendRefs`. Requests and responses are defined</br>in the protobufs explained at:</br>https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto</br></br>When this is set to HTTP, each backend must respond with a `200` status</br>code in on a successful authorization. Any other code is considered</br>an authorization failure.</br></br>Feature Names:</br>GRPC Support - HTTPRouteExternalAuthGRPC</br>HTTP Support - HTTPRouteExternalAuthHTTP</br></br>+unionDiscriminator</br>+required</br>+kubebuilder:validation:Enum=HTTP;GRPC |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-header"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPHeader
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| name | string| `string` |  | | Name is the name of the HTTP Header to be matched. Name matching MUST be</br>case-insensitive. (See https://tools.ietf.org/html/rfc7230#section-3.2).</br></br>If multiple entries specify equivalent header names, the first entry with</br>an equivalent name MUST be considered for a match. Subsequent entries</br>with an equivalent header name MUST be ignored. Due to the</br>case-insensitivity of header names, "foo" and "Foo" are considered</br>equivalent.</br>+required |  |
+| value | string| `string` |  | | Value is the value of HTTP Header to be matched.</br><gateway:experimental:description></br>Must consist of printable US-ASCII characters, optionally separated</br>by single tabs or spaces. See: https://tools.ietf.org/html/rfc7230#section-3.2</br></gateway:experimental:description></br></br>+kubebuilder:validation:MinLength=1</br>+kubebuilder:validation:MaxLength=4096</br>+required</br><gateway:experimental:validation:Pattern=`^[!-~]+([\t ]?[!-~]+)*$`> |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-header-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| add | [][SigsK8sIoGatewayAPIApisV1HTTPHeader](#sigs-k8s-io-gateway-api-apis-v1-http-header)| `[]*SigsK8sIoGatewayAPIApisV1HTTPHeader` |  | | Add adds the given header(s) (name, value) to the request</br>before the action. It appends to any existing values associated</br>with the header name.</br></br>Input:</br>  GET /foo HTTP/1.1</br>  my-header: foo</br></br>Config:</br>  add:</br>  - name: "my-header"</br>    value: "bar,baz"</br></br>Output:</br>  GET /foo HTTP/1.1</br>  my-header: foo,bar,baz</br></br>+optional</br>+listType=map</br>+listMapKey=name</br>+kubebuilder:validation:MaxItems=16 |  |
+| remove | []string| `[]string` |  | | Remove the given header(s) from the HTTP request before the action. The</br>value of Remove is a list of HTTP header names. Note that the header</br>names are case-insensitive (see</br>https://datatracker.ietf.org/doc/html/rfc2616#section-4.2).</br></br>Input:</br>  GET /foo HTTP/1.1</br>  my-header1: foo</br>  my-header2: bar</br>  my-header3: baz</br></br>Config:</br>  remove: ["my-header1", "my-header3"]</br></br>Output:</br>  GET /foo HTTP/1.1</br>  my-header2: bar</br></br>+optional</br>+listType=set</br>+kubebuilder:validation:MaxItems=16 |  |
+| set | [][SigsK8sIoGatewayAPIApisV1HTTPHeader](#sigs-k8s-io-gateway-api-apis-v1-http-header)| `[]*SigsK8sIoGatewayAPIApisV1HTTPHeader` |  | | Set overwrites the request with the given header (name, value)</br>before the action.</br></br>Input:</br>  GET /foo HTTP/1.1</br>  my-header: foo</br></br>Config:</br>  set:</br>  - name: "my-header"</br>    value: "bar"</br></br>Output:</br>  GET /foo HTTP/1.1</br>  my-header: bar</br></br>+optional</br>+listType=map</br>+listMapKey=name</br>+kubebuilder:validation:MaxItems=16 |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-path-modifier"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| replaceFullPath | string| `string` |  | | ReplaceFullPath specifies the value with which to replace the full path</br>of a request during a rewrite or redirect.</br></br>+kubebuilder:validation:MaxLength=1024</br>+optional |  |
+| replacePrefixMatch | string| `string` |  | | ReplacePrefixMatch specifies the value with which to replace the prefix</br>match of a request during a rewrite or redirect. For example, a request</br>to "/foo/bar" with a prefix match of "/foo" and a ReplacePrefixMatch</br>of "/xyz" would be modified to "/xyz/bar".</br></br>Note that this matches the behavior of the PathPrefix match type. This</br>matches full path elements. A path element refers to the list of labels</br>in the path split by the `/` separator. When specified, a trailing `/` is</br>ignored. For example, the paths `/abc`, `/abc/`, and `/abc/def` would all</br>match the prefix `/abc`, but the path `/abcd` would not.</br></br>ReplacePrefixMatch is only compatible with a `PathPrefix` HTTPRouteMatch.</br>Using any other HTTPRouteMatch type on the same HTTPRouteRule will result in</br>the implementation setting the Accepted Condition for the Route to `status: False`.</br></br>Request Path | Prefix Match | Replace Prefix | Modified Path</br>-------------|--------------|----------------|----------</br>/foo/bar     | /foo         | /xyz           | /xyz/bar</br>/foo/bar     | /foo         | /xyz/          | /xyz/bar</br>/foo/bar     | /foo/        | /xyz           | /xyz/bar</br>/foo/bar     | /foo/        | /xyz/          | /xyz/bar</br>/foo         | /foo         | /xyz           | /xyz</br>/foo/        | /foo         | /xyz           | /xyz/</br>/foo/bar     | /foo         | <empty string> | /bar</br>/foo/        | /foo         | <empty string> | /</br>/foo         | /foo         | <empty string> | /</br>/foo/        | /foo         | /              | /</br>/foo         | /foo         | /              | /</br></br>+kubebuilder:validation:MaxLength=1024</br>+optional |  |
+| type | [SigsK8sIoGatewayAPIApisV1HTTPPathModifier](#sigs-k8s-io-gateway-api-apis-v1-http-path-modifier)| `SigsK8sIoGatewayAPIApisV1HTTPPathModifier` |  | | Type defines the type of path modifier. Additional types may be</br>added in a future release of the API.</br></br>Note that values may be added to this enum, implementations</br>must ensure that unknown values will not cause a crash.</br></br>Unknown values here must result in the implementation setting the</br>Accepted Condition for the Route to `status: False`, with a</br>Reason of `UnsupportedValue`.</br></br>+kubebuilder:validation:Enum=ReplaceFullPath;ReplacePrefixMatch</br>+required |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-path-modifier-type"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifierType
+
+
+  
+
+| Name | Type | Go type | Default | Description | Example |
+|------|------|---------| ------- |-------------|---------|
+| sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifierType | string| string | |  |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-request-mirror-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPRequestMirrorFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| backendRef | [SigsK8sIoGatewayAPIApisV1HTTPRequestMirrorFilter](#sigs-k8s-io-gateway-api-apis-v1-http-request-mirror-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRequestMirrorFilter` |  | | BackendRef references a resource where mirrored requests are sent.</br></br>Mirrored requests must be sent only to a single destination endpoint</br>within this BackendRef, irrespective of how many endpoints are present</br>within this BackendRef.</br></br>If the referent cannot be found, this BackendRef is invalid and must be</br>dropped from the Gateway. The controller must ensure the "ResolvedRefs"</br>condition on the Route status is set to `status: False` and not configure</br>this backend in the underlying implementation.</br></br>If there is a cross-namespace reference to an *existing* object</br>that is not allowed by a ReferenceGrant, the controller must ensure the</br>"ResolvedRefs"  condition on the Route is set to `status: False`,</br>with the "RefNotPermitted" reason and not configure this backend in the</br>underlying implementation.</br></br>In either error case, the Message of the `ResolvedRefs` Condition</br>should be used to provide more detail about the problem.</br></br>Support: Extended for Kubernetes Service</br></br>Support: Implementation-specific for any other resource</br></br>If the backend service requires TLS, use BackendTLSPolicy to tell the</br>implementation to supply the TLS details to be used to connect to that</br>backend.</br></br>+required |  |
+| fraction | [SigsK8sIoGatewayAPIApisV1HTTPRequestMirrorFilter](#sigs-k8s-io-gateway-api-apis-v1-http-request-mirror-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRequestMirrorFilter` |  | | Fraction represents the fraction of requests that should be</br>mirrored to BackendRef.</br></br>Only one of Fraction or Percent may be specified. If neither field</br>is specified, 100% of requests will be mirrored.</br></br>+optional |  |
+| percent | integer| `int64` |  | | Percent represents the percentage of requests that should be</br>mirrored to BackendRef. Its minimum value is 0 (indicating 0% of</br>requests) and its maximum value is 100 (indicating 100% of requests).</br></br>Only one of Fraction or Percent may be specified. If neither field</br>is specified, 100% of requests will be mirrored.</br></br>+optional</br>+kubebuilder:validation:Minimum=0</br>+kubebuilder:validation:Maximum=100 |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-request-redirect-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPRequestRedirectFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| hostname | string| `string` |  | | Hostname is the hostname to be used in the value of the `Location`</br>header in the response.</br>When empty, the hostname in the `Host` header of the request is used.</br></br>Support: Core</br></br>+optional |  |
+| path | [SigsK8sIoGatewayAPIApisV1HTTPRequestRedirectFilter](#sigs-k8s-io-gateway-api-apis-v1-http-request-redirect-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRequestRedirectFilter` |  | | Path defines parameters used to modify the path of the incoming request.</br>The modified path is then used to construct the `Location` header. When</br>empty, the request path is used as-is.</br></br>Support: Extended</br></br>+optional |  |
+| port | integer| `int64` |  | | Port is the port to be used in the value of the `Location`</br>header in the response.</br></br>If no port is specified, the redirect port MUST be derived using the</br>following rules:</br></br>* If redirect scheme is not-empty, the redirect port MUST be the well-known</br>  port associated with the redirect scheme. Specifically "http" to port 80</br>  and "https" to port 443. If the redirect scheme does not have a</br>  well-known port, the listener port of the Gateway SHOULD be used.</br>* If redirect scheme is empty, the redirect port MUST be the Gateway</br>  Listener port.</br></br>Implementations SHOULD NOT add the port number in the 'Location'</br>header in the following cases:</br></br>* A Location header that will use HTTP (whether that is determined via</br>  the Listener protocol or the Scheme field) _and_ use port 80.</br>* A Location header that will use HTTPS (whether that is determined via</br>  the Listener protocol or the Scheme field) _and_ use port 443.</br></br>Support: Extended</br></br>+optional</br></br>+kubebuilder:validation:Minimum=1</br>+kubebuilder:validation:Maximum=65535 |  |
+| scheme | string| `string` |  | | Scheme is the scheme to be used in the value of the `Location` header in</br>the response. When empty, the scheme of the request is used.</br></br>Scheme redirects can affect the port of the redirect, for more information,</br>refer to the documentation for the port field of this filter.</br></br>Note that values may be added to this enum, implementations</br>must ensure that unknown values will not cause a crash.</br></br>Unknown values here must result in the implementation setting the</br>Accepted Condition for the Route to `status: False`, with a</br>Reason of `UnsupportedValue`.</br></br>Support: Extended</br></br>+optional</br>+kubebuilder:validation:Enum=http;https |  |
+| statusCode | integer| `int64` |  | | StatusCode is the HTTP status code to be used in response.</br></br>Note that values may be added to this enum, implementations</br>must ensure that unknown values will not cause a crash.</br></br>Unknown values here must result in the implementation setting the</br>Accepted Condition for the Route to `status: False`, with a</br>Reason of `UnsupportedValue`.</br></br>Support: Core</br></br>+optional</br>+kubebuilder:default=302</br>+kubebuilder:validation:Enum=301;302;303;307;308 |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-route-external-auth-protocol"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPRouteExternalAuthProtocol
+
+
+  
+
+| Name | Type | Go type | Default | Description | Example |
+|------|------|---------| ------- |-------------|---------|
+| sigs_k8s_io_gateway-api_apis_v1.HTTPRouteExternalAuthProtocol | string| string | |  |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-route-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| cors | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | CORS defines a schema for a filter that responds to the</br>cross-origin request based on HTTP response header.</br></br>Support: Extended</br></br>+optional |  |
+| extensionRef | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | ExtensionRef is an optional, implementation-specific extension to the</br>"filter" behavior.  For example, resource "myroutefilter" in group</br>"networking.example.net"). ExtensionRef MUST NOT be used for core and</br>extended filters.</br></br>This filter can be used multiple times within the same rule.</br></br>Support: Implementation-specific</br></br>+optional |  |
+| externalAuth | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | ExternalAuth configures settings related to sending request details</br>to an external auth service. The external service MUST authenticate</br>the request, and MAY authorize the request as well.</br></br>If there is any problem communicating with the external service,</br>this filter MUST fail closed.</br></br>Support: Extended</br></br>+optional</br><gateway:experimental> |  |
+| requestHeaderModifier | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | RequestHeaderModifier defines a schema for a filter that modifies request</br>headers.</br></br>Support: Core</br></br>+optional |  |
+| requestMirror | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | RequestMirror defines a schema for a filter that mirrors requests.</br>Requests are sent to the specified destination, but responses from</br>that destination are ignored.</br></br>This filter can be used multiple times within the same rule. Note that</br>not all implementations will be able to support mirroring to multiple</br>backends.</br></br>Support: Extended</br></br>+optional</br></br>+kubebuilder:validation:XValidation:message="Only one of percent or fraction may be specified in HTTPRequestMirrorFilter",rule="!(has(self.percent) && has(self.fraction))" |  |
+| requestRedirect | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | RequestRedirect defines a schema for a filter that responds to the</br>request with an HTTP redirection.</br></br>Support: Core</br></br>+optional |  |
+| responseHeaderModifier | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | ResponseHeaderModifier defines a schema for a filter that modifies response</br>headers.</br></br>Support: Extended</br></br>+optional |  |
+| type | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | Type identifies the type of filter to apply. As with other API fields,</br>types are classified into three conformance levels:</br></br>- Core: Filter types and their corresponding configuration defined by</br>  "Support: Core" in this package, e.g. "RequestHeaderModifier". All</br>  implementations must support core filters.</br></br>- Extended: Filter types and their corresponding configuration defined by</br>  "Support: Extended" in this package, e.g. "RequestMirror". Implementers</br>  are encouraged to support extended filters.</br></br>- Implementation-specific: Filters that are defined and supported by</br>  specific vendors.</br>  In the future, filters showing convergence in behavior across multiple</br>  implementations will be considered for inclusion in extended or core</br>  conformance levels. Filter-specific configuration for such filters</br>  is specified using the ExtensionRef field. `Type` should be set to</br>  "ExtensionRef" for custom filters.</br></br>Implementers are encouraged to define custom implementation types to</br>extend the core API with implementation-specific behavior.</br></br>If a reference to a custom filter type cannot be resolved, the filter</br>MUST NOT be skipped. Instead, requests that would have been processed by</br>that filter MUST receive a HTTP error response.</br></br>Note that values may be added to this enum, implementations</br>must ensure that unknown values will not cause a crash.</br></br>Unknown values here must result in the implementation setting the</br>Accepted Condition for the Route to `status: False`, with a</br>Reason of `UnsupportedValue`.</br></br>+unionDiscriminator</br>+kubebuilder:validation:Enum=RequestHeaderModifier;ResponseHeaderModifier;RequestMirror;RequestRedirect;URLRewrite;ExtensionRef;CORS</br><gateway:experimental:validation:Enum=RequestHeaderModifier;ResponseHeaderModifier;RequestMirror;RequestRedirect;URLRewrite;ExtensionRef;CORS;ExternalAuth></br>+required |  |
+| urlRewrite | [SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | | URLRewrite defines a schema for a filter that modifies a request during forwarding.</br></br>Support: Extended</br></br>+optional |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-route-filter-type"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilterType
+
+
+  
+
+| Name | Type | Go type | Default | Description | Example |
+|------|------|---------| ------- |-------------|---------|
+| sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilterType | string| string | |  |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-http-url-rewrite-filter"></span> sigs_k8s_io_gateway-api_apis_v1.HTTPURLRewriteFilter
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| hostname | string| `string` |  | | Hostname is the value to be used to replace the Host header value during</br>forwarding.</br></br>Support: Extended</br></br>+optional |  |
+| path | [SigsK8sIoGatewayAPIApisV1HTTPURLRewriteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-url-rewrite-filter)| `SigsK8sIoGatewayAPIApisV1HTTPURLRewriteFilter` |  | | Path defines a path rewrite.</br></br>Support: Extended</br></br>+optional |  |
+
+
+
+### <span id="sigs-k8s-io-gateway-api-apis-v1-local-object-reference"></span> sigs_k8s_io_gateway-api_apis_v1.LocalObjectReference
+
+
+  
+
+
+
+**Properties**
+
+| Name | Type | Go type | Required | Default | Description | Example |
+|------|------|---------|:--------:| ------- |-------------|---------|
+| group | string| `string` |  | | Group is the group of the referent. For example, "gateway.networking.k8s.io".</br>When unspecified or empty string, core API group is inferred.</br>+required |  |
+| kind | string| `string` |  | | Kind is kind of the referent. For example "HTTPRoute" or "Service".</br>+required |  |
+| name | string| `string` |  | | Name is the name of the referent.</br>+required |  |
+
+
+
 ### <span id="v2-annotation-resource"></span> v2.AnnotationResource
 
 
@@ -2310,25 +2606,6 @@ Status: Internal Server Error
 | appName | string| `string` |  | |  |  |
 | appVersion | string| `string` |  | |  |  |
 | deployTime | string| `string` |  | |  |  |
-
-
-
-### <span id="v2-backend-object-reference"></span> v2.BackendObjectReference
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| group | string| `string` |  | |  |  |
-| kind | string| `string` |  | |  | `Service` |
-| name | string| `string` |  | |  | `backend` |
-| namespace | string| `string` |  | |  |  |
-| port | integer| `int64` |  | |  | `8080` |
 
 
 
@@ -2695,200 +2972,6 @@ Status: Internal Server Error
 
 
 
-### <span id="v2-fraction"></span> v2.Fraction
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| denominator | integer| `int64` |  | |  |  |
-| numerator | integer| `int64` |  | |  |  |
-
-
-
-### <span id="v2-http-c-o-r-s-filter"></span> v2.HTTPCORSFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| allowCredentials | boolean| `bool` |  | |  |  |
-| allowHeaders | []string| `[]string` |  | |  |  |
-| allowMethods | []string| `[]string` |  | |  |  |
-| allowOrigins | []string| `[]string` |  | |  |  |
-| exposeHeaders | []string| `[]string` |  | |  |  |
-| maxAge | integer| `int64` |  | |  |  |
-
-
-
-### <span id="v2-http-external-auth-filter"></span> v2.HTTPExternalAuthFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| backendRef | [V2BackendObjectReference](#v2-backend-object-reference)| `V2BackendObjectReference` |  | |  |  |
-| protocol | string| `string` |  | |  | `HTTP` |
-
-
-
-### <span id="v2-http-header"></span> v2.HTTPHeader
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| name | string| `string` |  | |  | `X-Request-Id` |
-| value | string| `string` |  | |  | `abc` |
-
-
-
-### <span id="v2-http-header-filter"></span> v2.HTTPHeaderFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| add | [][V2HTTPHeader](#v2-http-header)| `[]*V2HTTPHeader` |  | |  |  |
-| remove | []string| `[]string` |  | |  |  |
-| set | [][V2HTTPHeader](#v2-http-header)| `[]*V2HTTPHeader` |  | |  |  |
-
-
-
-### <span id="v2-http-path-modifier"></span> v2.HTTPPathModifier
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| replaceFullPath | string| `string` |  | |  |  |
-| replacePrefixMatch | string| `string` |  | |  |  |
-| type | string| `string` |  | |  | `ReplacePrefixMatch` |
-
-
-
-### <span id="v2-http-request-mirror-filter"></span> v2.HTTPRequestMirrorFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| backendRef | [V2BackendObjectReference](#v2-backend-object-reference)| `V2BackendObjectReference` |  | |  |  |
-| fraction | [V2Fraction](#v2-fraction)| `V2Fraction` |  | |  |  |
-| percent | integer| `int64` |  | |  |  |
-
-
-
-### <span id="v2-http-request-redirect-filter"></span> v2.HTTPRequestRedirectFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| hostname | string| `string` |  | |  |  |
-| path | [V2HTTPPathModifier](#v2-http-path-modifier)| `V2HTTPPathModifier` |  | |  |  |
-| port | integer| `int64` |  | |  |  |
-| scheme | string| `string` |  | |  | `https` |
-| statusCode | integer| `int64` |  | |  | `302` |
-
-
-
-### <span id="v2-http-route-filter"></span> v2.HTTPRouteFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| cors | [V2HTTPCORSFilter](#v2-http-c-o-r-s-filter)| `V2HTTPCORSFilter` |  | |  |  |
-| extensionRef | [V2LocalObjectReference](#v2-local-object-reference)| `V2LocalObjectReference` |  | |  |  |
-| externalAuth | [V2HTTPExternalAuthFilter](#v2-http-external-auth-filter)| `V2HTTPExternalAuthFilter` |  | |  |  |
-| requestHeaderModifier | [V2HTTPHeaderFilter](#v2-http-header-filter)| `V2HTTPHeaderFilter` |  | |  |  |
-| requestMirror | [V2HTTPRequestMirrorFilter](#v2-http-request-mirror-filter)| `V2HTTPRequestMirrorFilter` |  | |  |  |
-| requestRedirect | [V2HTTPRequestRedirectFilter](#v2-http-request-redirect-filter)| `V2HTTPRequestRedirectFilter` |  | |  |  |
-| responseHeaderModifier | [V2HTTPHeaderFilter](#v2-http-header-filter)| `V2HTTPHeaderFilter` |  | |  |  |
-| type | string| `string` |  | | Type identifies the filter. Supported values include RequestHeaderModifier,</br>ResponseHeaderModifier, RequestMirror, RequestRedirect, URLRewrite, CORS,</br>ExternalAuth, ExtensionRef. | `ResponseHeaderModifier` |
-| urlRewrite | [V2HTTPURLRewriteFilter](#v2-http-url-rewrite-filter)| `V2HTTPURLRewriteFilter` |  | |  |  |
-
-
-
-### <span id="v2-http-url-rewrite-filter"></span> v2.HTTPURLRewriteFilter
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| hostname | string| `string` |  | |  |  |
-| path | [V2HTTPPathModifier](#v2-http-path-modifier)| `V2HTTPPathModifier` |  | |  |  |
-
-
-
-### <span id="v2-local-object-reference"></span> v2.LocalObjectReference
-
-
-  
-
-
-
-**Properties**
-
-| Name | Type | Go type | Required | Default | Description | Example |
-|------|------|---------|:--------:| ------- |-------------|---------|
-| group | string| `string` |  | |  |  |
-| kind | string| `string` |  | |  | `ConfigMap` |
-| name | string| `string` |  | |  | `my-filter` |
-
-
-
 ### <span id="v2-metadata"></span> v2.Metadata
 
 
@@ -3057,7 +3140,7 @@ Status: Internal Server Error
 
 | Name | Type | Go type | Required | Default | Description | Example |
 |------|------|---------|:--------:| ------- |-------------|---------|
-| filters | [][V2HTTPRouteFilter](#v2-http-route-filter)| `[]*V2HTTPRouteFilter` |  | |  |  |
+| filters | [][SigsK8sIoGatewayAPIApisV1HTTPRouteFilter](#sigs-k8s-io-gateway-api-apis-v1-http-route-filter)| `[]*SigsK8sIoGatewayAPIApisV1HTTPRouteFilter` |  | |  |  |
 | host | string| `string` |  | |  |  |
 | ingressClassName | string| `string` |  | |  |  |
 | path | string| `string` |  | |  |  |
