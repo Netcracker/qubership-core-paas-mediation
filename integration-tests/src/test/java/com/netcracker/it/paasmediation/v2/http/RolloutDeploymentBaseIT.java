@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,10 +21,9 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
 
     @Test
     public void checkRestartDeployment() throws Exception {
-        String createdDeploymentName = null;
         try {
             log.debug("Start create deployment {}", deploymentName1);
-            createdDeploymentName = deploymentHelper.createDeployment(deploymentName1, deploymentHelper.getImage("paas-mediation"));
+            deploymentHelper.createDeployment(deploymentName1, deploymentHelper.getImage("paas-mediation"));
 
             String firstReplicaSetName = deploymentHelper.getLatestReplicaSet(deploymentName1).getMetadata().getName();
             log.debug("Last replicaSet={} from deployment={}", firstReplicaSetName, deploymentName1);
@@ -40,28 +38,24 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
             assertEquals(firstReplicaSetName, responseReplicas.getActive(), "ReplicaSet differ from the response");
             assertEquals(secondReplicaSetName, responseReplicas.getRolling(), "ReplicaSet differ from the response");
         } finally {
-            if (createdDeploymentName != null) {
-                kubernetesClient.apps().deployments().withName(createdDeploymentName).delete();
-                assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
-            }
+            // delete by name: a deployment left behind fails every later test with 'already exists'
+            deploymentHelper.deleteDeployment(deploymentName1);
         }
     }
 
     @Test
     public void checkBulkRestartDeployments() throws Exception {
         log.debug("Start check that platform is openshift");
-        String createdDeploymentName1 = null;
-        String createdDeploymentName2 = null;
         try {
             String deploymentImage = deploymentHelper.getImage("paas-mediation");
             log.debug("Start create deployment {}", deploymentName1);
-            createdDeploymentName1 = deploymentHelper.createDeployment(deploymentName1, deploymentImage);
+            deploymentHelper.createDeployment(deploymentName1, deploymentImage);
 
             String firstReplicaSetName1 = deploymentHelper.getLatestReplicaSet(deploymentName1).getMetadata().getName();
             log.info("Last replicaSet={} from deployment={}", firstReplicaSetName1, deploymentName1);
 
             log.debug("Start create deployment {}", deploymentName2);
-            createdDeploymentName2 = deploymentHelper.createDeployment(deploymentName2, deploymentImage);
+            deploymentHelper.createDeployment(deploymentName2, deploymentImage);
 
             String firstReplicaSetName2 = deploymentHelper.getLatestReplicaSet(deploymentName2).getMetadata().getName();
             log.info("Last replicaSet={} from deployment={}", firstReplicaSetName2, deploymentName2);
@@ -83,14 +77,9 @@ public class RolloutDeploymentBaseIT extends AbstractRolloutDeployment {
             assertTrue(validateReplicasFunc.apply(firstReplicaSetName1, secondReplicaSetName1), "ReplicaSet differ from the response");
             assertTrue(validateReplicasFunc.apply(firstReplicaSetName2, secondReplicaSetName2), "ReplicaSet differ from the response");
         } finally {
-            if (createdDeploymentName1 != null) {
-                kubernetesClient.apps().deployments().withName(createdDeploymentName1).delete();
-                assertNull(kubernetesClient.apps().deployments().withName(deploymentName1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
-            }
-            if (createdDeploymentName2 != null) {
-                kubernetesClient.apps().deployments().withName(createdDeploymentName2).delete();
-                assertNull(kubernetesClient.apps().deployments().withName(deploymentName2).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES));
-            }
+            // delete by name: a deployment left behind fails every later test with 'already exists'
+            deploymentHelper.deleteDeployment(deploymentName1);
+            deploymentHelper.deleteDeployment(deploymentName2);
         }
     }
 }
