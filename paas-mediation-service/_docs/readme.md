@@ -1,17 +1,28 @@
 
 # How to generate swagger doc manually
 
-1. install swag/cmd v1.8.12 or above
+Prefer the version-pinned `go:generate` directives in `main.go` (single source of truth).
+They must not change `go.mod` / `go.sum`:
+
+```
+cd paas-mediation-service
+go generate .
+```
+
+That runs, in order:
+
+1. OpenAPI generation (`swag`):
    ```
-   go install github.com/swaggo/swag/cmd/swag@v1.8.12
+   go run github.com/swaggo/swag/cmd/swag@v1.16.6 init --generalInfo main.go --parseDependency --parseDepth 2
    ```
-2. from withing paas-mediation-service folder execute swag init to generate swagger.json file
+2. Markdown docs from `swagger.json` (`go-swagger`):
    ```
-   swag init 
+   go run github.com/go-swagger/go-swagger/cmd/swagger@v0.36.6 generate markdown -f ./docs/swagger.json --output ../docs/rest_api.md
    ```
-3. install https://github.com/go-swagger/go-swagger
-4. generate MD doc from swagger.json file
-   ```
-   swagger generate markdown -f ./docs/swagger.json --output ./../docs/rest_api.md
- 
-   ```
+
+`--parseDependency --parseDepth 2` is required so Gateway API types such as
+`gatewayv1.HTTPRouteFilter` (including nested ExternalAuth fields) are expanded
+in the OpenAPI schema instead of `items: {}`.
+
+Do **not** run `go get` for these tools as part of generation — that can rewrite module
+dependencies.
