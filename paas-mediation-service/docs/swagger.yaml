@@ -29,7 +29,54 @@ definitions:
           type: integer
         type: array
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference:
+  sigs_k8s_io_gateway-api_apis_v1.HTTPHeader:
+    properties:
+      name:
+        description: |-
+          Name is the name of the HTTP Header to be matched. Name matching MUST be
+          case-insensitive. (See https://tools.ietf.org/html/rfc7230#section-3.2).
+
+          If multiple entries specify equivalent header names, the first entry with
+          an equivalent name MUST be considered for a match. Subsequent entries
+          with an equivalent header name MUST be ignored. Due to the
+          case-insensitivity of header names, "foo" and "Foo" are considered
+          equivalent.
+          +required
+        type: string
+      value:
+        description: |-
+          Value is the value of HTTP Header to be matched.
+          <gateway:experimental:description>
+          Must consist of printable US-ASCII characters, optionally separated
+          by single tabs or spaces. See: https://tools.ietf.org/html/rfc7230#section-3.2
+          </gateway:experimental:description>
+
+          +kubebuilder:validation:MinLength=1
+          +kubebuilder:validation:MaxLength=4096
+          +required
+          <gateway:experimental:validation:Pattern=`^[!-~]+([\t ]?[!-~]+)*$`>
+        type: string
+    type: object
+  sigs_k8s_io_gateway-api_apis_v1.LocalObjectReference:
+    properties:
+      group:
+        description: |-
+          Group is the group of the referent. For example, "gateway.networking.k8s.io".
+          When unspecified or empty string, core API group is inferred.
+          +required
+        type: string
+      kind:
+        description: |-
+          Kind is kind of the referent. For example "HTTPRoute" or "Service".
+          +required
+        type: string
+      name:
+        description: |-
+          Name is the name of the referent.
+          +required
+        type: string
+    type: object
+  v1.BackendObjectReference:
     properties:
       group:
         description: |-
@@ -91,7 +138,7 @@ definitions:
           +kubebuilder:validation:Maximum=65535
         type: integer
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.ForwardBodyConfig:
+  v1.ForwardBodyConfig:
     properties:
       maxSize:
         description: |-
@@ -109,7 +156,7 @@ definitions:
           +optional
         type: integer
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.Fraction:
+  v1.Fraction:
     properties:
       denominator:
         description: |-
@@ -123,7 +170,7 @@ definitions:
           +required
         type: integer
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.GRPCAuthConfig:
+  v1.GRPCAuthConfig:
     properties:
       allowedHeaders:
         description: |-
@@ -141,7 +188,7 @@ definitions:
           type: string
         type: array
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPAuthConfig:
+  v1.HTTPAuthConfig:
     properties:
       allowedHeaders:
         description: |-
@@ -206,7 +253,7 @@ definitions:
           +kubebuilder:validation:Pattern="^(?:[-A-Za-z0-9/._~!$&'()*+,;=:@]|[%][0-9a-fA-F]{2})+$"
         type: string
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPCORSFilter:
+  v1.HTTPCORSFilter:
     properties:
       allowCredentials:
         description: |-
@@ -234,9 +281,9 @@ definitions:
           Multiple header names in the value of the `Access-Control-Allow-Headers`
           response header are separated by a comma (",").
 
-          When the `allowHeaders` field is configured with one or more headers, the
+          When the `AllowHeaders` field is configured with one or more headers, the
           gateway must return the `Access-Control-Allow-Headers` response header
-          which value is present in the `allowHeaders` field.
+          which value is present in the `AllowHeaders` field.
 
           If any header name in the `Access-Control-Request-Headers` request header
           is not included in the list of header names specified by the response
@@ -248,20 +295,21 @@ definitions:
           client side.
 
           A wildcard indicates that the requests with all HTTP headers are allowed.
+          If config contains the wildcard "*" in allowHeaders and the request is
+          not credentialed, the `Access-Control-Allow-Headers` response header
+          can either use the `*` wildcard or the value of
+          Access-Control-Request-Headers from the request.
 
-          If the configuration contains the wildcard `*` in `allowHeaders` and
-          `allowCredentials` is set to `false`, the `Access-Control-Allow-Headers`
-          response header may either contain the wildcard `*` or echo the value
-          of the `Access-Control-Request-Headers` request header.
-
-          If the configuration contains the wildcard `*` in `allowHeaders` and
-          `allowCredentials` is set to `true`, the gateway must not return `*`
-          in the `Access-Control-Allow-Headers` response header. Instead, it must
-          return one or more header names matching the value of the
-          `Access-Control-Request-Headers` request header.
-          If the `Access-Control-Request-Headers` header is not present in the
-          request, the gateway must omit the `Access-Control-Allow-Headers`
-          response header.
+          When the request is credentialed, the gateway must not specify the `*`
+          wildcard in the `Access-Control-Allow-Headers` response header. When
+          also the `AllowCredentials` field is true and `AllowHeaders` field
+          is specified with the `*` wildcard, the gateway must specify one or more
+          HTTP headers in the value of the `Access-Control-Allow-Headers` response
+          header. The value of the header `Access-Control-Allow-Headers` is same as
+          the `Access-Control-Request-Headers` header provided by the client. If
+          the header `Access-Control-Request-Headers` is not included in the
+          request, the gateway will omit the `Access-Control-Allow-Headers`
+          response header, instead of specifying the `*` wildcard.
 
           Support: Extended
 
@@ -289,29 +337,32 @@ definitions:
           A CORS-safelisted method is a method that is `GET`, `HEAD`, or `POST`.
           (See https://fetch.spec.whatwg.org/#cors-safelisted-method) The
           CORS-safelisted methods are always allowed, regardless of whether they
-          are specified in the `allowMethods` field.
+          are specified in the `AllowMethods` field.
 
-          When the `allowMethods` field is configured with one or more methods, the
+          When the `AllowMethods` field is configured with one or more methods, the
           gateway must return the `Access-Control-Allow-Methods` response header
-          which value is present in the `allowMethods` field.
+          which value is present in the `AllowMethods` field.
 
           If the HTTP method of the `Access-Control-Request-Method` request header
           is not included in the list of methods specified by the response header
           `Access-Control-Allow-Methods`, it will present an error on the client
           side.
 
-          If the configuration contains the wildcard `*` in `allowMethods` and
-          `allowCredentials` is set to `false`, the `Access-Control-Allow-Methods`
-          response header may either contain the wildcard `*` or echo the value
-          of the `Access-Control-Request-Method` request header.
+          If config contains the wildcard "*" in allowMethods and the request is
+          not credentialed, the `Access-Control-Allow-Methods` response header
+          can either use the `*` wildcard or the value of
+          Access-Control-Request-Method from the request.
 
-          If the configuration contains the wildcard `*` in `allowMethods` and
-          `allowCredentials` is set to `true`, the gateway must not return `*`
-          in the `Access-Control-Allow-Methods` response header. Instead, it must
-          return a single HTTP method matching the value of the
-          `Access-Control-Request-Method` request header.
-          If the `Access-Control-Request-Method` header is not present in the request,
-          the gateway must omit the `Access-Control-Allow-Methods` response header.
+          When the request is credentialed, the gateway must not specify the `*`
+          wildcard in the `Access-Control-Allow-Methods` response header. When
+          also the `AllowCredentials` field is true and `AllowMethods` field
+          specified with the `*` wildcard, the gateway must specify one HTTP method
+          in the value of the Access-Control-Allow-Methods response header. The
+          value of the header `Access-Control-Allow-Methods` is same as the
+          `Access-Control-Request-Method` header provided by the client. If the
+          header `Access-Control-Request-Method` is not included in the request,
+          the gateway will omit the `Access-Control-Allow-Methods` response header,
+          instead of specifying the `*` wildcard.
 
           Support: Extended
 
@@ -349,7 +400,7 @@ definitions:
           An origin value that includes _only_ the `*` character indicates requests
           from all `Origin`s are allowed.
 
-          When the `allowOrigins` field is configured with multiple origins, it
+          When the `AllowOrigins` field is configured with multiple origins, it
           means the server supports clients from multiple origins. If the request
           `Origin` matches the configured allowed origins, the gateway must return
           the given `Origin` and sets value of the header
@@ -371,15 +422,19 @@ definitions:
           `Access-Control-Allow-Origin` to the same value as the `Origin`
           header provided by the client.
 
-          If the configuration contains the wildcard `*` in `allowOrigins` and
-          `allowCredentials` is set to `false`, the `Access-Control-Allow-Origin`
-          response header may either contain the wildcard `*` or echo the value
-          of the `Origin` request header.
+          When config has the wildcard ("*") in allowOrigins, and the request
+          is not credentialed (e.g., it is a preflight request), the
+          `Access-Control-Allow-Origin` response header either contains the
+          wildcard as well or the Origin from the request.
 
-          If the configuration contains the wildcard `*` in `allowOrigins` and
-          `allowCredentials` is set to `true`, the gateway must not return `*`
-          in the `Access-Control-Allow-Origin` response header. Instead, it must
-          return a single origin matching the value of the `Origin` request header.
+          When the request is credentialed, the gateway must not specify the `*`
+          wildcard in the `Access-Control-Allow-Origin` response header. When
+          also the `AllowCredentials` field is true and `AllowOrigins` field
+          specified with the `*` wildcard, the gateway must return a single origin
+          in the value of the `Access-Control-Allow-Origin` response header,
+          instead of specifying the `*` wildcard. The value of the header
+          `Access-Control-Allow-Origin` is same as the `Origin` header provided by
+          the client.
 
           Support: Extended
           +listType=set
@@ -407,7 +462,7 @@ definitions:
           (See https://fetch.spec.whatwg.org/#cors-safelisted-response-header-name)
           The CORS-safelisted response headers are exposed to client by default.
 
-          When an HTTP header name is specified using the `exposeHeaders` field,
+          When an HTTP header name is specified using the `ExposeHeaders` field,
           this additional header will be exposed as part of the response to the
           client.
 
@@ -417,15 +472,12 @@ definitions:
           response header are separated by a comma (",").
 
           A wildcard indicates that the responses with all HTTP headers are exposed
-          to clients.
+          to clients. The `Access-Control-Expose-Headers` response header can only
+          use `*` wildcard as value when the request is not credentialed.
 
-          If the configuration contains the wildcard `*` in `exposeHeaders` and
-          `allowCredentials` is set to `false`, the `Access-Control-Expose-Headers`
-          response header can contain the wildcard `*`.
-
-          If the configuration contains the wildcard `*` in `exposeHeaders` and
-          `allowCredentials` is set to `true`, the gateway cannot use the `*`
-          in the `Access-Control-Expose-Headers` response header.
+          When the `exposeHeaders` config field contains the "*" wildcard and
+          the request is credentialed, the gateway cannot use the `*` wildcard in
+          the `Access-Control-Expose-Headers` response header.
 
           Support: Extended
 
@@ -455,11 +507,11 @@ definitions:
           +kubebuilder:validation:Minimum=1
         type: integer
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPExternalAuthFilter:
+  v1.HTTPExternalAuthFilter:
     properties:
       backendRef:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference'
+        - $ref: '#/definitions/v1.BackendObjectReference'
         description: |-
           BackendRef is a reference to a backend to send authorization
           requests to.
@@ -474,7 +526,7 @@ definitions:
           +required
       forwardBody:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.ForwardBodyConfig'
+        - $ref: '#/definitions/v1.ForwardBodyConfig'
         description: |-
           ForwardBody controls if requests to the authorization server should include
           the body of the client request; and if so, how big that body is allowed
@@ -493,7 +545,7 @@ definitions:
           +optional
       grpc:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.GRPCAuthConfig'
+        - $ref: '#/definitions/v1.GRPCAuthConfig'
         description: |-
           GRPCAuthConfig contains configuration for communication with ext_authz
           protocol-speaking backends.
@@ -504,7 +556,7 @@ definitions:
           +optional
       http:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPAuthConfig'
+        - $ref: '#/definitions/v1.HTTPAuthConfig'
         description: |-
           HTTPAuthConfig contains configuration for communication with HTTP-speaking
           backends.
@@ -515,7 +567,7 @@ definitions:
           +optional
       protocol:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRouteExternalAuthProtocol'
+        - $ref: '#/definitions/v1.HTTPRouteExternalAuthProtocol'
         description: |-
           ExternalAuthProtocol describes which protocol to use when communicating with an
           ext_authz authorization server.
@@ -537,35 +589,7 @@ definitions:
           +required
           +kubebuilder:validation:Enum=HTTP;GRPC
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPHeader:
-    properties:
-      name:
-        description: |-
-          Name is the name of the HTTP Header to be matched. Name matching MUST be
-          case-insensitive. (See https://tools.ietf.org/html/rfc7230#section-3.2).
-
-          If multiple entries specify equivalent header names, the first entry with
-          an equivalent name MUST be considered for a match. Subsequent entries
-          with an equivalent header name MUST be ignored. Due to the
-          case-insensitivity of header names, "foo" and "Foo" are considered
-          equivalent.
-          +required
-        type: string
-      value:
-        description: |-
-          Value is the value of HTTP Header to be matched.
-          <gateway:experimental:description>
-          Must consist of printable US-ASCII characters, optionally separated
-          by single tabs or spaces. See: https://tools.ietf.org/html/rfc7230#section-3.2
-          </gateway:experimental:description>
-
-          +kubebuilder:validation:MinLength=1
-          +kubebuilder:validation:MaxLength=4096
-          +required
-          <gateway:experimental:validation:Pattern=`^[!-~]+([\t ]?[!-~]+)*$`>
-        type: string
-    type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter:
+  v1.HTTPHeaderFilter:
     properties:
       add:
         description: |-
@@ -645,7 +669,7 @@ definitions:
           $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPHeader'
         type: array
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier:
+  v1.HTTPPathModifier:
     properties:
       replaceFullPath:
         description: |-
@@ -691,7 +715,7 @@ definitions:
         type: string
       type:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifierType'
+        - $ref: '#/definitions/v1.HTTPPathModifierType'
         description: |-
           Type defines the type of path modifier. Additional types may be
           added in a future release of the API.
@@ -706,7 +730,7 @@ definitions:
           +kubebuilder:validation:Enum=ReplaceFullPath;ReplacePrefixMatch
           +required
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifierType:
+  v1.HTTPPathModifierType:
     enum:
     - ReplaceFullPath
     - ReplacePrefixMatch
@@ -714,11 +738,11 @@ definitions:
     x-enum-varnames:
     - FullPathHTTPPathModifier
     - PrefixMatchHTTPPathModifier
-  sigs_k8s_io_gateway-api_apis_v1.HTTPRequestMirrorFilter:
+  v1.HTTPRequestMirrorFilter:
     properties:
       backendRef:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference'
+        - $ref: '#/definitions/v1.BackendObjectReference'
         description: |-
           BackendRef references a resource where mirrored requests are sent.
 
@@ -743,15 +767,10 @@ definitions:
           Support: Extended for Kubernetes Service
 
           Support: Implementation-specific for any other resource
-
-          If the backend service requires TLS, use BackendTLSPolicy to tell the
-          implementation to supply the TLS details to be used to connect to that
-          backend.
-
           +required
       fraction:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.Fraction'
+        - $ref: '#/definitions/v1.Fraction'
         description: |-
           Fraction represents the fraction of requests that should be
           mirrored to BackendRef.
@@ -774,7 +793,7 @@ definitions:
           +kubebuilder:validation:Maximum=100
         type: integer
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPRequestRedirectFilter:
+  v1.HTTPRequestRedirectFilter:
     properties:
       hostname:
         description: |-
@@ -788,7 +807,7 @@ definitions:
         type: string
       path:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier'
+        - $ref: '#/definitions/v1.HTTPPathModifier'
         description: |-
           Path defines parameters used to modify the path of the incoming request.
           The modified path is then used to construct the `Location` header. When
@@ -865,7 +884,7 @@ definitions:
           +kubebuilder:validation:Enum=301;302;303;307;308
         type: integer
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPRouteExternalAuthProtocol:
+  v1.HTTPRouteExternalAuthProtocol:
     enum:
     - GRPC
     - HTTP
@@ -873,11 +892,11 @@ definitions:
     x-enum-varnames:
     - HTTPRouteExternalAuthGRPCProtocol
     - HTTPRouteExternalAuthHTTPProtocol
-  sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilter:
+  v1.HTTPRouteFilter:
     properties:
       cors:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPCORSFilter'
+        - $ref: '#/definitions/v1.HTTPCORSFilter'
         description: |-
           CORS defines a schema for a filter that responds to the
           cross-origin request based on HTTP response header.
@@ -901,7 +920,7 @@ definitions:
           +optional
       externalAuth:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPExternalAuthFilter'
+        - $ref: '#/definitions/v1.HTTPExternalAuthFilter'
         description: |-
           ExternalAuth configures settings related to sending request details
           to an external auth service. The external service MUST authenticate
@@ -916,7 +935,7 @@ definitions:
           <gateway:experimental>
       requestHeaderModifier:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter'
+        - $ref: '#/definitions/v1.HTTPHeaderFilter'
         description: |-
           RequestHeaderModifier defines a schema for a filter that modifies request
           headers.
@@ -926,7 +945,7 @@ definitions:
           +optional
       requestMirror:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRequestMirrorFilter'
+        - $ref: '#/definitions/v1.HTTPRequestMirrorFilter'
         description: |-
           RequestMirror defines a schema for a filter that mirrors requests.
           Requests are sent to the specified destination, but responses from
@@ -943,7 +962,7 @@ definitions:
           +kubebuilder:validation:XValidation:message="Only one of percent or fraction may be specified in HTTPRequestMirrorFilter",rule="!(has(self.percent) && has(self.fraction))"
       requestRedirect:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRequestRedirectFilter'
+        - $ref: '#/definitions/v1.HTTPRequestRedirectFilter'
         description: |-
           RequestRedirect defines a schema for a filter that responds to the
           request with an HTTP redirection.
@@ -953,7 +972,7 @@ definitions:
           +optional
       responseHeaderModifier:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter'
+        - $ref: '#/definitions/v1.HTTPHeaderFilter'
         description: |-
           ResponseHeaderModifier defines a schema for a filter that modifies response
           headers.
@@ -963,7 +982,7 @@ definitions:
           +optional
       type:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilterType'
+        - $ref: '#/definitions/v1.HTTPRouteFilterType'
         description: |-
           Type identifies the type of filter to apply. As with other API fields,
           types are classified into three conformance levels:
@@ -1004,7 +1023,7 @@ definitions:
           +required
       urlRewrite:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPURLRewriteFilter'
+        - $ref: '#/definitions/v1.HTTPURLRewriteFilter'
         description: |-
           URLRewrite defines a schema for a filter that modifies a request during forwarding.
 
@@ -1012,7 +1031,7 @@ definitions:
 
           +optional
     type: object
-  sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilterType:
+  v1.HTTPRouteFilterType:
     enum:
     - RequestHeaderModifier
     - ResponseHeaderModifier
@@ -1032,7 +1051,7 @@ definitions:
     - HTTPRouteFilterCORS
     - HTTPRouteFilterExternalAuth
     - HTTPRouteFilterExtensionRef
-  sigs_k8s_io_gateway-api_apis_v1.HTTPURLRewriteFilter:
+  v1.HTTPURLRewriteFilter:
     properties:
       hostname:
         description: |-
@@ -1045,32 +1064,13 @@ definitions:
         type: string
       path:
         allOf:
-        - $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier'
+        - $ref: '#/definitions/v1.HTTPPathModifier'
         description: |-
           Path defines a path rewrite.
 
           Support: Extended
 
           +optional
-    type: object
-  sigs_k8s_io_gateway-api_apis_v1.LocalObjectReference:
-    properties:
-      group:
-        description: |-
-          Group is the group of the referent. For example, "gateway.networking.k8s.io".
-          When unspecified or empty string, core API group is inferred.
-          +required
-        type: string
-      kind:
-        description: |-
-          Kind is kind of the referent. For example "HTTPRoute" or "Service".
-          +required
-        type: string
-      name:
-        description: |-
-          Name is the name of the referent.
-          +required
-        type: string
     type: object
   v2.AnnotationResource:
     properties:
@@ -1406,7 +1406,7 @@ definitions:
     properties:
       filters:
         items:
-          $ref: '#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilter'
+          $ref: '#/definitions/v1.HTTPRouteFilter'
         type: array
       host:
         type: string

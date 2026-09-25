@@ -1956,7 +1956,37 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference": {
+        "sigs_k8s_io_gateway-api_apis_v1.HTTPHeader": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name is the name of the HTTP Header to be matched. Name matching MUST be\ncase-insensitive. (See https://tools.ietf.org/html/rfc7230#section-3.2).\n\nIf multiple entries specify equivalent header names, the first entry with\nan equivalent name MUST be considered for a match. Subsequent entries\nwith an equivalent header name MUST be ignored. Due to the\ncase-insensitivity of header names, \"foo\" and \"Foo\" are considered\nequivalent.\n+required",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value is the value of HTTP Header to be matched.\n\u003cgateway:experimental:description\u003e\nMust consist of printable US-ASCII characters, optionally separated\nby single tabs or spaces. See: https://tools.ietf.org/html/rfc7230#section-3.2\n\u003c/gateway:experimental:description\u003e\n\n+kubebuilder:validation:MinLength=1\n+kubebuilder:validation:MaxLength=4096\n+required\n\u003cgateway:experimental:validation:Pattern=` + "`" + `^[!-~]+([\\t ]?[!-~]+)*$` + "`" + `\u003e",
+                    "type": "string"
+                }
+            }
+        },
+        "sigs_k8s_io_gateway-api_apis_v1.LocalObjectReference": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "description": "Group is the group of the referent. For example, \"gateway.networking.k8s.io\".\nWhen unspecified or empty string, core API group is inferred.\n+required",
+                    "type": "string"
+                },
+                "kind": {
+                    "description": "Kind is kind of the referent. For example \"HTTPRoute\" or \"Service\".\n+required",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name is the name of the referent.\n+required",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.BackendObjectReference": {
             "type": "object",
             "properties": {
                 "group": {
@@ -1981,7 +2011,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.ForwardBodyConfig": {
+        "v1.ForwardBodyConfig": {
             "type": "object",
             "properties": {
                 "maxSize": {
@@ -1990,7 +2020,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.Fraction": {
+        "v1.Fraction": {
             "type": "object",
             "properties": {
                 "denominator": {
@@ -2003,7 +2033,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.GRPCAuthConfig": {
+        "v1.GRPCAuthConfig": {
             "type": "object",
             "properties": {
                 "allowedHeaders": {
@@ -2015,7 +2045,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPAuthConfig": {
+        "v1.HTTPAuthConfig": {
             "type": "object",
             "properties": {
                 "allowedHeaders": {
@@ -2038,7 +2068,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPCORSFilter": {
+        "v1.HTTPCORSFilter": {
             "type": "object",
             "properties": {
                 "allowCredentials": {
@@ -2046,28 +2076,28 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "allowHeaders": {
-                    "description": "AllowHeaders indicates which HTTP request headers are supported for\naccessing the requested resource.\n\nHeader names are not case-sensitive.\n\nMultiple header names in the value of the ` + "`" + `Access-Control-Allow-Headers` + "`" + `\nresponse header are separated by a comma (\",\").\n\nWhen the ` + "`" + `allowHeaders` + "`" + ` field is configured with one or more headers, the\ngateway must return the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header\nwhich value is present in the ` + "`" + `allowHeaders` + "`" + ` field.\n\nIf any header name in the ` + "`" + `Access-Control-Request-Headers` + "`" + ` request header\nis not included in the list of header names specified by the response\nheader ` + "`" + `Access-Control-Allow-Headers` + "`" + `, it will present an error on the\nclient side.\n\nIf any header name in the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header\ndoes not recognize by the client, it will also occur an error on the\nclient side.\n\nA wildcard indicates that the requests with all HTTP headers are allowed.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `allowHeaders` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `false` + "`" + `, the ` + "`" + `Access-Control-Allow-Headers` + "`" + `\nresponse header may either contain the wildcard ` + "`" + `*` + "`" + ` or echo the value\nof the ` + "`" + `Access-Control-Request-Headers` + "`" + ` request header.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `allowHeaders` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `true` + "`" + `, the gateway must not return ` + "`" + `*` + "`" + `\nin the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header. Instead, it must\nreturn one or more header names matching the value of the\n` + "`" + `Access-Control-Request-Headers` + "`" + ` request header.\nIf the ` + "`" + `Access-Control-Request-Headers` + "`" + ` header is not present in the\nrequest, the gateway must omit the ` + "`" + `Access-Control-Allow-Headers` + "`" + `\nresponse header.\n\nSupport: Extended\n\n+listType=set\n+kubebuilder:validation:MaxItems=64\n+kubebuilder:validation:XValidation:message=\"AllowHeaders cannot contain '*' alongside other methods\",rule=\"!('*' in self \u0026\u0026 self.size() \u003e 1)\"\n+optional",
+                    "description": "AllowHeaders indicates which HTTP request headers are supported for\naccessing the requested resource.\n\nHeader names are not case-sensitive.\n\nMultiple header names in the value of the ` + "`" + `Access-Control-Allow-Headers` + "`" + `\nresponse header are separated by a comma (\",\").\n\nWhen the ` + "`" + `AllowHeaders` + "`" + ` field is configured with one or more headers, the\ngateway must return the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header\nwhich value is present in the ` + "`" + `AllowHeaders` + "`" + ` field.\n\nIf any header name in the ` + "`" + `Access-Control-Request-Headers` + "`" + ` request header\nis not included in the list of header names specified by the response\nheader ` + "`" + `Access-Control-Allow-Headers` + "`" + `, it will present an error on the\nclient side.\n\nIf any header name in the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header\ndoes not recognize by the client, it will also occur an error on the\nclient side.\n\nA wildcard indicates that the requests with all HTTP headers are allowed.\nIf config contains the wildcard \"*\" in allowHeaders and the request is\nnot credentialed, the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header\ncan either use the ` + "`" + `*` + "`" + ` wildcard or the value of\nAccess-Control-Request-Headers from the request.\n\nWhen the request is credentialed, the gateway must not specify the ` + "`" + `*` + "`" + `\nwildcard in the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response header. When\nalso the ` + "`" + `AllowCredentials` + "`" + ` field is true and ` + "`" + `AllowHeaders` + "`" + ` field\nis specified with the ` + "`" + `*` + "`" + ` wildcard, the gateway must specify one or more\nHTTP headers in the value of the ` + "`" + `Access-Control-Allow-Headers` + "`" + ` response\nheader. The value of the header ` + "`" + `Access-Control-Allow-Headers` + "`" + ` is same as\nthe ` + "`" + `Access-Control-Request-Headers` + "`" + ` header provided by the client. If\nthe header ` + "`" + `Access-Control-Request-Headers` + "`" + ` is not included in the\nrequest, the gateway will omit the ` + "`" + `Access-Control-Allow-Headers` + "`" + `\nresponse header, instead of specifying the ` + "`" + `*` + "`" + ` wildcard.\n\nSupport: Extended\n\n+listType=set\n+kubebuilder:validation:MaxItems=64\n+kubebuilder:validation:XValidation:message=\"AllowHeaders cannot contain '*' alongside other methods\",rule=\"!('*' in self \u0026\u0026 self.size() \u003e 1)\"\n+optional",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "allowMethods": {
-                    "description": "AllowMethods indicates which HTTP methods are supported for accessing the\nrequested resource.\n\nValid values are any method defined by RFC9110, along with the special\nvalue ` + "`" + `*` + "`" + `, which represents all HTTP methods are allowed.\n\nMethod names are case-sensitive, so these values are also case-sensitive.\n(See https://www.rfc-editor.org/rfc/rfc2616#section-5.1.1)\n\nMultiple method names in the value of the ` + "`" + `Access-Control-Allow-Methods` + "`" + `\nresponse header are separated by a comma (\",\").\n\nA CORS-safelisted method is a method that is ` + "`" + `GET` + "`" + `, ` + "`" + `HEAD` + "`" + `, or ` + "`" + `POST` + "`" + `.\n(See https://fetch.spec.whatwg.org/#cors-safelisted-method) The\nCORS-safelisted methods are always allowed, regardless of whether they\nare specified in the ` + "`" + `allowMethods` + "`" + ` field.\n\nWhen the ` + "`" + `allowMethods` + "`" + ` field is configured with one or more methods, the\ngateway must return the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header\nwhich value is present in the ` + "`" + `allowMethods` + "`" + ` field.\n\nIf the HTTP method of the ` + "`" + `Access-Control-Request-Method` + "`" + ` request header\nis not included in the list of methods specified by the response header\n` + "`" + `Access-Control-Allow-Methods` + "`" + `, it will present an error on the client\nside.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `allowMethods` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `false` + "`" + `, the ` + "`" + `Access-Control-Allow-Methods` + "`" + `\nresponse header may either contain the wildcard ` + "`" + `*` + "`" + ` or echo the value\nof the ` + "`" + `Access-Control-Request-Method` + "`" + ` request header.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `allowMethods` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `true` + "`" + `, the gateway must not return ` + "`" + `*` + "`" + `\nin the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header. Instead, it must\nreturn a single HTTP method matching the value of the\n` + "`" + `Access-Control-Request-Method` + "`" + ` request header.\nIf the ` + "`" + `Access-Control-Request-Method` + "`" + ` header is not present in the request,\nthe gateway must omit the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header.\n\nSupport: Extended\n\n+listType=set\n+kubebuilder:validation:MaxItems=9\n+kubebuilder:validation:XValidation:message=\"AllowMethods cannot contain '*' alongside other methods\",rule=\"!('*' in self \u0026\u0026 self.size() \u003e 1)\"\n+optional",
+                    "description": "AllowMethods indicates which HTTP methods are supported for accessing the\nrequested resource.\n\nValid values are any method defined by RFC9110, along with the special\nvalue ` + "`" + `*` + "`" + `, which represents all HTTP methods are allowed.\n\nMethod names are case-sensitive, so these values are also case-sensitive.\n(See https://www.rfc-editor.org/rfc/rfc2616#section-5.1.1)\n\nMultiple method names in the value of the ` + "`" + `Access-Control-Allow-Methods` + "`" + `\nresponse header are separated by a comma (\",\").\n\nA CORS-safelisted method is a method that is ` + "`" + `GET` + "`" + `, ` + "`" + `HEAD` + "`" + `, or ` + "`" + `POST` + "`" + `.\n(See https://fetch.spec.whatwg.org/#cors-safelisted-method) The\nCORS-safelisted methods are always allowed, regardless of whether they\nare specified in the ` + "`" + `AllowMethods` + "`" + ` field.\n\nWhen the ` + "`" + `AllowMethods` + "`" + ` field is configured with one or more methods, the\ngateway must return the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header\nwhich value is present in the ` + "`" + `AllowMethods` + "`" + ` field.\n\nIf the HTTP method of the ` + "`" + `Access-Control-Request-Method` + "`" + ` request header\nis not included in the list of methods specified by the response header\n` + "`" + `Access-Control-Allow-Methods` + "`" + `, it will present an error on the client\nside.\n\nIf config contains the wildcard \"*\" in allowMethods and the request is\nnot credentialed, the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header\ncan either use the ` + "`" + `*` + "`" + ` wildcard or the value of\nAccess-Control-Request-Method from the request.\n\nWhen the request is credentialed, the gateway must not specify the ` + "`" + `*` + "`" + `\nwildcard in the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header. When\nalso the ` + "`" + `AllowCredentials` + "`" + ` field is true and ` + "`" + `AllowMethods` + "`" + ` field\nspecified with the ` + "`" + `*` + "`" + ` wildcard, the gateway must specify one HTTP method\nin the value of the Access-Control-Allow-Methods response header. The\nvalue of the header ` + "`" + `Access-Control-Allow-Methods` + "`" + ` is same as the\n` + "`" + `Access-Control-Request-Method` + "`" + ` header provided by the client. If the\nheader ` + "`" + `Access-Control-Request-Method` + "`" + ` is not included in the request,\nthe gateway will omit the ` + "`" + `Access-Control-Allow-Methods` + "`" + ` response header,\ninstead of specifying the ` + "`" + `*` + "`" + ` wildcard.\n\nSupport: Extended\n\n+listType=set\n+kubebuilder:validation:MaxItems=9\n+kubebuilder:validation:XValidation:message=\"AllowMethods cannot contain '*' alongside other methods\",rule=\"!('*' in self \u0026\u0026 self.size() \u003e 1)\"\n+optional",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "allowOrigins": {
-                    "description": "AllowOrigins indicates whether the response can be shared with requested\nresource from the given ` + "`" + `Origin` + "`" + `.\n\nThe ` + "`" + `Origin` + "`" + ` consists of a scheme and a host, with an optional port, and\ntakes the form ` + "`" + `\u003cscheme\u003e://\u003chost\u003e(:\u003cport\u003e)` + "`" + `.\n\nValid values for scheme are: ` + "`" + `http` + "`" + ` and ` + "`" + `https` + "`" + `.\n\nValid values for port are any integer between 1 and 65535 (the list of\navailable TCP/UDP ports). Note that, if not included, port ` + "`" + `80` + "`" + ` is\nassumed for ` + "`" + `http` + "`" + ` scheme origins, and port ` + "`" + `443` + "`" + ` is assumed for ` + "`" + `https` + "`" + `\norigins. This may affect origin matching.\n\nThe host part of the origin may contain the wildcard character ` + "`" + `*` + "`" + `. These\nwildcard characters behave as follows:\n\n* ` + "`" + `*` + "`" + ` is a greedy match to the _left_, including any number of\n  DNS labels to the left of its position. This also means that\n  ` + "`" + `*` + "`" + ` will include any number of period ` + "`" + `.` + "`" + ` characters to the\n  left of its position.\n* A wildcard by itself matches all hosts.\n\nAn origin value that includes _only_ the ` + "`" + `*` + "`" + ` character indicates requests\nfrom all ` + "`" + `Origin` + "`" + `s are allowed.\n\nWhen the ` + "`" + `allowOrigins` + "`" + ` field is configured with multiple origins, it\nmeans the server supports clients from multiple origins. If the request\n` + "`" + `Origin` + "`" + ` matches the configured allowed origins, the gateway must return\nthe given ` + "`" + `Origin` + "`" + ` and sets value of the header\n` + "`" + `Access-Control-Allow-Origin` + "`" + ` same as the ` + "`" + `Origin` + "`" + ` header provided by the\nclient.\n\nThe status code of a successful response to a \"preflight\" request is\nalways an OK status (i.e., 204 or 200).\n\nIf the request ` + "`" + `Origin` + "`" + ` does not match the configured allowed origins,\nthe gateway returns 204/200 response but doesn't set the relevant\ncross-origin response headers. Alternatively, the gateway responds with\n403 status to the \"preflight\" request is denied, coupled with omitting\nthe CORS headers. The cross-origin request fails on the client side.\nTherefore, the client doesn't attempt the actual cross-origin request.\n\nConversely, if the request ` + "`" + `Origin` + "`" + ` matches one of the configured\nallowed origins, the gateway sets the response header\n` + "`" + `Access-Control-Allow-Origin` + "`" + ` to the same value as the ` + "`" + `Origin` + "`" + `\nheader provided by the client.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `allowOrigins` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `false` + "`" + `, the ` + "`" + `Access-Control-Allow-Origin` + "`" + `\nresponse header may either contain the wildcard ` + "`" + `*` + "`" + ` or echo the value\nof the ` + "`" + `Origin` + "`" + ` request header.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `allowOrigins` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `true` + "`" + `, the gateway must not return ` + "`" + `*` + "`" + `\nin the ` + "`" + `Access-Control-Allow-Origin` + "`" + ` response header. Instead, it must\nreturn a single origin matching the value of the ` + "`" + `Origin` + "`" + ` request header.\n\nSupport: Extended\n+listType=set\n+kubebuilder:validation:MaxItems=64\n+kubebuilder:validation:XValidation:message=\"AllowOrigins cannot contain '*' alongside other origins\",rule=\"!('*' in self \u0026\u0026 self.size() \u003e 1)\"\n+optional",
+                    "description": "AllowOrigins indicates whether the response can be shared with requested\nresource from the given ` + "`" + `Origin` + "`" + `.\n\nThe ` + "`" + `Origin` + "`" + ` consists of a scheme and a host, with an optional port, and\ntakes the form ` + "`" + `\u003cscheme\u003e://\u003chost\u003e(:\u003cport\u003e)` + "`" + `.\n\nValid values for scheme are: ` + "`" + `http` + "`" + ` and ` + "`" + `https` + "`" + `.\n\nValid values for port are any integer between 1 and 65535 (the list of\navailable TCP/UDP ports). Note that, if not included, port ` + "`" + `80` + "`" + ` is\nassumed for ` + "`" + `http` + "`" + ` scheme origins, and port ` + "`" + `443` + "`" + ` is assumed for ` + "`" + `https` + "`" + `\norigins. This may affect origin matching.\n\nThe host part of the origin may contain the wildcard character ` + "`" + `*` + "`" + `. These\nwildcard characters behave as follows:\n\n* ` + "`" + `*` + "`" + ` is a greedy match to the _left_, including any number of\n  DNS labels to the left of its position. This also means that\n  ` + "`" + `*` + "`" + ` will include any number of period ` + "`" + `.` + "`" + ` characters to the\n  left of its position.\n* A wildcard by itself matches all hosts.\n\nAn origin value that includes _only_ the ` + "`" + `*` + "`" + ` character indicates requests\nfrom all ` + "`" + `Origin` + "`" + `s are allowed.\n\nWhen the ` + "`" + `AllowOrigins` + "`" + ` field is configured with multiple origins, it\nmeans the server supports clients from multiple origins. If the request\n` + "`" + `Origin` + "`" + ` matches the configured allowed origins, the gateway must return\nthe given ` + "`" + `Origin` + "`" + ` and sets value of the header\n` + "`" + `Access-Control-Allow-Origin` + "`" + ` same as the ` + "`" + `Origin` + "`" + ` header provided by the\nclient.\n\nThe status code of a successful response to a \"preflight\" request is\nalways an OK status (i.e., 204 or 200).\n\nIf the request ` + "`" + `Origin` + "`" + ` does not match the configured allowed origins,\nthe gateway returns 204/200 response but doesn't set the relevant\ncross-origin response headers. Alternatively, the gateway responds with\n403 status to the \"preflight\" request is denied, coupled with omitting\nthe CORS headers. The cross-origin request fails on the client side.\nTherefore, the client doesn't attempt the actual cross-origin request.\n\nConversely, if the request ` + "`" + `Origin` + "`" + ` matches one of the configured\nallowed origins, the gateway sets the response header\n` + "`" + `Access-Control-Allow-Origin` + "`" + ` to the same value as the ` + "`" + `Origin` + "`" + `\nheader provided by the client.\n\nWhen config has the wildcard (\"*\") in allowOrigins, and the request\nis not credentialed (e.g., it is a preflight request), the\n` + "`" + `Access-Control-Allow-Origin` + "`" + ` response header either contains the\nwildcard as well or the Origin from the request.\n\nWhen the request is credentialed, the gateway must not specify the ` + "`" + `*` + "`" + `\nwildcard in the ` + "`" + `Access-Control-Allow-Origin` + "`" + ` response header. When\nalso the ` + "`" + `AllowCredentials` + "`" + ` field is true and ` + "`" + `AllowOrigins` + "`" + ` field\nspecified with the ` + "`" + `*` + "`" + ` wildcard, the gateway must return a single origin\nin the value of the ` + "`" + `Access-Control-Allow-Origin` + "`" + ` response header,\ninstead of specifying the ` + "`" + `*` + "`" + ` wildcard. The value of the header\n` + "`" + `Access-Control-Allow-Origin` + "`" + ` is same as the ` + "`" + `Origin` + "`" + ` header provided by\nthe client.\n\nSupport: Extended\n+listType=set\n+kubebuilder:validation:MaxItems=64\n+kubebuilder:validation:XValidation:message=\"AllowOrigins cannot contain '*' alongside other origins\",rule=\"!('*' in self \u0026\u0026 self.size() \u003e 1)\"\n+optional",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "exposeHeaders": {
-                    "description": "ExposeHeaders indicates which HTTP response headers can be exposed\nto client-side scripts in response to a cross-origin request.\n\nA CORS-safelisted response header is an HTTP header in a CORS response\nthat it is considered safe to expose to the client scripts.\nThe CORS-safelisted response headers include the following headers:\n` + "`" + `Cache-Control` + "`" + `\n` + "`" + `Content-Language` + "`" + `\n` + "`" + `Content-Length` + "`" + `\n` + "`" + `Content-Type` + "`" + `\n` + "`" + `Expires` + "`" + `\n` + "`" + `Last-Modified` + "`" + `\n` + "`" + `Pragma` + "`" + `\n(See https://fetch.spec.whatwg.org/#cors-safelisted-response-header-name)\nThe CORS-safelisted response headers are exposed to client by default.\n\nWhen an HTTP header name is specified using the ` + "`" + `exposeHeaders` + "`" + ` field,\nthis additional header will be exposed as part of the response to the\nclient.\n\nHeader names are not case-sensitive.\n\nMultiple header names in the value of the ` + "`" + `Access-Control-Expose-Headers` + "`" + `\nresponse header are separated by a comma (\",\").\n\nA wildcard indicates that the responses with all HTTP headers are exposed\nto clients.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `exposeHeaders` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `false` + "`" + `, the ` + "`" + `Access-Control-Expose-Headers` + "`" + `\nresponse header can contain the wildcard ` + "`" + `*` + "`" + `.\n\nIf the configuration contains the wildcard ` + "`" + `*` + "`" + ` in ` + "`" + `exposeHeaders` + "`" + ` and\n` + "`" + `allowCredentials` + "`" + ` is set to ` + "`" + `true` + "`" + `, the gateway cannot use the ` + "`" + `*` + "`" + `\nin the ` + "`" + `Access-Control-Expose-Headers` + "`" + ` response header.\n\nSupport: Extended\n\n+optional\n+listType=set\n+kubebuilder:validation:MaxItems=64",
+                    "description": "ExposeHeaders indicates which HTTP response headers can be exposed\nto client-side scripts in response to a cross-origin request.\n\nA CORS-safelisted response header is an HTTP header in a CORS response\nthat it is considered safe to expose to the client scripts.\nThe CORS-safelisted response headers include the following headers:\n` + "`" + `Cache-Control` + "`" + `\n` + "`" + `Content-Language` + "`" + `\n` + "`" + `Content-Length` + "`" + `\n` + "`" + `Content-Type` + "`" + `\n` + "`" + `Expires` + "`" + `\n` + "`" + `Last-Modified` + "`" + `\n` + "`" + `Pragma` + "`" + `\n(See https://fetch.spec.whatwg.org/#cors-safelisted-response-header-name)\nThe CORS-safelisted response headers are exposed to client by default.\n\nWhen an HTTP header name is specified using the ` + "`" + `ExposeHeaders` + "`" + ` field,\nthis additional header will be exposed as part of the response to the\nclient.\n\nHeader names are not case-sensitive.\n\nMultiple header names in the value of the ` + "`" + `Access-Control-Expose-Headers` + "`" + `\nresponse header are separated by a comma (\",\").\n\nA wildcard indicates that the responses with all HTTP headers are exposed\nto clients. The ` + "`" + `Access-Control-Expose-Headers` + "`" + ` response header can only\nuse ` + "`" + `*` + "`" + ` wildcard as value when the request is not credentialed.\n\nWhen the ` + "`" + `exposeHeaders` + "`" + ` config field contains the \"*\" wildcard and\nthe request is credentialed, the gateway cannot use the ` + "`" + `*` + "`" + ` wildcard in\nthe ` + "`" + `Access-Control-Expose-Headers` + "`" + ` response header.\n\nSupport: Extended\n\n+optional\n+listType=set\n+kubebuilder:validation:MaxItems=64",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -2079,14 +2109,14 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPExternalAuthFilter": {
+        "v1.HTTPExternalAuthFilter": {
             "type": "object",
             "properties": {
                 "backendRef": {
                     "description": "BackendRef is a reference to a backend to send authorization\nrequests to.\n\nThe backend must speak the selected protocol (GRPC or HTTP) on the\nreferenced port.\n\nIf the backend service requires TLS, use BackendTLSPolicy to tell the\nimplementation to supply the TLS details to be used to connect to that\nbackend.\n\n+required",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference"
+                            "$ref": "#/definitions/v1.BackendObjectReference"
                         }
                     ]
                 },
@@ -2094,7 +2124,7 @@ const docTemplate = `{
                     "description": "ForwardBody controls if requests to the authorization server should include\nthe body of the client request; and if so, how big that body is allowed\nto be.\n\nIt is expected that implementations will buffer the request body up to\n` + "`" + `forwardBody.maxSize` + "`" + ` bytes. Bodies over that size must be rejected with a\n4xx series error (413 or 403 are common examples), and fail processing\nof the filter.\n\nIf unset, or ` + "`" + `forwardBody.maxSize` + "`" + ` is set to ` + "`" + `0` + "`" + `, then the body will not\nbe forwarded.\n\nFeature Name: HTTPRouteExternalAuthForwardBody\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.ForwardBodyConfig"
+                            "$ref": "#/definitions/v1.ForwardBodyConfig"
                         }
                     ]
                 },
@@ -2102,7 +2132,7 @@ const docTemplate = `{
                     "description": "GRPCAuthConfig contains configuration for communication with ext_authz\nprotocol-speaking backends.\n\nIf unset, implementations must assume the default behavior for each\nincluded field is intended.\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.GRPCAuthConfig"
+                            "$ref": "#/definitions/v1.GRPCAuthConfig"
                         }
                     ]
                 },
@@ -2110,7 +2140,7 @@ const docTemplate = `{
                     "description": "HTTPAuthConfig contains configuration for communication with HTTP-speaking\nbackends.\n\nIf unset, implementations must assume the default behavior for each\nincluded field is intended.\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPAuthConfig"
+                            "$ref": "#/definitions/v1.HTTPAuthConfig"
                         }
                     ]
                 },
@@ -2118,26 +2148,13 @@ const docTemplate = `{
                     "description": "ExternalAuthProtocol describes which protocol to use when communicating with an\next_authz authorization server.\n\nWhen this is set to GRPC, each backend must use the Envoy ext_authz protocol\non the port specified in ` + "`" + `backendRefs` + "`" + `. Requests and responses are defined\nin the protobufs explained at:\nhttps://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto\n\nWhen this is set to HTTP, each backend must respond with a ` + "`" + `200` + "`" + ` status\ncode in on a successful authorization. Any other code is considered\nan authorization failure.\n\nFeature Names:\nGRPC Support - HTTPRouteExternalAuthGRPC\nHTTP Support - HTTPRouteExternalAuthHTTP\n\n+unionDiscriminator\n+required\n+kubebuilder:validation:Enum=HTTP;GRPC",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRouteExternalAuthProtocol"
+                            "$ref": "#/definitions/v1.HTTPRouteExternalAuthProtocol"
                         }
                     ]
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPHeader": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "description": "Name is the name of the HTTP Header to be matched. Name matching MUST be\ncase-insensitive. (See https://tools.ietf.org/html/rfc7230#section-3.2).\n\nIf multiple entries specify equivalent header names, the first entry with\nan equivalent name MUST be considered for a match. Subsequent entries\nwith an equivalent header name MUST be ignored. Due to the\ncase-insensitivity of header names, \"foo\" and \"Foo\" are considered\nequivalent.\n+required",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value is the value of HTTP Header to be matched.\n\u003cgateway:experimental:description\u003e\nMust consist of printable US-ASCII characters, optionally separated\nby single tabs or spaces. See: https://tools.ietf.org/html/rfc7230#section-3.2\n\u003c/gateway:experimental:description\u003e\n\n+kubebuilder:validation:MinLength=1\n+kubebuilder:validation:MaxLength=4096\n+required\n\u003cgateway:experimental:validation:Pattern=` + "`" + `^[!-~]+([\\t ]?[!-~]+)*$` + "`" + `\u003e",
-                    "type": "string"
-                }
-            }
-        },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter": {
+        "v1.HTTPHeaderFilter": {
             "type": "object",
             "properties": {
                 "add": {
@@ -2163,7 +2180,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier": {
+        "v1.HTTPPathModifier": {
             "type": "object",
             "properties": {
                 "replaceFullPath": {
@@ -2178,13 +2195,13 @@ const docTemplate = `{
                     "description": "Type defines the type of path modifier. Additional types may be\nadded in a future release of the API.\n\nNote that values may be added to this enum, implementations\nmust ensure that unknown values will not cause a crash.\n\nUnknown values here must result in the implementation setting the\nAccepted Condition for the Route to ` + "`" + `status: False` + "`" + `, with a\nReason of ` + "`" + `UnsupportedValue` + "`" + `.\n\n+kubebuilder:validation:Enum=ReplaceFullPath;ReplacePrefixMatch\n+required",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifierType"
+                            "$ref": "#/definitions/v1.HTTPPathModifierType"
                         }
                     ]
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifierType": {
+        "v1.HTTPPathModifierType": {
             "type": "string",
             "enum": [
                 "ReplaceFullPath",
@@ -2195,14 +2212,14 @@ const docTemplate = `{
                 "PrefixMatchHTTPPathModifier"
             ]
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPRequestMirrorFilter": {
+        "v1.HTTPRequestMirrorFilter": {
             "type": "object",
             "properties": {
                 "backendRef": {
-                    "description": "BackendRef references a resource where mirrored requests are sent.\n\nMirrored requests must be sent only to a single destination endpoint\nwithin this BackendRef, irrespective of how many endpoints are present\nwithin this BackendRef.\n\nIf the referent cannot be found, this BackendRef is invalid and must be\ndropped from the Gateway. The controller must ensure the \"ResolvedRefs\"\ncondition on the Route status is set to ` + "`" + `status: False` + "`" + ` and not configure\nthis backend in the underlying implementation.\n\nIf there is a cross-namespace reference to an *existing* object\nthat is not allowed by a ReferenceGrant, the controller must ensure the\n\"ResolvedRefs\"  condition on the Route is set to ` + "`" + `status: False` + "`" + `,\nwith the \"RefNotPermitted\" reason and not configure this backend in the\nunderlying implementation.\n\nIn either error case, the Message of the ` + "`" + `ResolvedRefs` + "`" + ` Condition\nshould be used to provide more detail about the problem.\n\nSupport: Extended for Kubernetes Service\n\nSupport: Implementation-specific for any other resource\n\nIf the backend service requires TLS, use BackendTLSPolicy to tell the\nimplementation to supply the TLS details to be used to connect to that\nbackend.\n\n+required",
+                    "description": "BackendRef references a resource where mirrored requests are sent.\n\nMirrored requests must be sent only to a single destination endpoint\nwithin this BackendRef, irrespective of how many endpoints are present\nwithin this BackendRef.\n\nIf the referent cannot be found, this BackendRef is invalid and must be\ndropped from the Gateway. The controller must ensure the \"ResolvedRefs\"\ncondition on the Route status is set to ` + "`" + `status: False` + "`" + ` and not configure\nthis backend in the underlying implementation.\n\nIf there is a cross-namespace reference to an *existing* object\nthat is not allowed by a ReferenceGrant, the controller must ensure the\n\"ResolvedRefs\"  condition on the Route is set to ` + "`" + `status: False` + "`" + `,\nwith the \"RefNotPermitted\" reason and not configure this backend in the\nunderlying implementation.\n\nIn either error case, the Message of the ` + "`" + `ResolvedRefs` + "`" + ` Condition\nshould be used to provide more detail about the problem.\n\nSupport: Extended for Kubernetes Service\n\nSupport: Implementation-specific for any other resource\n+required",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.BackendObjectReference"
+                            "$ref": "#/definitions/v1.BackendObjectReference"
                         }
                     ]
                 },
@@ -2210,7 +2227,7 @@ const docTemplate = `{
                     "description": "Fraction represents the fraction of requests that should be\nmirrored to BackendRef.\n\nOnly one of Fraction or Percent may be specified. If neither field\nis specified, 100% of requests will be mirrored.\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.Fraction"
+                            "$ref": "#/definitions/v1.Fraction"
                         }
                     ]
                 },
@@ -2220,7 +2237,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPRequestRedirectFilter": {
+        "v1.HTTPRequestRedirectFilter": {
             "type": "object",
             "properties": {
                 "hostname": {
@@ -2231,7 +2248,7 @@ const docTemplate = `{
                     "description": "Path defines parameters used to modify the path of the incoming request.\nThe modified path is then used to construct the ` + "`" + `Location` + "`" + ` header. When\nempty, the request path is used as-is.\n\nSupport: Extended\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier"
+                            "$ref": "#/definitions/v1.HTTPPathModifier"
                         }
                     ]
                 },
@@ -2249,7 +2266,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPRouteExternalAuthProtocol": {
+        "v1.HTTPRouteExternalAuthProtocol": {
             "type": "string",
             "enum": [
                 "GRPC",
@@ -2260,14 +2277,14 @@ const docTemplate = `{
                 "HTTPRouteExternalAuthHTTPProtocol"
             ]
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilter": {
+        "v1.HTTPRouteFilter": {
             "type": "object",
             "properties": {
                 "cors": {
                     "description": "CORS defines a schema for a filter that responds to the\ncross-origin request based on HTTP response header.\n\nSupport: Extended\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPCORSFilter"
+                            "$ref": "#/definitions/v1.HTTPCORSFilter"
                         }
                     ]
                 },
@@ -2283,7 +2300,7 @@ const docTemplate = `{
                     "description": "ExternalAuth configures settings related to sending request details\nto an external auth service. The external service MUST authenticate\nthe request, and MAY authorize the request as well.\n\nIf there is any problem communicating with the external service,\nthis filter MUST fail closed.\n\nSupport: Extended\n\n+optional\n\u003cgateway:experimental\u003e",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPExternalAuthFilter"
+                            "$ref": "#/definitions/v1.HTTPExternalAuthFilter"
                         }
                     ]
                 },
@@ -2291,7 +2308,7 @@ const docTemplate = `{
                     "description": "RequestHeaderModifier defines a schema for a filter that modifies request\nheaders.\n\nSupport: Core\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter"
+                            "$ref": "#/definitions/v1.HTTPHeaderFilter"
                         }
                     ]
                 },
@@ -2299,7 +2316,7 @@ const docTemplate = `{
                     "description": "RequestMirror defines a schema for a filter that mirrors requests.\nRequests are sent to the specified destination, but responses from\nthat destination are ignored.\n\nThis filter can be used multiple times within the same rule. Note that\nnot all implementations will be able to support mirroring to multiple\nbackends.\n\nSupport: Extended\n\n+optional\n\n+kubebuilder:validation:XValidation:message=\"Only one of percent or fraction may be specified in HTTPRequestMirrorFilter\",rule=\"!(has(self.percent) \u0026\u0026 has(self.fraction))\"",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRequestMirrorFilter"
+                            "$ref": "#/definitions/v1.HTTPRequestMirrorFilter"
                         }
                     ]
                 },
@@ -2307,7 +2324,7 @@ const docTemplate = `{
                     "description": "RequestRedirect defines a schema for a filter that responds to the\nrequest with an HTTP redirection.\n\nSupport: Core\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRequestRedirectFilter"
+                            "$ref": "#/definitions/v1.HTTPRequestRedirectFilter"
                         }
                     ]
                 },
@@ -2315,7 +2332,7 @@ const docTemplate = `{
                     "description": "ResponseHeaderModifier defines a schema for a filter that modifies response\nheaders.\n\nSupport: Extended\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPHeaderFilter"
+                            "$ref": "#/definitions/v1.HTTPHeaderFilter"
                         }
                     ]
                 },
@@ -2323,7 +2340,7 @@ const docTemplate = `{
                     "description": "Type identifies the type of filter to apply. As with other API fields,\ntypes are classified into three conformance levels:\n\n- Core: Filter types and their corresponding configuration defined by\n  \"Support: Core\" in this package, e.g. \"RequestHeaderModifier\". All\n  implementations must support core filters.\n\n- Extended: Filter types and their corresponding configuration defined by\n  \"Support: Extended\" in this package, e.g. \"RequestMirror\". Implementers\n  are encouraged to support extended filters.\n\n- Implementation-specific: Filters that are defined and supported by\n  specific vendors.\n  In the future, filters showing convergence in behavior across multiple\n  implementations will be considered for inclusion in extended or core\n  conformance levels. Filter-specific configuration for such filters\n  is specified using the ExtensionRef field. ` + "`" + `Type` + "`" + ` should be set to\n  \"ExtensionRef\" for custom filters.\n\nImplementers are encouraged to define custom implementation types to\nextend the core API with implementation-specific behavior.\n\nIf a reference to a custom filter type cannot be resolved, the filter\nMUST NOT be skipped. Instead, requests that would have been processed by\nthat filter MUST receive a HTTP error response.\n\nNote that values may be added to this enum, implementations\nmust ensure that unknown values will not cause a crash.\n\nUnknown values here must result in the implementation setting the\nAccepted Condition for the Route to ` + "`" + `status: False` + "`" + `, with a\nReason of ` + "`" + `UnsupportedValue` + "`" + `.\n\n+unionDiscriminator\n+kubebuilder:validation:Enum=RequestHeaderModifier;ResponseHeaderModifier;RequestMirror;RequestRedirect;URLRewrite;ExtensionRef;CORS\n\u003cgateway:experimental:validation:Enum=RequestHeaderModifier;ResponseHeaderModifier;RequestMirror;RequestRedirect;URLRewrite;ExtensionRef;CORS;ExternalAuth\u003e\n+required",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilterType"
+                            "$ref": "#/definitions/v1.HTTPRouteFilterType"
                         }
                     ]
                 },
@@ -2331,13 +2348,13 @@ const docTemplate = `{
                     "description": "URLRewrite defines a schema for a filter that modifies a request during forwarding.\n\nSupport: Extended\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPURLRewriteFilter"
+                            "$ref": "#/definitions/v1.HTTPURLRewriteFilter"
                         }
                     ]
                 }
             }
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilterType": {
+        "v1.HTTPRouteFilterType": {
             "type": "string",
             "enum": [
                 "RequestHeaderModifier",
@@ -2360,7 +2377,7 @@ const docTemplate = `{
                 "HTTPRouteFilterExtensionRef"
             ]
         },
-        "sigs_k8s_io_gateway-api_apis_v1.HTTPURLRewriteFilter": {
+        "v1.HTTPURLRewriteFilter": {
             "type": "object",
             "properties": {
                 "hostname": {
@@ -2371,26 +2388,9 @@ const docTemplate = `{
                     "description": "Path defines a path rewrite.\n\nSupport: Extended\n\n+optional",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPPathModifier"
+                            "$ref": "#/definitions/v1.HTTPPathModifier"
                         }
                     ]
-                }
-            }
-        },
-        "sigs_k8s_io_gateway-api_apis_v1.LocalObjectReference": {
-            "type": "object",
-            "properties": {
-                "group": {
-                    "description": "Group is the group of the referent. For example, \"gateway.networking.k8s.io\".\nWhen unspecified or empty string, core API group is inferred.\n+required",
-                    "type": "string"
-                },
-                "kind": {
-                    "description": "Kind is kind of the referent. For example \"HTTPRoute\" or \"Service\".\n+required",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name is the name of the referent.\n+required",
-                    "type": "string"
                 }
             }
         },
@@ -2911,7 +2911,7 @@ const docTemplate = `{
                 "filters": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/sigs_k8s_io_gateway-api_apis_v1.HTTPRouteFilter"
+                        "$ref": "#/definitions/v1.HTTPRouteFilter"
                     }
                 },
                 "host": {
