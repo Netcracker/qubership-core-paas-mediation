@@ -32,7 +32,9 @@ spec:
               cpu: 100m
               memory: 50Mi
             requests:
-              cpu: 100m
+              # placeholder container, it only sleeps - a full cpu request does not fit
+              # on the single test node once a service mesh is installed next to the platform
+              cpu: 10m
               memory: 10Mi
           imagePullPolicy: IfNotPresent
       terminationGracePeriodSeconds: 1
