@@ -296,10 +296,10 @@ github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.0 h1:oZL
 github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.0/go.mod h1:AsLs8AbinZylTr0vDBUvEXrgVDdKRgelIuP54Yrj28k=
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.0 h1:RC7jOZLhcAhD32HwizNFvxVF6nqY/xpYSM0wk+Nu7WU=
 github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.0/go.mod h1:rdHXZaomy/TUesyJvMYEXZ1EUOka7scEpm6OY9efEgU=
-github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.9.0 h1:LnQvXwx21EileRyo+/mTnNKoktqwT9gBJbLaykUxTY0=
-github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.9.0/go.mod h1:rZAwwglV+LIjQbqRdxwcA/9EiofrYDw/aaPO4O1dYK8=
-github.com/netcracker/qubership-core-lib-go/v3 v3.14.1 h1:MaMZ3U3OLYvryap4d3EgFO/SdgUae14obi+xOb3D+1E=
-github.com/netcracker/qubership-core-lib-go/v3 v3.14.1/go.mod h1:DTUMAFaTxNwBGC8liMPfTOIpfAZP/g2hqS4qt2y/Yt4=
+github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.9.1-0.20260930125751-a62ec208ada5 h1:Q94zPFLxFVrkNr8MH5msuCBiW1VXEJ5WW/z0pMIkGmY=
+github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.9.1-0.20260930125751-a62ec208ada5/go.mod h1:WoqACHsLIJjORACH4tqhr9QUq3L4Z8tStL6B1jjxfr4=
+github.com/netcracker/qubership-core-lib-go/v3 v3.14.2-0.20261001083530-6572e74ff41e h1:c5UIzbrKDuw/HJbYZ8ZkJpMWIor7wZ0a014rIlDTFJg=
+github.com/netcracker/qubership-core-lib-go/v3 v3.14.2-0.20261001083530-6572e74ff41e/go.mod h1:DTUMAFaTxNwBGC8liMPfTOIpfAZP/g2hqS4qt2y/Yt4=
 github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8Oi/yOhh5U=
 github.com/opencontainers/go-digest v1.0.0/go.mod h1:0JzlMkj0TRzQZfJkVvzbP0HBR3IKzErnv2BNG4W4MAM=
 github.com/opencontainers/image-spec v1.1.1 h1:y0fUlFfIZhPF1W537XOLg0/fcx6zcHCJwooC2xJA040=
