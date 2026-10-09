@@ -17,7 +17,7 @@ require (
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.75.0
 	go.uber.org/mock v0.6.0
-	golang.org/x/net v0.59.0
+	golang.org/x/net v0.60.0
 	k8s.io/api v0.37.1
 	k8s.io/apimachinery v0.37.1
 	k8s.io/client-go v0.37.1
