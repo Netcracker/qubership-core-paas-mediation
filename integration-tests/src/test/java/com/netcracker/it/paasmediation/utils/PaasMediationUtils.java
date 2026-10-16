@@ -19,13 +19,24 @@ public class PaasMediationUtils {
     private final ObjectMapper objectMapper;
     private final String internalGateway;
     private final String privateGateway;
+    /** Base url the watch (websocket) api is called on. */
+    private final String watchBaseUrl;
+    /** Service prefix the watch api is published under on a gateway, empty when the service is called directly. */
+    private final String watchServicePrefix;
     private final String apiVersion;
     private final RequestExecutor requestExecutor;
 
     public PaasMediationUtils(String apiVersion, String internalGateway, String privateGateway, RequestExecutor requestExecutor, ObjectMapper objectMapper) {
+        this(apiVersion, internalGateway, privateGateway, internalGateway, "/paas-mediation", requestExecutor, objectMapper);
+    }
+
+    public PaasMediationUtils(String apiVersion, String internalGateway, String privateGateway, String watchBaseUrl,
+                              String watchServicePrefix, RequestExecutor requestExecutor, ObjectMapper objectMapper) {
         this.apiVersion = apiVersion;
         this.internalGateway = internalGateway;
         this.privateGateway = privateGateway;
+        this.watchBaseUrl = watchBaseUrl;
+        this.watchServicePrefix = watchServicePrefix;
         this.requestExecutor = requestExecutor;
         this.objectMapper = objectMapper;
     }
@@ -158,22 +169,37 @@ public class PaasMediationUtils {
     }
 
     public Request createWsRequest(String wsUrl) {
-        return new Request.Builder().url(internalGateway.replace("http", "ws") + wsUrl).build();
+        return new Request.Builder().url(buildWsUrl(wsUrl)).build();
     }
 
-    private String buildWsEndpoint(String resource, String namespace, PaasRequestFilter filter) {
-        String base = internalGateway;
+    /**
+     * Websocket requests are sent by the test itself, not through the request executor, so they reach the
+     * cluster from outside the service mesh. In Istio mesh mode the gateway routes are attached to the
+     * service and are applied by the mesh proxies only, so the watch api is called on the service itself
+     * and the gateway prefix is dropped from the path.
+     */
+    private String buildWsUrl(String path) {
+        String base = watchBaseUrl;
         if (base.endsWith("/")) {
             base = base.substring(0, base.length() - 1);
         }
-        
-        String wsBase = base.replace("http://", "ws://").replace("https://", "wss://");
-        
-        String url = String.format("%s/watchapi/%s/paas-mediation", wsBase, apiVersion);
-        url += StringUtils.isEmpty(namespace) ? 
-                String.format("/%s", resource) : 
+        base = base.replace("http://", "ws://").replace("https://", "wss://");
+
+        String wsPath = path.startsWith("/") ? path : "/" + path;
+        if (StringUtils.isEmpty(watchServicePrefix)) {
+            wsPath = wsPath.replaceFirst("^/watchapi/" + apiVersion + "/paas-mediation", "/watchapi/" + apiVersion);
+        }
+        return base + wsPath;
+    }
+
+    private String buildWsEndpoint(String resource, String namespace, PaasRequestFilter filter) {
+        String path = String.format("/watchapi/%s/paas-mediation", apiVersion);
+        path += StringUtils.isEmpty(namespace) ?
+                String.format("/%s", resource) :
                 String.format("/namespaces/%s/%s", namespace, resource);
-        
+
+        String url = buildWsUrl(path);
+
         String query = "";
         String annotations = getFilterParam("annotations", filter.getAnnotations());
         query = addParamToQuery(query, annotations);
