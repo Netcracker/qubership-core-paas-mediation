@@ -8,16 +8,16 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.15
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.1
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.12.1
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.1
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.0
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.9.2-0.20261015082609-207b78da0132
-	github.com/netcracker/qubership-core-lib-go/v3 v3.15.0
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.12.3
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.3
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.3
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.10.1
+	github.com/netcracker/qubership-core-lib-go/v3 v3.15.2
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.75.0
 	go.uber.org/mock v0.6.0
-	golang.org/x/net v0.60.0
+	golang.org/x/net v0.61.0
 	k8s.io/api v0.37.1
 	k8s.io/apimachinery v0.37.1
 	k8s.io/client-go v0.37.1
@@ -30,7 +30,7 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/avast/retry-go/v4 v4.7.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/cert-manager/cert-manager v1.21.1 // indirect
+	github.com/cert-manager/cert-manager v1.21.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -89,10 +89,10 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/molecule-man/go-brrr v1.1.1 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.1 // indirect
-	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.2 // indirect
-	github.com/openshift/api v0.0.0-20260827203510-c7d4aa14a764 // indirect
-	github.com/openshift/client-go v0.0.0-20260810202730-ddca5e0b7146 // indirect
+	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.4 // indirect
+	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.4 // indirect
+	github.com/openshift/api v0.0.0-20261016092100-6b7ae5e90d8d // indirect
+	github.com/openshift/client-go v0.0.0-20261014115618-03a1e773ff3d // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -117,14 +117,14 @@ require (
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
-	golang.org/x/mod v0.41.0 // indirect
+	golang.org/x/mod v0.42.0 // indirect
 	golang.org/x/oauth2 v0.37.0 // indirect
-	golang.org/x/sync v0.23.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
-	golang.org/x/term v0.46.0 // indirect
-	golang.org/x/text v0.42.0 // indirect
+	golang.org/x/sync v0.24.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/term v0.47.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
-	golang.org/x/tools v0.49.0 // indirect
+	golang.org/x/tools v0.51.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
