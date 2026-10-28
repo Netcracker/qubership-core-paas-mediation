@@ -9,8 +9,8 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.1
 	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.12.4
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.3
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.3
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.4
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.4
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.11.0
 	github.com/netcracker/qubership-core-lib-go/v3 v3.15.3
 	github.com/stretchr/testify v1.12.1
@@ -30,7 +30,7 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/avast/retry-go/v4 v4.7.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/cert-manager/cert-manager v1.21.2 // indirect
+	github.com/cert-manager/cert-manager v1.21.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -89,10 +89,10 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/molecule-man/go-brrr v1.3.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.4 // indirect
-	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.4 // indirect
-	github.com/openshift/api v0.0.0-20261016092100-6b7ae5e90d8d // indirect
-	github.com/openshift/client-go v0.0.0-20261014115618-03a1e773ff3d // indirect
+	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.5 // indirect
+	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.5 // indirect
+	github.com/openshift/api v0.0.0-20261027123455-77c45d1bcab3 // indirect
+	github.com/openshift/client-go v0.0.0-20261027103500-48133ed95dad // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
