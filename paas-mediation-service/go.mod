@@ -1,6 +1,6 @@
 module github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2
 
-go 1.26.9
+go 1.27.0
 
 require (
 	github.com/fasthttp/websocket v1.5.12
@@ -15,13 +15,13 @@ require (
 	github.com/netcracker/qubership-core-lib-go/v3 v3.15.3
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.77.0
+	github.com/valyala/fasthttp v1.78.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.62.0
 	k8s.io/api v0.37.2
 	k8s.io/apimachinery v0.37.2
 	k8s.io/client-go v0.37.2
-	sigs.k8s.io/gateway-api v1.6.3
+	sigs.k8s.io/gateway-api v1.7.0
 )
 
 require (
@@ -87,7 +87,7 @@ require (
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
-	github.com/molecule-man/go-brrr v1.3.0 // indirect
+	github.com/molecule-man/go-brrr v1.3.1 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.5 // indirect
 	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.5 // indirect
