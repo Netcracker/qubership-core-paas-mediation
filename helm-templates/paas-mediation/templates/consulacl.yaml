@@ -1,0 +1,26 @@
+{{- if and (eq (toString .Values.CONSUL_ENABLED) "true") (include "coretpl.consulAclEnabled" $) }}
+---
+# Grants paas-mediation read access to the blue-green state of the namespace in Consul, for a login with the
+# auth method applications-k8s-m2m.
+apiVersion: netcracker.com/v1
+kind: ConsulACL
+metadata:
+  name: '{{ .Values.SERVICE_NAME }}'
+  namespace: '{{ .Values.NAMESPACE }}'
+  labels:
+    app.kubernetes.io/part-of: 'Cloud-Core'
+    app.kubernetes.io/managed-by: 'saasDeployer'
+    deployment.netcracker.com/sessionId: '{{ .Values.DEPLOYMENT_SESSION_ID }}'
+spec:
+  operatorNamespace: {{ include "coretpl.consulNamespace" $ | quote }}
+  acl:
+    name: '{{ .Values.SERVICE_NAME }}'
+    json: >
+      {
+        "policies": [
+          {"Name": "bluegreen-read", "Rules": "key_prefix \"bluegreen/{{ .Values.NAMESPACE }}/\" { policy = \"read\" }"}
+        ],
+        "roles": [{"Name": "service", "policy_names": ["bluegreen-read"]}],
+        "bind_rules": [{"BindName": "service", "ServiceAccountName": "{{ .Values.SERVICE_NAME }}"}]
+      }
+{{- end }}
