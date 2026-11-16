@@ -8,11 +8,11 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.16
 	github.com/golang/mock v1.6.0
 	github.com/knadh/koanf/providers/confmap v1.0.1
-	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.12.4
-	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.4
-	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.4
-	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.11.0
-	github.com/netcracker/qubership-core-lib-go/v3 v3.15.3
+	github.com/netcracker/qubership-core-lib-go-actuator-common/v2 v2.12.5
+	github.com/netcracker/qubership-core-lib-go-fiber-server-utils/v2 v2.11.5
+	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.5
+	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.11.1
+	github.com/netcracker/qubership-core-lib-go/v3 v3.15.4
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.77.0
@@ -89,8 +89,8 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/molecule-man/go-brrr v1.3.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.5 // indirect
-	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.5 // indirect
+	github.com/netcracker/qubership-core-lib-go-bg-state-monitor/v2 v2.7.6 // indirect
+	github.com/netcracker/qubership-core-lib-go-error-handling/v3 v3.7.6 // indirect
 	github.com/openshift/api v0.0.0-20261027123455-77c45d1bcab3 // indirect
 	github.com/openshift/client-go v0.0.0-20261027103500-48133ed95dad // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
