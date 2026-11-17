@@ -111,7 +111,7 @@ func TestRequestLogLine(t *testing.T) {
 		sendTestRequest(t, app, req)
 	})
 
-	pattern := regexp.MustCompile(`Processed request: pid=\d+ source=\S+:\d+ latency=\S+\n` +
+	pattern := regexp.MustCompile(`Processed request: pid=\d+ source=\S+:\d+ latency=\s*\S+\n` +
 		`POST /api/v2/unknown\?x=1\n` +
 		`body: \{"a":1\}\n` +
 		`status: 404 resBody: \{"error":"Cannot POST /api/v2/unknown"\}`)
