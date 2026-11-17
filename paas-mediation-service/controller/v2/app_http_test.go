@@ -18,10 +18,12 @@ import (
 
 	"github.com/fasthttp/websocket"
 	"github.com/gofiber/fiber/v3"
+	"github.com/knadh/koanf/providers/confmap"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	pmWatch "github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
+	"github.com/netcracker/qubership-core-lib-go/v3/configloader"
 	"github.com/netcracker/qubership-core-lib-go/v3/logging"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/controller"
 	"github.com/prometheus/client_golang/prometheus"
@@ -100,10 +102,15 @@ func TestCreateConfigMap_RequestContentType(t *testing.T) {
 
 func TestRequestLogLine(t *testing.T) {
 	_, app := newMockedApp(t, false)
-	controllerLogger := logging.GetLogger("controller")
-	previousLevel := controllerLogger.GetLevel()
-	controllerLogger.SetLevel(logging.LvlDebug)
-	t.Cleanup(func() { controllerLogger.SetLevel(previousLevel) })
+	// configloader.Init resets every logger to its configured level, so the level is set through the configuration.
+	configloader.Init(&configloader.PropertySource{Provider: configloader.AsPropertyProvider(confmap.Provider(
+		map[string]any{
+			"microservice.namespace":   testNamespace,
+			"policy.update.enabled":    "false",
+			"policy.file.name":         "test/test-policies.conf",
+			"logging.level.controller": "debug"}, "."))})
+	logging.GetLogger("controller").SetLevel(logging.LvlDebug)
+	t.Cleanup(initTestConfig)
 
 	output := captureOutput(t, func() {
 		req := httptest.NewRequest(http.MethodPost, "/api/v2/unknown?x=1", strings.NewReader(`{"a":1}`))
@@ -122,7 +129,9 @@ func TestPrometheusEndpoint(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	previousRegisterer, previousGatherer := prometheus.DefaultRegisterer, prometheus.DefaultGatherer
 	prometheus.DefaultRegisterer, prometheus.DefaultGatherer = registry, registry
-	t.Cleanup(func() { prometheus.DefaultRegisterer, prometheus.DefaultGatherer = previousRegisterer, previousGatherer })
+	t.Cleanup(func() {
+		prometheus.DefaultRegisterer, prometheus.DefaultGatherer = previousRegisterer, previousGatherer
+	})
 	_, app := newMockedApp(t, true)
 
 	status, _, body := sendTestRequest(t, app, httptest.NewRequest(http.MethodGet, "/prometheus", nil))
