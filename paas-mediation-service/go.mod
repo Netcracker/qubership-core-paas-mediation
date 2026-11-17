@@ -13,6 +13,7 @@ require (
 	github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8 v8.10.5
 	github.com/netcracker/qubership-core-lib-go-rest-utils/v2 v2.11.1
 	github.com/netcracker/qubership-core-lib-go/v3 v3.15.4
+	github.com/prometheus/client_golang v1.25.0
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.77.0
@@ -96,7 +97,6 @@ require (
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/prometheus/client_golang v1.25.0 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
 	github.com/prometheus/common v0.72.0 // indirect
 	github.com/prometheus/procfs v0.22.0 // indirect
