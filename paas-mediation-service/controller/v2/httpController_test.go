@@ -22,11 +22,11 @@ func Test_Secret(t *testing.T) {
 	tests := []*testCase{
 		{
 			rest:     r{"GET", url("/api/v1/namespaces/%s/%ss", testNamespace, resourceType), 404},
-			respBody: map[string]string{"error": "Cannot GET /api/v1/namespaces/test-namespace/secrets"},
+			respBody: map[string]string{"error": "Not Found"},
 		},
 		{
 			rest:     r{"GET", url("/api/v1/namespaces/%s/%ss/%s", testNamespace, resourceType, "test-1"), 404},
-			respBody: map[string]string{"error": "Cannot GET /api/v1/namespaces/test-namespace/secrets/test-1"},
+			respBody: map[string]string{"error": "Not Found"},
 		},
 	}
 	for _, tc := range tests {

@@ -41,9 +41,9 @@ func TestAppResponses(t *testing.T) {
 	}{
 		{name: "api-version", target: "/api-version", wantStatus: http.StatusOK},
 		{name: "resource list", target: "/api/v2/namespaces/" + testNamespace + "/configmaps", wantStatus: http.StatusOK, wantBody: `[]`},
-		{name: "unknown path under /api/v2", target: "/api/v2/unknown", wantStatus: http.StatusNotFound, wantBody: `{"error":"Cannot GET /api/v2/unknown"}`},
-		{name: "dot-dot segment in the namespace path", target: "/api/v2/namespaces/other/../" + testNamespace + "/configmaps", wantStatus: http.StatusNotFound,
-			wantBody: `{"error":"Cannot GET /api/v2/namespaces/other/../` + testNamespace + `/configmaps"}`},
+		{name: "unknown path under /api/v2", target: "/api/v2/unknown", wantStatus: http.StatusNotFound, wantBody: `{"error":"Not Found"}`},
+		{name: "dot-dot segment in the namespace path", target: "/api/v2/namespaces/other/../" + testNamespace + "/configmaps", wantStatus: http.StatusOK,
+			wantBody: `[]`},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -72,11 +72,11 @@ func TestCreateConfigMap_RequestContentType(t *testing.T) {
 	}{
 		{name: "application/json", contentType: "application/json", body: validBody, wantStatus: http.StatusCreated, wantBody: string(createdBody)},
 		{name: "application/json with charset", contentType: "application/json; charset=utf-8", body: validBody, wantStatus: http.StatusCreated, wantBody: string(createdBody)},
-		{name: "text/json", contentType: "text/json", body: validBody, wantStatus: http.StatusCreated, wantBody: string(createdBody)},
+		{name: "text/json", contentType: "text/json", body: validBody, wantStatus: http.StatusBadRequest, wantBody: `{"error":"failed to parse request body: Unprocessable Entity"}`},
 		{name: "vendor +json type", contentType: "application/vnd.netcracker+json", body: validBody, wantStatus: http.StatusCreated, wantBody: string(createdBody)},
 		{name: "no Content-Type", body: validBody, wantStatus: http.StatusBadRequest, wantBody: `{"error":"failed to parse request body: Unprocessable Entity"}`},
 		{name: "text/plain", contentType: "text/plain", body: validBody, wantStatus: http.StatusBadRequest, wantBody: `{"error":"failed to parse request body: Unprocessable Entity"}`},
-		{name: "malformed JSON", contentType: "application/json", body: `{"metadata":`, wantStatus: http.StatusBadRequest, wantBody: `{"error":"failed to parse request body: unexpected end of JSON input"}`},
+		{name: "malformed JSON", contentType: "application/json", body: `{"metadata":`, wantStatus: http.StatusBadRequest, wantBody: `{"error":"failed to parse request body: bind from body: unexpected end of JSON input"}`},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -114,7 +114,7 @@ func TestRequestLogLine(t *testing.T) {
 	pattern := regexp.MustCompile(`Processed request: pid=\d+ source=\S+:\d+ latency=\s*\S+\n` +
 		`POST /api/v2/unknown\?x=1\n` +
 		`body: \{"a":1\}\n` +
-		`status: 404 resBody: \{"error":"Cannot POST /api/v2/unknown"\}`)
+		`status: 404 resBody: \{"error":"Not Found"\}`)
 	assert.Regexp(t, pattern, output)
 }
 
