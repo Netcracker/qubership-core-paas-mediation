@@ -17,7 +17,7 @@ import (
 	"time"
 
 	"github.com/fasthttp/websocket"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
@@ -178,7 +178,7 @@ func newMockedApp(t *testing.T, withPrometheus bool) (*service.MockPlatformServi
 
 func sendTestRequest(t *testing.T, app *fiber.App, req *http.Request) (int, string, string) {
 	t.Helper()
-	resp, err := app.Test(req, -1)
+	resp, err := app.Test(req, fiber.TestConfig{Timeout: 0})
 	require.NoError(t, err, "%s %s", req.Method, req.RequestURI)
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)

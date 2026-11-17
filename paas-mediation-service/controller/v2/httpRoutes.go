@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/entity"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
@@ -23,7 +23,7 @@ import (
 // @Failure 404 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/routes/{name} [get]
-func (ctr *HttpController) GetRoute(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetRoute(ctx fiber.Ctx) error {
 	return getAdapter(types.Route, ctr.Platform.GetRoute, ToRoute, ctx)
 }
 
@@ -44,7 +44,7 @@ func (ctr *HttpController) GetRoute(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/routes [get]
-func (ctr *HttpController) GetRouteList(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetRouteList(ctx fiber.Ctx) error {
 	return listAdapter(types.Route, ctr.Platform.GetRouteList, ToRoute, ctx)
 }
 
@@ -65,7 +65,7 @@ func (ctr *HttpController) GetRouteList(ctx *fiber.Ctx) error {
 // @Failure 409 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/routes [post]
-func (ctr *HttpController) CreateRoute(ctx *fiber.Ctx) error {
+func (ctr *HttpController) CreateRoute(ctx fiber.Ctx) error {
 	return createAdapter[entity.Route, Route](types.Route, ctr.Platform.CreateRoute, ToRoute, FromRoute, ctx)
 }
 
@@ -86,7 +86,7 @@ func (ctr *HttpController) CreateRoute(ctx *fiber.Ctx) error {
 // @Failure 409 {object}    v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/routes [put]
-func (ctr *HttpController) UpdateOrCreateRoute(ctx *fiber.Ctx) error {
+func (ctr *HttpController) UpdateOrCreateRoute(ctx fiber.Ctx) error {
 	return updateAdapter[entity.Route, Route](types.Route, ctr.Platform.UpdateOrCreateRoute, ToRoute, FromRoute, ctx)
 }
 
@@ -106,6 +106,6 @@ func (ctr *HttpController) UpdateOrCreateRoute(ctx *fiber.Ctx) error {
 // @Failure 403 {object}	v2.ErrorResponse
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/routes/{name} [delete]
-func (ctr *HttpController) DeleteRoute(ctx *fiber.Ctx) error {
+func (ctr *HttpController) DeleteRoute(ctx fiber.Ctx) error {
 	return deleteAdapter(types.Route, ctr.Platform.DeleteRoute, ctx)
 }
