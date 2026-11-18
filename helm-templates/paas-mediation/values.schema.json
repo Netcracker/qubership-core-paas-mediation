@@ -15,6 +15,7 @@
       "CPU_LIMIT": "100m",
       "IMAGE_REPOSITORY": "",
       "MEMORY_LIMIT": "100Mi",
+      "MEMORY_REQUEST": "100Mi",
       "NAMESPACE": "",
       "REPLICAS": 1,
       "TAG": "",
@@ -37,7 +38,7 @@
       "DISABLE_DEPRECATED_API": false,
       "LOG_LEVEL": "info",
       "PAAS_VERSION": "",
-      "K8S_SERVICE_TYPE": "HEADLESS"
+      "K8S_SERVICE_TYPE": "CLUSTER_IP"
     }
   ],
   "definitions": {
@@ -146,6 +147,16 @@
       "description": "Name of a service.",
       "internal": true
     },
+    "INTERNAL_TLS_ENABLED": {
+      "$id": "#/properties/INTERNAL_TLS_ENABLED",
+      "$ref": "#/definitions/booleanOrString",
+      "description": "Is TLS enabled",
+      "examples": [
+        false
+      ],
+      "internal": true,
+      "title": "The INTERNAL_TLS_ENABLED schema"
+    },
     "IMAGE_REPOSITORY": {
       "$id": "#/properties/IMAGE_REPOSITORY",
       "type": "string",
@@ -170,6 +181,13 @@
       "$id": "#/properties/MEMORY_LIMIT",
       "type": "string",
       "title": "The MEMORY_LIMIT schema",
+      "internal": true,
+      "envSpecific": true
+    },
+    "MEMORY_REQUEST": {
+      "$id": "#/properties/MEMORY_REQUEST",
+      "type": "string",
+      "title": "The MEMORY_REQUEST schema",
       "internal": true,
       "envSpecific": true
     },
@@ -355,7 +373,7 @@
       "$ref": "#/definitions/booleanOrString",
       "description": "Read-only container file system is enabled",
       "examples": [
-        false
+        true
       ],
       "title": "The READONLY_CONTAINER_FILE_SYSTEM_ENABLED schema"
     },
@@ -380,34 +398,7 @@
       "description": "Consul URL",
       "internal": true
     },
-    "CONSUL_AUTH_MODE": {
-      "$id": "#/properties/CONSUL_AUTH_MODE",
-      "type": "string",
-      "title": "The CONSUL_AUTH_MODE schema",
-      "description": "Way the Consul ACL token is obtained: legacy, hybrid or k8s. Empty means the library default",
-      "envSpecific": true
-    },
-    "CONSUL_AUTH_METHOD": {
-      "$id": "#/properties/CONSUL_AUTH_METHOD",
-      "type": "string",
-      "title": "The CONSUL_AUTH_METHOD schema",
-      "description": "Name of the Consul auth method the projected Kubernetes token is presented to. Empty means the library default",
-      "envSpecific": true
-    },
-    "CONSUL_AUTH_AUDIENCE": {
-      "$id": "#/properties/CONSUL_AUTH_AUDIENCE",
-      "type": "string",
-      "title": "The CONSUL_AUTH_AUDIENCE schema",
-      "description": "Audience of the projected Kubernetes token the pod sends. Empty means the library default",
-      "envSpecific": true
-    },
-    "CONSUL_AUTH_FALLBACK_RECHECK_INTERVAL": {
-      "$id": "#/properties/CONSUL_AUTH_FALLBACK_RECHECK_INTERVAL",
-      "type": "string",
-      "title": "The CONSUL_AUTH_FALLBACK_RECHECK_INTERVAL schema",
-      "description": "Lower bound on how often the m2m fallback retries the Kubernetes login. Empty means the library default",
-      "envSpecific": true
-    },
+
     "LOG_LEVEL": {
       "$id": "#/properties/LOG_LEVEL",
       "type": "string",
@@ -437,7 +428,7 @@
       "type": "string",
       "title": "The K8S_SERVICE_TYPE schema",
       "description": "K8S service type",
-      "default": "HEADLESS",
+      "default": "CLUSTER_IP",
       "internal": true
     },
     "HPA_ENABLED": {
@@ -617,6 +608,154 @@
       "internal": true,
       "title": "The HPA_SCALING_UP_STABILIZATION_WINDOW_SECONDS scheme"
     },
+
+
+    "PROBE_STARTUP_INITIAL_DELAY_SECONDS": {
+      "$id": "#/properties/PROBE_STARTUP_INITIAL_DELAY_SECONDS",
+      "description": "Number of seconds after the container has started before startup probes are initiated",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_STARTUP_INITIAL_DELAY_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_STARTUP_TIMEOUT_SECONDS": {
+      "$id": "#/properties/PROBE_STARTUP_TIMEOUT_SECONDS",
+      "description": "Number of seconds after which the probe times out",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_STARTUP_TIMEOUT_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_STARTUP_PERIOD_SECONDS": {
+      "$id": "#/properties/PROBE_STARTUP_PERIOD_SECONDS",
+      "description": "How often to perform the probe",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_STARTUP_PERIOD_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_STARTUP_FAILURE_THRESHOLD": {
+      "$id": "#/properties/PROBE_STARTUP_FAILURE_THRESHOLD",
+      "description": "Number of consecutive failures for the probe to be considered failed.",
+      "envSpecific": true,
+      "examples": [10],
+      "internal": true,
+      "title": "The PROBE_STARTUP_FAILURE_THRESHOLD scheme",
+      "type": "integer"
+    },
+    "PROBE_LIVENESS_INITIAL_DELAY_SECONDS": {
+      "$id": "#/properties/PROBE_LIVENESS_INITIAL_DELAY_SECONDS",
+      "description": "Number of seconds after the container has started before liveness probes are initiated",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_LIVENESS_INITIAL_DELAY_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_LIVENESS_TIMEOUT_SECONDS": {
+      "$id": "#/properties/PROBE_LIVENESS_TIMEOUT_SECONDS",
+      "description": "Number of seconds after which the probe times out",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_LIVENESS_TIMEOUT_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_LIVENESS_PERIOD_SECONDS": {
+      "$id": "#/properties/PROBE_LIVENESS_PERIOD_SECONDS",
+      "description": "How often to perform the probe",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_LIVENESS_PERIOD_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_LIVENESS_FAILURE_THRESHOLD": {
+      "$id": "#/properties/PROBE_LIVENESS_FAILURE_THRESHOLD",
+      "description": "Number of consecutive failures for the probe to be considered failed.",
+      "envSpecific": true,
+      "examples": [10],
+      "internal": true,
+      "title": "The PROBE_LIVENESS_FAILURE_THRESHOLD scheme",
+      "type": "integer"
+    },
+    "PROBE_READINESS_INITIAL_DELAY_SECONDS": {
+      "$id": "#/properties/PROBE_READINESS_INITIAL_DELAY_SECONDS",
+      "description": "Number of seconds after the container has started before readiness probes are initiated",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_READINESS_INITIAL_DELAY_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_READINESS_TIMEOUT_SECONDS": {
+      "$id": "#/properties/PROBE_READINESS_TIMEOUT_SECONDS",
+      "description": "Number of seconds after which the probe times out",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_READINESS_TIMEOUT_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_READINESS_PERIOD_SECONDS": {
+      "$id": "#/properties/PROBE_READINESS_PERIOD_SECONDS",
+      "description": "How often to perform the probe",
+      "envSpecific": true,
+      "examples": [30],
+      "internal": true,
+      "title": "The PROBE_READINESS_PERIOD_SECONDS scheme",
+      "type": "integer"
+    },
+    "PROBE_READINESS_SUCCESS_THRESHOLD": {
+      "$id": "#/properties/PROBE_READINESS_SUCCESS_THRESHOLD",
+      "description": "Minimum consecutive successes for the probe to be considered successful after having failed",
+      "envSpecific": true,
+      "examples": [1],
+      "internal": true,
+      "title": "The PROBE_READINESS_SUCCESS_THRESHOLD scheme",
+      "type": "integer"
+    },
+    "PROBE_READINESS_FAILURE_THRESHOLD": {
+      "$id": "#/properties/PROBE_READINESS_FAILURE_THRESHOLD",
+      "description": "Number of consecutive failures for the probe to be considered failed.",
+      "envSpecific": true,
+      "examples": [10],
+      "internal": true,
+      "title": "The PROBE_READINESS_FAILURE_THRESHOLD scheme",
+      "type": "integer"
+    },
+    "GATEWAY_SYSTEM_TYPE": {
+      "$id": "#/properties/GATEWAY_SYSTEM_TYPE",
+      "type": "string",
+      "title": "Gateway System Type",
+      "internal": true,
+      "examples": [
+        "legacy-ingress",
+        "legacy-ingress,gateway-api-default",
+        "gateway-api-default"
+      ],
+      "description": "The mode of Gateway that applications must apply during installation. The value can be \"legacy-ingress\", \"gateway-api-default\" or \"legacy-ingress, gateway-api-default\". \n\nApplications must use contains  helm condition in Helm charts."
+    },
+
+    "GATEWAY_SYSTEM_NAME": {
+      "$id": "#/properties/GATEWAY_SYSTEM_NAME",
+      "type": "string",
+      "title": "Gateway System Name",
+      "internal": true,
+      "examples": ["default-external-gateway"],
+      "description": "The value for spec.parentRefs.name of all Gateway API HttpRoute Custom Resources, that mean the name of gateway controller."
+    },
+    "GATEWAY_SYSTEM_NAMESPACE": {
+      "$id": "#/properties/GATEWAY_SYSTEM_NAMESPACE",
+      "type": "string",
+      "title": "Gateway System Namespace",
+      "internal": true,
+      "examples": ["gateway-system"],
+      "description": "The value for spec.parentRefs.namespace of all Gateway API HttpRoute Custom Resources, that mean the namespace of where gateway controller is deployed."
+    },
     "ISTIO_PRIVATE_GATEWAY_NAME": {
       "$id": "#/properties/ISTIO_PRIVATE_GATEWAY_NAME",
       "type": "string",
@@ -641,47 +780,12 @@
       "description": "Internal gateway service name.",
       "internal": true
     },
-
-    "GATEWAY_SYSTEM_TYPE": {
-      "$id": "#/properties/GATEWAY_SYSTEM_TYPE",
-      "type": "string",
-      "title": "Gateway System Type",
-      "internal": true,
-      "examples": [
-        "legacy-ingress",
-        "legacy-ingress,gateway-api-default",
-        "gateway-api-default"
-      ],
-      "description": "The mode of Gateway that applications must apply during installation. The value can be \"legacy-ingress\", \"gateway-api-default\" or \"legacy-ingress, gateway-api-default\". \n\nApplications must use contains  helm condition in Helm charts."
-    },
-
-    "GATEWAY_SYSTEM_NAME": {
-      "$id": "#/properties/GATEWAY_SYSTEM_NAME",
-      "type": "string",
-      "title": "Gateway System Name",
-      "internal": true,
-      "examples": ["default-external-gateway"],
-      "description": "The value for spec.parentRefs.name of all Gateway API HttpRoute Custom Resources, that mean the name of gateway controller."
-    },
-
-    "GATEWAY_SYSTEM_NAMESPACE": {
-      "$id": "#/properties/GATEWAY_SYSTEM_NAMESPACE",
-      "type": "string",
-      "title": "Gateway System Namespace",
-      "internal": true,
-      "examples": ["gateway-system"],
-      "description": "The value for spec.parentRefs.namespace of all Gateway API HttpRoute Custom Resources, that mean the namespace of where gateway controller is deployed."
-    },
     "M2M_AUTH_MODE": {
       "$id": "#/properties/M2M_AUTH_MODE",
       "type": "string",
       "title": "The M2M_AUTH_MODE schema",
-      "description": "Machine-to-machine authentication mode: legacy, hybrid, or k8s",
-      "enum": [
-        "legacy",
-        "hybrid",
-        "k8s"
-      ],
+      "description": "M2M authentication mode. `legacy` - old M2M authentication using cloud-core IdP. `hybrid` - new Kubernetes M2M authentication with fallback to legacy M2M. `k8s` - new Kubernetes M2M authentication using Kubernetes projected tokens.",
+      "enum": ["legacy", "hybrid", "k8s"],
       "internal": true,
       "default": "legacy"
     }
