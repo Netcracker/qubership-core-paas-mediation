@@ -31,6 +31,9 @@ public class PaasMediationParentTest {
     @PortForward(serviceName = @Value("private-gateway-service"))
     protected static URL privateGateway;
 
+    @PortForward(serviceName = @Value("paas-mediation"))
+    protected static URL paasMediationService;
+
     @Cloud
     protected static KubernetesClient kubernetesClient;
 

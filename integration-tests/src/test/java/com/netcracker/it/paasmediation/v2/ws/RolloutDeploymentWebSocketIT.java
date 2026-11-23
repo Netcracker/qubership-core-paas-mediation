@@ -31,15 +31,13 @@ public class RolloutDeploymentWebSocketIT extends AbstractRolloutDeployment {
 
     @Test
     public void checkWebSocketRestartPodsEvent() throws Exception {
-        String createdDeployment1 = null;
-        String createdDeployment2 = null;
         try {
             String deploymentImage = deploymentHelper.getImage("paas-mediation");
             log.info("Start creating Deployment={}", deploymentName1);
-            createdDeployment1 = deploymentHelper.createDeployment(deploymentName1, deploymentImage);
+            deploymentHelper.createDeployment(deploymentName1, deploymentImage);
 
             log.info("Start creating Deployment={}", deploymentName2);
-            createdDeployment2 = deploymentHelper.createDeployment(deploymentName2, deploymentImage);
+            deploymentHelper.createDeployment(deploymentName2, deploymentImage);
 
             Watcher<DeploymentRolloutWSResponse> closeWatcher = new Watcher<>(DeploymentRolloutWSResponse.class, 1,
                     "CLOSE_CONTROL_MESSAGE"::equals, event -> {
@@ -63,14 +61,9 @@ public class RolloutDeploymentWebSocketIT extends AbstractRolloutDeployment {
             Assertions.assertDoesNotThrow(() -> webSocketListener.waitConnected(10, TimeUnit.SECONDS));
             Assertions.assertDoesNotThrow(() -> closeWatcher.waitMessagesReceived(60, TimeUnit.SECONDS));
         } finally {
-            if (createdDeployment1 != null) {
-                kubernetesClient.apps().deployments().withName(createdDeployment1).delete();
-                kubernetesClient.apps().deployments().withName(createdDeployment1).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES);
-            }
-            if (createdDeployment2 != null) {
-                kubernetesClient.apps().deployments().withName(createdDeployment2).delete();
-                kubernetesClient.apps().deployments().withName(createdDeployment2).waitUntilCondition(Objects::isNull, 1, TimeUnit.MINUTES);
-            }
+            // delete by name: a deployment left behind fails every later test with 'already exists'
+            deploymentHelper.deleteDeployment(deploymentName1);
+            deploymentHelper.deleteDeployment(deploymentName2);
         }
     }
 
