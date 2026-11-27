@@ -19,9 +19,9 @@ require (
 	github.com/valyala/fasthttp v1.79.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.63.0
-	k8s.io/api v0.37.2
-	k8s.io/apimachinery v0.37.2
-	k8s.io/client-go v0.37.2
+	k8s.io/api v0.37.3
+	k8s.io/apimachinery v0.37.3
+	k8s.io/client-go v0.37.3
 	sigs.k8s.io/gateway-api v1.6.3
 )
 
