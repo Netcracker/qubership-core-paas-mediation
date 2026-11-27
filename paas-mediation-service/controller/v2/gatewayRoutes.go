@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-paas-mediation/paas-mediation-service/v2/types"
 )
 
@@ -21,7 +21,7 @@ import (
 // @Failure 404 {object}	v2.ErrorResponse "Not Found - Gateway routes feature is disabled"
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/gateway/httproutes [get]
-func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetHttpRouteList(ctx fiber.Ctx) error {
 	if !ctr.Features.GatewayRoutesEnabled {
 		return respondWithErrorGatewayApiRoutesDisabled(ctx)
 	}
@@ -44,7 +44,7 @@ func (ctr *HttpController) GetHttpRouteList(ctx *fiber.Ctx) error {
 // @Failure 404 {object}	v2.ErrorResponse "Not Found - Gateway routes feature is disabled"
 // @Failure 500 {object}	v2.ErrorResponse
 // @Router /api/v2/namespaces/{namespace}/gateway/grpcroutes [get]
-func (ctr *HttpController) GetGrpcRouteList(ctx *fiber.Ctx) error {
+func (ctr *HttpController) GetGrpcRouteList(ctx fiber.Ctx) error {
 	if !ctr.Features.GatewayRoutesEnabled {
 		return respondWithErrorGatewayApiRoutesDisabled(ctx)
 	}

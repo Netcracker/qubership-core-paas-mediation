@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/fasthttp/websocket"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/filter"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/service"
 	"github.com/netcracker/qubership-core-lib-go-paas-mediation-client/v8/watch"
@@ -42,41 +42,41 @@ type WsController struct {
 	Features Features
 }
 
-func (contr *WsController) WatchServices(c *fiber.Ctx) error {
+func (contr *WsController) WatchServices(c fiber.Ctx) error {
 	return contr.establishWebSocket(types.Service, c, contr.Platform.WatchServices)
 }
 
-func (contr *WsController) WatchConfigMaps(c *fiber.Ctx) error {
+func (contr *WsController) WatchConfigMaps(c fiber.Ctx) error {
 	return contr.establishWebSocket(types.ConfigMap, c, contr.Platform.WatchConfigMaps)
 }
 
-func (contr *WsController) WatchRoutes(c *fiber.Ctx) error {
+func (contr *WsController) WatchRoutes(c fiber.Ctx) error {
 	return contr.establishWebSocket(types.Route, c, contr.Platform.WatchRoutes)
 }
 
-func (contr *WsController) WatchGatewayHTTPRoutes(c *fiber.Ctx) error {
+func (contr *WsController) WatchGatewayHTTPRoutes(c fiber.Ctx) error {
 	if !contr.Features.GatewayRoutesEnabled {
 		return respondWithErrorGatewayApiRoutesDisabled(c)
 	}
 	return contr.establishWebSocket(types.HttpRoute, c, contr.Platform.WatchGatewayHTTPRoutes)
 }
 
-func (contr *WsController) WatchGatewayGRPCRoutes(c *fiber.Ctx) error {
+func (contr *WsController) WatchGatewayGRPCRoutes(c fiber.Ctx) error {
 	if !contr.Features.GatewayRoutesEnabled {
 		return respondWithErrorGatewayApiRoutesDisabled(c)
 	}
 	return contr.establishWebSocket(types.GrpcRoute, c, contr.Platform.WatchGatewayGRPCRoutes)
 }
 
-func (contr *WsController) WatchNamespaces(c *fiber.Ctx) error {
+func (contr *WsController) WatchNamespaces(c fiber.Ctx) error {
 	return contr.establishWebSocket(types.Namespace, c, func(ctx context.Context, namespace string, filter filter.Meta) (*watch.Handler, error) {
 		return contr.Platform.WatchNamespaces(ctx, namespace)
 	})
 }
 
-func (contr *WsController) WatchRollout(c *fiber.Ctx) error {
+func (contr *WsController) WatchRollout(c fiber.Ctx) error {
 	queryArgs := &fasthttp.Args{}
-	c.Context().QueryArgs().CopyTo(queryArgs)
+	c.RequestCtx().QueryArgs().CopyTo(queryArgs)
 	return contr.establishWebSocket("rollout", c, func(ctx context.Context, namespace string, filter filter.Meta) (*watch.Handler, error) {
 		replicasMap, err := parseFilterParamFromRollout(queryArgs, "replicas")
 		if err != nil {
@@ -87,8 +87,8 @@ func (contr *WsController) WatchRollout(c *fiber.Ctx) error {
 	})
 }
 
-func (contr *WsController) establishWebSocket(resourceType string, c *fiber.Ctx, watchFunc func(ctx context.Context, namespace string, filter filter.Meta) (*watch.Handler, error)) error {
-	ctx := c.UserContext()
+func (contr *WsController) establishWebSocket(resourceType string, c fiber.Ctx, watchFunc func(ctx context.Context, namespace string, filter filter.Meta) (*watch.Handler, error)) error {
+	ctx := c.Context()
 	namespace := contr.getNamespace(c)
 	logger.InfoC(ctx, "Received a request to watch resource='%s' in namespace=%s", resourceType, namespace)
 	metaFilter, err := buildFilterFromParams(c)
@@ -98,7 +98,7 @@ func (contr *WsController) establishWebSocket(resourceType string, c *fiber.Ctx,
 	}
 	logger.InfoC(ctx, "Applying filter=%+v", metaFilter)
 
-	err = DefaultUpgrader.Upgrade(c.Context(), func(webSocketConn *websocket.Conn) {
+	err = DefaultUpgrader.Upgrade(c.RequestCtx(), func(webSocketConn *websocket.Conn) {
 		defer func() {
 			if webSocketConn != nil {
 				if closeErr := webSocketConn.Close(); closeErr != nil {
@@ -236,7 +236,7 @@ func handleAsCloseControlMessage(ctx context.Context, out watch.ApiEvent, webSoc
 	}
 }
 
-func (*WsController) getNamespace(c *fiber.Ctx) string {
+func (*WsController) getNamespace(c fiber.Ctx) string {
 	return c.Params(ParamNamespace)
 }
 
