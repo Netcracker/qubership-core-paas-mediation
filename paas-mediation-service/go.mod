@@ -16,13 +16,13 @@ require (
 	github.com/prometheus/client_golang v1.25.0
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/swag v1.16.6
-	github.com/valyala/fasthttp v1.79.0
+	github.com/valyala/fasthttp v1.80.0
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.63.0
 	k8s.io/api v0.37.2
 	k8s.io/apimachinery v0.37.2
 	k8s.io/client-go v0.37.2
-	sigs.k8s.io/gateway-api v1.6.3
+	sigs.k8s.io/gateway-api v1.7.0
 )
 
 require (
